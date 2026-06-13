@@ -1,0 +1,44 @@
+name: SolarEdge Monitoring API Plans and Pricing
+description: >-
+  The SolarEdge Monitoring API is provided free of charge to owners and
+  installers of SolarEdge solar energy systems. Access requires a valid
+  SolarEdge monitoring account and an API key generated through the monitoring
+  portal at monitoring.solaredge.com. There are no publicly listed paid tiers
+  or commercial licensing plans for API access beyond the standard free access
+  bundled with SolarEdge hardware and monitoring subscriptions.
+version: "0.1"
+specificationVersion: "0.1"
+url: https://www.solaredge.com/us/commercial/developer
+plans:
+  - name: Free (Hardware Included)
+    description: >-
+      API access is included for all registered SolarEdge system owners and
+      their authorized installers. An API key is generated via the SolarEdge
+      monitoring portal (monitoring.solaredge.com) under Admin > Site Access >
+      Access Control > API Access. No separate subscription or payment is
+      required beyond owning and registering a SolarEdge solar system.
+    url: https://monitoring.solaredge.com
+    price: 0.00
+    currency: USD
+    billingCycle: free
+    rateLimit:
+      requests: 300
+      period: day
+      unit: requests
+    features:
+      - Access to all Monitoring API endpoints
+      - Site energy and power data
+      - Inverter technical data
+      - Battery storage data
+      - Equipment inventory
+      - Environmental benefits data
+      - Real-time power flow
+      - Bulk site queries
+      - JSON response format
+      - HTTPS access only
+notes: >-
+  SolarEdge does not publish commercial API licensing tiers for enterprise or
+  high-volume data consumers. Organizations requiring higher rate limits or
+  programmatic access beyond the 300-requests-per-day limit should contact
+  SolarEdge support directly. Rate limits are enforced per account API key and
+  per site ID from the same source IP.

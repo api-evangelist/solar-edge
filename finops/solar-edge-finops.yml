@@ -1,0 +1,87 @@
+name: SolarEdge Monitoring API FinOps
+description: >-
+  FinOps framework profile for the SolarEdge Monitoring API. The API itself
+  carries no direct monetary cost to SolarEdge system owners as it is bundled
+  with hardware purchases and monitoring subscriptions. Financial optimization
+  considerations focus on consumption efficiency — staying within the 300
+  daily request quota to avoid service interruptions — and on minimizing
+  downstream infrastructure costs for organizations building applications on
+  top of the SolarEdge API.
+version: "1.0"
+specificationVersion: "1.0"
+url: https://www.solaredge.com/us/commercial/developer
+
+costs:
+  - name: API Access Fee
+    description: No direct charge for API access; bundled with SolarEdge system ownership.
+    type: included
+    amount: 0.00
+    currency: USD
+    unit: per-request
+
+  - name: SolarEdge Monitoring Subscription
+    description: >-
+      SolarEdge monitoring platform access is included for the lifetime of the
+      system for residential customers. Commercial customers may have
+      subscription terms. Contact SolarEdge for commercial monitoring pricing.
+    type: subscription
+    amount: 0.00
+    currency: USD
+    unit: per-system
+    notes: Included with hardware for residential; commercial terms vary.
+
+optimization:
+  - name: Request Batching via Bulk APIs
+    description: >-
+      Use bulk API endpoints where available to retrieve data for multiple sites
+      in a single API call. Each bulk call counts as one request per included
+      site but avoids the overhead of multiple round trips, reducing latency
+      and total call volume for multi-site portfolios.
+    impact: high
+    category: efficiency
+
+  - name: Caching Responses
+    description: >-
+      Cache API responses locally for data that does not change frequently
+      (site details, inventory, equipment list). Apply LRU or time-based
+      caching to avoid redundant API calls that consume quota.
+    impact: high
+    category: efficiency
+
+  - name: Optimal Polling Frequency
+    description: >-
+      SolarEdge updates production data every 15 minutes. Polling more
+      frequently than once per 15 minutes wastes quota without returning
+      new data. At 15-minute intervals, a single site integration consumes
+      96 requests per day, leaving headroom within the 300/day limit.
+    impact: high
+    category: quota-management
+
+  - name: Off-Peak Data Backfill
+    description: >-
+      Retrieve historical energy data during low-priority windows to avoid
+      consuming quota needed for real-time monitoring during peak hours.
+    impact: medium
+    category: scheduling
+
+  - name: Consolidate Multi-Site Queries
+    description: >-
+      For accounts managing multiple sites, use account-level endpoints
+      (e.g., Site List) once to enumerate sites, then target only sites with
+      active alerts or changed status rather than polling all sites equally.
+    impact: medium
+    category: efficiency
+
+quotaManagement:
+  dailyLimit: 300
+  concurrentLimit: 3
+  recommendedPollInterval: 15m
+  errorOnExceedance: HTTP 429 Too Many Requests
+  resetPeriod: day
+
+notes: >-
+  Because the SolarEdge API has no per-call monetary cost, FinOps optimization
+  centers on quota stewardship and downstream compute/storage efficiency.
+  Organizations aggregating data from large SolarEdge fleets should implement
+  request queuing, exponential back-off on 429 errors, and persistent local
+  data stores to avoid re-fetching historical data already captured.

@@ -1,0 +1,79 @@
+aid: solar-edge
+name: SolarEdge
+description: >-
+  SolarEdge Technologies provides a cloud-based Monitoring API that enables web
+  services and third-party applications to access real-time and historical solar
+  production data stored on the SolarEdge monitoring server. The REST API
+  delivers site energy measurements, power flow data, inverter technical
+  telemetry, battery storage status, equipment inventory, and environmental
+  benefit metrics for SolarEdge-connected systems. Authentication is handled via
+  an API key generated through the SolarEdge monitoring portal, and all requests
+  are made over HTTPS with responses returned in JSON format. The platform
+  supports both site-level and account-level queries, with bulk call options
+  allowing developers to retrieve data across multiple sites in a single
+  request. SolarEdge serves residential, commercial, and utility-scale solar
+  installations globally, making their API central to energy management
+  integrations, home automation platforms, and fleet monitoring solutions.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/solar-edge/refs/heads/main/apis.yml
+created: "2026-06-13"
+modified: "2026-06-13"
+specificationVersion: "0.19"
+tags:
+  - Solar
+  - Energy
+  - Monitoring
+  - PV
+  - Inverter
+  - Renewable Energy
+  - IoT
+apis:
+  - aid: solar-edge:solar-edge-monitoring-api
+    name: SolarEdge Monitoring API
+    description: >-
+      The SolarEdge Monitoring API provides programmatic access to data from
+      SolarEdge solar energy systems, including site overview metrics, energy
+      production measurements, real-time power flow, inverter technical data,
+      battery storage status, equipment inventory, environmental benefits, and
+      equipment change logs. All endpoints are accessed via HTTPS using an
+      API key passed as a URL query parameter.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.solaredge.com
+    baseURL: https://monitoringapi.solaredge.com
+    tags:
+      - Solar
+      - Energy
+      - Monitoring
+      - Inverter
+      - Power
+      - Battery
+    properties:
+      - type: Documentation
+        url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/solar-edge/refs/heads/main/openapi.yml
+common:
+  - type: Website
+    url: https://www.solaredge.com
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+  - type: GitHubOrg
+    url: https://github.com/SolarEdgeTech
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/solaredge
+  - type: Blog
+    url: https://www.solaredge.com/us/solaredge-blog
+  - type: Pricing
+    url: https://www.solaredge.com/us/commercial/developer
+  - type: X
+    url: https://x.com/SolarEdgePV
+  - type: Plans
+    url: plans/solar-edge-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/solar-edge-rate-limits.yml
+  - type: FinOps
+    url: finops/solar-edge-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,54 @@
+name: SolarEdge Monitoring API Rate Limits
+description: >-
+  The SolarEdge Monitoring API enforces request quotas to prevent abuse and
+  ensure service availability. Limits are applied at both the account (API key)
+  level and the site ID level. Exceeding the rate limit results in an HTTP 429
+  Too Many Requests error. These limits are documented in the official SolarEdge
+  Monitoring API documentation and may be changed by SolarEdge without notice.
+version: "0.1"
+specificationVersion: "0.1"
+url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+rateLimits:
+  - name: Daily Account Query Limit
+    description: >-
+      Maximum number of API requests allowed per account API key per day. All
+      endpoint calls, including those without a specific site ID (e.g. Site
+      List, Account List), count against this quota.
+    limit: 300
+    period: day
+    scope: account
+    unit: requests
+    errorCode: 429
+    errorMessage: Too Many Requests
+
+  - name: Daily Site Query Limit
+    description: >-
+      Maximum number of API requests allowed per site ID from the same source
+      IP address per day. Bulk calls for multiple sites consume one request
+      from the daily quota of each site included in the call.
+    limit: 300
+    period: day
+    scope: site
+    unit: requests
+    errorCode: 429
+    errorMessage: Too Many Requests
+
+  - name: Concurrent Request Limit
+    description: >-
+      Maximum number of parallel API calls allowed from the same source IP
+      address at any given time.
+    limit: 3
+    period: concurrent
+    scope: ip
+    unit: requests
+    errorCode: 429
+    errorMessage: Too Many Requests
+
+notes: >-
+  Bulk API calls that target multiple site IDs in a single request count as
+  one API call against each included site's daily quota. For example, a bulk
+  call for 5 sites consumes 1 call from each of those 5 sites' quotas. APIs
+  that operate at the account level (e.g., Site List) count only against the
+  account-level quota. SolarEdge recommends polling no more frequently than
+  once every 15 minutes to stay well within daily limits; Home Assistant's
+  integration uses a 15-minute interval by default for this reason.
