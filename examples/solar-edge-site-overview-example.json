@@ -1,0 +1,24 @@
+{
+  "overview": {
+    "lastUpdateTime": "2024-01-15 10:30:00",
+    "lifeTimeData": {
+      "energy": 45678900,
+      "revenue": 6851.85
+    },
+    "lastYearData": {
+      "energy": 12345678,
+      "revenue": 1851.85
+    },
+    "lastMonthData": {
+      "energy": 987654,
+      "revenue": 148.15
+    },
+    "lastDayData": {
+      "energy": 42500,
+      "revenue": 6.38
+    },
+    "currentPower": {
+      "power": 6500.5
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/solar-edge/main/json-schema/solar-edge-site.json",
+  "title": "SolarEdge Site",
+  "description": "A SolarEdge monitored solar energy site",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique site identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Site name"
+    },
+    "accountId": {
+      "type": "integer",
+      "description": "Account identifier the site belongs to"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Active", "Pending", "Disabled"],
+      "description": "Current operational status of the site"
+    },
+    "peakPower": {
+      "type": "number",
+      "description": "Site peak power capacity in kW"
+    },
+    "lastUpdateTime": {
+      "type": "string",
+      "description": "Last data update timestamp"
+    },
+    "installationDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Installation date (YYYY-MM-DD)"
+    },
+    "ptoDate": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Permission to operate date (YYYY-MM-DD)"
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Free-text notes about the site"
+    },
+    "type": {
+      "type": "string",
+      "description": "Site type (e.g., Optimizers & Inverters)"
+    },
+    "location": {
+      "$ref": "#/$defs/Location"
+    },
+    "primaryModule": {
+      "$ref": "#/$defs/Module"
+    }
+  },
+  "required": ["id", "name", "status"],
+  "$defs": {
+    "Location": {
+      "type": "object",
+      "description": "Geographic location of the site",
+      "properties": {
+        "country": { "type": "string" },
+        "state": { "type": "string" },
+        "city": { "type": "string" },
+        "address": { "type": "string" },
+        "address2": { "type": "string" },
+        "zip": { "type": "string" },
+        "timeZone": { "type": "string" },
+        "countryCode": { "type": "string" },
+        "stateCode": { "type": "string" }
+      }
+    },
+    "Module": {
+      "type": "object",
+      "description": "Primary solar module installed at the site",
+      "properties": {
+        "manufacturerName": { "type": "string" },
+        "modelName": { "type": "string" },
+        "maximumPower": { "type": "number", "description": "Maximum power in W" },
+        "temperatureCoef": { "type": "number", "description": "Temperature coefficient" }
+      }
+    }
+  }
+}

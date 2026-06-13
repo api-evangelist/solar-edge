@@ -1,0 +1,1640 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring API
+  description: >-
+    The SolarEdge Monitoring API provides programmatic access to data from
+    SolarEdge solar energy systems. It delivers site energy measurements, power
+    flow data, inverter technical telemetry, battery storage status, equipment
+    inventory, and environmental benefit metrics for SolarEdge-connected systems.
+    Authentication is via an API key passed as a query parameter. All requests
+    are made over HTTPS with responses returned in JSON format.
+  version: "1.0.0"
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+  - url: https://monitoringapi.solaredge.com
+    description: SolarEdge Monitoring API production server
+
+security:
+  - ApiKeyQuery: []
+
+tags:
+  - name: Sites
+    description: Site list and site-level data
+  - name: Energy
+    description: Energy production measurements and time-frame energy
+  - name: Power
+    description: Power measurements and power flow
+  - name: Equipment
+    description: Inverters, batteries, meters, sensors, and inventory
+  - name: Storage
+    description: Battery storage data
+  - name: Environmental
+    description: Environmental benefit metrics
+  - name: Accounts
+    description: Account and sub-account management
+  - name: Version
+    description: API version information
+
+paths:
+  /sites/list:
+    get:
+      operationId: getSiteList
+      summary: Get Site List
+      description: >-
+        Returns a paginated list of sites associated with the account token.
+        Sites can be filtered by status and sorted by various properties.
+      tags:
+        - Sites
+      parameters:
+        - name: size
+          in: query
+          description: Number of sites to return per page (max 100)
+          schema:
+            type: integer
+            default: 100
+            maximum: 100
+        - name: startIndex
+          in: query
+          description: Starting index for pagination
+          schema:
+            type: integer
+            default: 0
+        - name: searchText
+          in: query
+          description: Free-text search across Name, Notes, Email, Country, State, City, Zip, Full address
+          schema:
+            type: string
+        - name: sortProperty
+          in: query
+          description: Property to sort results by
+          schema:
+            type: string
+            enum:
+              - Name
+              - Country
+              - State
+              - City
+              - Address
+              - Zip
+              - Status
+              - PeakPower
+              - InstallationDate
+              - Amount
+              - MaxSeverity
+              - CreationTime
+        - name: sortOrder
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: ASC
+        - name: status
+          in: query
+          description: Comma-separated list of site statuses to filter by, or "All"
+          schema:
+            type: string
+            example: "Active,Pending"
+      responses:
+        "200":
+          description: Successful response with site list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteListResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+
+  /site/{siteId}/details:
+    get:
+      operationId: getSiteDetails
+      summary: Get Site Details
+      description: Returns detailed information for a single site including location, configuration, and contact info.
+      tags:
+        - Sites
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+      responses:
+        "200":
+          description: Site details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteDetailsResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/dataPeriod:
+    get:
+      operationId: getSiteDataPeriod
+      summary: Get Site Data Period
+      description: Returns the site energy production start and end dates (the period for which data is available).
+      tags:
+        - Sites
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+      responses:
+        "200":
+          description: Data period for the site
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DataPeriodResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/overview:
+    get:
+      operationId: getSiteOverview
+      summary: Get Site Overview
+      description: >-
+        Returns current site power and summary energy metrics including today,
+        month, and lifetime energy totals as well as revenue where available.
+        Supports comma-separated siteId for bulk requests (up to 100 sites).
+      tags:
+        - Sites
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+      responses:
+        "200":
+          description: Site overview with current power and energy summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteOverviewResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/energy:
+    get:
+      operationId: getSiteEnergy
+      summary: Get Site Energy
+      description: >-
+        Returns aggregated energy measurements for a site over a specified date range.
+        Results match the Site Dashboard energy calculation. Supports comma-separated
+        siteId for bulk requests (up to 100 sites).
+      tags:
+        - Energy
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: startDate
+          in: query
+          required: true
+          description: Start date in YYYY-MM-DD format
+          schema:
+            type: string
+            format: date
+            example: "2024-01-01"
+        - name: endDate
+          in: query
+          required: true
+          description: End date in YYYY-MM-DD format
+          schema:
+            type: string
+            format: date
+            example: "2024-01-31"
+        - $ref: "#/components/parameters/timeUnit"
+      responses:
+        "200":
+          description: Aggregated energy data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnergyResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/timeFrameEnergy:
+    get:
+      operationId: getSiteTimeFrameEnergy
+      summary: Get Site Time Frame Energy
+      description: >-
+        Returns on-grid energy for the requested period. In sites with storage or
+        backup, results may differ from the Site Dashboard. Use the Site Energy
+        endpoint for dashboard-matching results. Supports bulk siteId (up to 100).
+      tags:
+        - Energy
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: startDate
+          in: query
+          required: true
+          description: Start date in YYYY-MM-DD format
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          description: End date in YYYY-MM-DD format
+          schema:
+            type: string
+            format: date
+        - $ref: "#/components/parameters/timeUnit"
+      responses:
+        "200":
+          description: Time-frame energy data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnergyResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/energyDetails:
+    get:
+      operationId: getSiteEnergyDetails
+      summary: Get Site Energy Details
+      description: >-
+        Returns detailed energy breakdown by meter type and time unit for the
+        specified period. Maximum date range varies by time unit.
+      tags:
+        - Energy
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: startTime
+          in: query
+          required: true
+          description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+            example: "2024-01-01 00:00:00"
+        - name: endTime
+          in: query
+          required: true
+          description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+            example: "2024-01-31 23:59:59"
+        - $ref: "#/components/parameters/timeUnit"
+        - $ref: "#/components/parameters/meters"
+      responses:
+        "200":
+          description: Detailed energy breakdown
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnergyDetailsResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/power:
+    get:
+      operationId: getSitePower
+      summary: Get Site Power
+      description: >-
+        Returns power measurements at 15-minute resolution for the specified
+        time frame. Maximum date range is 1 month (31 days).
+      tags:
+        - Power
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: startTime
+          in: query
+          required: true
+          description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+            example: "2024-01-01 00:00:00"
+        - name: endTime
+          in: query
+          required: true
+          description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+            example: "2024-01-31 23:59:59"
+      responses:
+        "200":
+          description: Power measurements at 15-minute intervals
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PowerResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/powerDetails:
+    get:
+      operationId: getSitePowerDetails
+      summary: Get Site Power Details
+      description: >-
+        Returns detailed power measurements including individual meter types
+        (production, consumption, self-consumption, feed-in, purchased).
+        Maximum date range is 1 month (31 days).
+      tags:
+        - Power
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: startTime
+          in: query
+          required: true
+          description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+        - $ref: "#/components/parameters/meters"
+      responses:
+        "200":
+          description: Detailed power measurements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PowerDetailsResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/currentPowerFlow:
+    get:
+      operationId: getSiteCurrentPowerFlow
+      summary: Get Current Power Flow
+      description: >-
+        Returns the current power flow for a site, showing who is producing,
+        consuming, and exporting power (PV, Load, Grid, Storage).
+      tags:
+        - Power
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+      responses:
+        "200":
+          description: Current power flow data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentPowerFlowResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/storageData:
+    get:
+      operationId: getSiteStorageData
+      summary: Get Storage Data
+      description: >-
+        Returns battery state of energy (SoE), power, and lifetime energy for
+        storage devices at a site. Maximum date range is 1 week (7 days).
+      tags:
+        - Storage
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: startTime
+          in: query
+          required: true
+          description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+        - name: serials
+          in: query
+          description: Comma-separated list of battery serial numbers to filter results
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Battery storage measurements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageDataResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/inventory:
+    get:
+      operationId: getSiteInventory
+      summary: Get Site Inventory
+      description: >-
+        Returns the inventory of SolarEdge equipment at the site, including
+        inverters/SMIs, batteries, meters, gateways, and sensors with their
+        serial numbers and status.
+      tags:
+        - Equipment
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+      responses:
+        "200":
+          description: Site equipment inventory
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /equipment/{siteId}/list:
+    get:
+      operationId: getComponentsList
+      summary: Get Components List
+      description: Returns a list of inverters and SMIs in the specified site.
+      tags:
+        - Equipment
+      parameters:
+        - name: siteId
+          in: path
+          required: true
+          description: Unique identifier for the site
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of site components
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComponentsListResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/inverter/{serialNumber}/data:
+    get:
+      operationId: getInverterTechnicalData
+      summary: Get Inverter Technical Data
+      description: >-
+        Returns technical performance data for a specific inverter over a given
+        time period. Maximum date range is 1 week (7 days).
+      tags:
+        - Equipment
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: serialNumber
+          in: path
+          required: true
+          description: Inverter serial number
+          schema:
+            type: string
+        - name: startTime
+          in: query
+          required: true
+          description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Inverter technical performance data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InverterTechnicalDataResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/{serialNumber}/changeLog:
+    get:
+      operationId: getEquipmentChangeLog
+      summary: Get Equipment Change Log
+      description: >-
+        Returns a list of equipment component replacements ordered by date.
+        Applicable to inverters, optimizers, batteries, and gateways.
+      tags:
+        - Equipment
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the equipment component
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Equipment change log
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EquipmentChangeLogResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/meters:
+    get:
+      operationId: getSiteMeters
+      summary: Get Site Meters
+      description: >-
+        Returns meter data for the site including lifetime energy reading,
+        metadata, and the device to which each meter is connected.
+      tags:
+        - Equipment
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: startTime
+          in: query
+          required: true
+          description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+          schema:
+            type: string
+        - $ref: "#/components/parameters/timeUnit"
+        - name: meters
+          in: query
+          description: Comma-separated list of meter types to include
+          schema:
+            type: string
+            example: "Production,Consumption,FeedIn,Purchased"
+      responses:
+        "200":
+          description: Meter data for the site
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetersResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /equipment/{siteId}/sensors:
+    get:
+      operationId: getSensorList
+      summary: Get Sensor List
+      description: Returns a list of all sensors at the site and the device to which they are connected.
+      tags:
+        - Equipment
+      parameters:
+        - name: siteId
+          in: path
+          required: true
+          description: Unique identifier for the site
+          schema:
+            type: integer
+        - name: startTime
+          in: query
+          description: Start date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          description: End date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Sensor list or sensor data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SensorListResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/envBenefits:
+    get:
+      operationId: getSiteEnvironmentalBenefits
+      summary: Get Environmental Benefits
+      description: >-
+        Returns environmental benefit metrics for the site including CO2 savings,
+        trees planted equivalent, and light bulbs equivalent based on energy
+        production.
+      tags:
+        - Environmental
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: systemUnits
+          in: query
+          description: Unit system for environmental metrics
+          schema:
+            type: string
+            enum: [Metrics, Imperial]
+      responses:
+        "200":
+          description: Environmental benefit metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnvironmentalBenefitsResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/image:
+    get:
+      operationId: getSiteImage
+      summary: Get Site Image
+      description: Returns the site image uploaded by the user.
+      tags:
+        - Sites
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: maxWidth
+          in: query
+          description: Maximum image width in pixels
+          schema:
+            type: integer
+        - name: maxHeight
+          in: query
+          description: Maximum image height in pixels
+          schema:
+            type: integer
+        - name: hash
+          in: query
+          description: Image hash for cache validation
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Site image binary
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /site/{siteId}/installerImage:
+    get:
+      operationId: getSiteInstallerImage
+      summary: Get Site Installer Image
+      description: Returns the installer logo image for the site.
+      tags:
+        - Sites
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+      responses:
+        "200":
+          description: Installer logo image binary
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /accounts/list:
+    get:
+      operationId: getAccountList
+      summary: Get Account List
+      description: Returns the account details and list of sub-accounts for the provided API key.
+      tags:
+        - Accounts
+      parameters:
+        - name: pageSize
+          in: query
+          description: Number of accounts per page (max 100)
+          schema:
+            type: integer
+            default: 100
+            maximum: 100
+        - name: startIndex
+          in: query
+          description: Starting index for pagination
+          schema:
+            type: integer
+            default: 0
+        - name: searchText
+          in: query
+          description: Text to search across account fields
+          schema:
+            type: string
+        - name: sortProperty
+          in: query
+          description: Property to sort results by
+          schema:
+            type: string
+            enum: [Name, country, city, address, zip, fax, phone, notes]
+        - name: sortOrder
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: ASC
+      responses:
+        "200":
+          description: Account list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountListResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /version/current:
+    get:
+      operationId: getCurrentApiVersion
+      summary: Get Current API Version
+      description: Returns the current version number of the SolarEdge Monitoring API.
+      tags:
+        - Version
+      responses:
+        "200":
+          description: Current API version
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiVersionResponse"
+
+  /version/supported:
+    get:
+      operationId: getSupportedApiVersions
+      summary: Get Supported API Versions
+      description: Returns the list of all supported API version numbers.
+      tags:
+        - Version
+      responses:
+        "200":
+          description: Supported API versions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupportedVersionsResponse"
+
+components:
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal
+
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: >-
+        Unique numeric identifier for the site. Supports comma-separated values
+        for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: "12345"
+
+    timeUnit:
+      name: timeUnit
+      in: query
+      description: Time aggregation unit for energy data
+      schema:
+        type: string
+        enum:
+          - QUARTER_OF_AN_HOUR
+          - HOUR
+          - DAY
+          - WEEK
+          - MONTH
+          - YEAR
+        default: DAY
+
+    meters:
+      name: meters
+      in: query
+      description: Comma-separated list of meter types to include in the response
+      schema:
+        type: string
+        example: "Production,Consumption,SelfConsumption,FeedIn,Purchased"
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    TooManyRequests:
+      description: >-
+        Rate limit exceeded. The API allows up to 3 concurrent requests per
+        source IP, and 300 requests per day per account token and per site.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+
+    SiteListResponse:
+      type: object
+      properties:
+        sites:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of sites matching the query
+            list:
+              type: array
+              items:
+                $ref: "#/components/schemas/Site"
+
+    Site:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique site identifier
+        name:
+          type: string
+          description: Site name
+        accountId:
+          type: integer
+          description: Account identifier
+        status:
+          type: string
+          enum: [Active, Pending, Disabled]
+          description: Current site status
+        peakPower:
+          type: number
+          format: float
+          description: Site peak power capacity in kW
+        lastUpdateTime:
+          type: string
+          description: Last update timestamp
+        installationDate:
+          type: string
+          format: date
+          description: Installation date in YYYY-MM-DD format
+        ptoDate:
+          type: string
+          format: date
+          description: Permission to operate date
+        notes:
+          type: string
+          description: Site notes
+        type:
+          type: string
+          description: Site type (e.g., Optimizers & Inverters)
+        location:
+          $ref: "#/components/schemas/Location"
+        primaryModule:
+          $ref: "#/components/schemas/Module"
+        uris:
+          type: object
+          additionalProperties:
+            type: string
+        publicSettings:
+          type: object
+          properties:
+            isPublic:
+              type: boolean
+
+    Location:
+      type: object
+      properties:
+        country:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        zip:
+          type: string
+        timeZone:
+          type: string
+        countryCode:
+          type: string
+        stateCode:
+          type: string
+
+    Module:
+      type: object
+      properties:
+        manufacturerName:
+          type: string
+        modelName:
+          type: string
+        maximumPower:
+          type: number
+        temperatureCoef:
+          type: number
+
+    SiteDetailsResponse:
+      type: object
+      properties:
+        details:
+          $ref: "#/components/schemas/Site"
+
+    DataPeriodResponse:
+      type: object
+      properties:
+        dataPeriod:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+              description: First date with energy data (YYYY-MM-DD)
+            endDate:
+              type: string
+              format: date
+              description: Last date with energy data (YYYY-MM-DD)
+
+    SiteOverviewResponse:
+      type: object
+      properties:
+        overview:
+          type: object
+          properties:
+            lastUpdateTime:
+              type: string
+              description: Timestamp of last data update
+            lifeTimeData:
+              $ref: "#/components/schemas/EnergyWithRevenue"
+            lastYearData:
+              $ref: "#/components/schemas/EnergyWithRevenue"
+            lastMonthData:
+              $ref: "#/components/schemas/EnergyWithRevenue"
+            lastDayData:
+              $ref: "#/components/schemas/EnergyWithRevenue"
+            currentPower:
+              type: object
+              properties:
+                power:
+                  type: number
+                  format: float
+                  description: Current power production in W
+
+    EnergyWithRevenue:
+      type: object
+      properties:
+        energy:
+          type: number
+          format: float
+          description: Energy in Wh
+        revenue:
+          type: number
+          format: float
+          description: Revenue generated (where applicable)
+
+    EnergyResponse:
+      type: object
+      properties:
+        energy:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+              description: Time unit of aggregation
+            unit:
+              type: string
+              description: Energy unit (e.g., Wh)
+            measuredBy:
+              type: string
+              description: Measurement source
+            values:
+              type: array
+              items:
+                $ref: "#/components/schemas/TimedValue"
+
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type: number
+          format: float
+          nullable: true
+          description: Measured value (null if no data)
+
+    EnergyDetailsResponse:
+      type: object
+      properties:
+        energyDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meters:
+              type: array
+              items:
+                $ref: "#/components/schemas/MeterValues"
+
+    MeterValues:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [Production, Consumption, SelfConsumption, FeedIn, Purchased]
+          description: Meter type
+        values:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimedValue"
+
+    PowerResponse:
+      type: object
+      properties:
+        power:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            measuredBy:
+              type: string
+            values:
+              type: array
+              items:
+                $ref: "#/components/schemas/TimedValue"
+
+    PowerDetailsResponse:
+      type: object
+      properties:
+        powerDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meters:
+              type: array
+              items:
+                $ref: "#/components/schemas/MeterValues"
+
+    CurrentPowerFlowResponse:
+      type: object
+      properties:
+        siteCurrentPowerFlow:
+          type: object
+          properties:
+            updateRefreshRate:
+              type: integer
+              description: Suggested client refresh rate in seconds
+            unit:
+              type: string
+              description: Power unit (e.g., kW)
+            connections:
+              type: array
+              description: List of active power flow connections
+              items:
+                type: object
+                properties:
+                  from:
+                    type: string
+                    description: Source node (PV, LOAD, GRID, STORAGE)
+                  to:
+                    type: string
+                    description: Destination node (PV, LOAD, GRID, STORAGE)
+            GRID:
+              $ref: "#/components/schemas/PowerFlowNode"
+            LOAD:
+              $ref: "#/components/schemas/PowerFlowNode"
+            PV:
+              $ref: "#/components/schemas/PowerFlowNode"
+            STORAGE:
+              $ref: "#/components/schemas/StorageFlowNode"
+
+    PowerFlowNode:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Node status (Active, Idle, Disabled)
+        currentPower:
+          type: number
+          format: float
+          description: Current power in the specified unit
+
+    StorageFlowNode:
+      allOf:
+        - $ref: "#/components/schemas/PowerFlowNode"
+        - type: object
+          properties:
+            chargeLevel:
+              type: number
+              format: float
+              description: Battery charge level percentage
+            critical:
+              type: boolean
+              description: Whether the battery is in a critical state
+
+    StorageDataResponse:
+      type: object
+      properties:
+        storageData:
+          type: object
+          properties:
+            batteryCount:
+              type: integer
+            batteries:
+              type: array
+              items:
+                $ref: "#/components/schemas/Battery"
+
+    Battery:
+      type: object
+      properties:
+        nameplate:
+          type: number
+          description: Battery nameplate capacity in Wh
+        serialNumber:
+          type: string
+        modelNumber:
+          type: string
+        telemetries:
+          type: array
+          items:
+            $ref: "#/components/schemas/BatteryTelemetry"
+
+    BatteryTelemetry:
+      type: object
+      properties:
+        timeStamp:
+          type: string
+          description: Measurement timestamp
+        power:
+          type: number
+          format: float
+          description: Charge/discharge power in W (positive = charging)
+        batteryState:
+          type: integer
+          description: Battery operational state code
+        lifeTimeEnergyCharged:
+          type: number
+          format: float
+          description: Lifetime energy charged in Wh
+        lifeTimeEnergyDischarged:
+          type: number
+          format: float
+          description: Lifetime energy discharged in Wh
+        fullPackEnergyAvailable:
+          type: number
+          format: float
+          description: Full pack energy available in Wh
+        internalTemp:
+          type: number
+          format: float
+          description: Internal battery temperature in Celsius
+        ACGridCharging:
+          type: number
+          format: float
+          description: AC grid charging power in W
+
+    InventoryResponse:
+      type: object
+      properties:
+        Inventory:
+          type: object
+          properties:
+            inverters:
+              type: array
+              items:
+                $ref: "#/components/schemas/Inverter"
+            batteries:
+              type: array
+              items:
+                $ref: "#/components/schemas/InventoryBattery"
+            meters:
+              type: array
+              items:
+                $ref: "#/components/schemas/Meter"
+            gateways:
+              type: array
+              items:
+                $ref: "#/components/schemas/Gateway"
+            sensors:
+              type: array
+              items:
+                $ref: "#/components/schemas/Sensor"
+
+    Inverter:
+      type: object
+      properties:
+        name:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        kWpDC:
+          type: number
+          format: float
+        communicationMethod:
+          type: string
+        cpuVersion:
+          type: string
+        SN:
+          type: string
+        connectedOptimizers:
+          type: integer
+
+    InventoryBattery:
+      type: object
+      properties:
+        name:
+          type: string
+        serialNumber:
+          type: string
+        model:
+          type: string
+        manufacturer:
+          type: string
+        firmwareVersion:
+          type: string
+        connectedInverterSn:
+          type: string
+        nameplateCapacity:
+          type: number
+          format: float
+
+    Meter:
+      type: object
+      properties:
+        name:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        firmwareVersion:
+          type: string
+        connectedSolaredgeDeviceSN:
+          type: string
+        type:
+          type: string
+        form:
+          type: string
+
+    Gateway:
+      type: object
+      properties:
+        name:
+          type: string
+        serialNumber:
+          type: string
+        firmwareVersion:
+          type: string
+
+    Sensor:
+      type: object
+      properties:
+        connectedSolaredgeDeviceSN:
+          type: string
+        id:
+          type: string
+        connectedTo:
+          type: string
+        category:
+          type: string
+        type:
+          type: string
+
+    ComponentsListResponse:
+      type: object
+      properties:
+        list:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  manufacturer:
+                    type: string
+                  model:
+                    type: string
+                  serialNumber:
+                    type: string
+                  kWpDC:
+                    type: number
+                    format: float
+
+    InverterTechnicalDataResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+            telemetries:
+              type: array
+              items:
+                $ref: "#/components/schemas/InverterTelemetry"
+
+    InverterTelemetry:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement timestamp
+        totalActivePower:
+          type: number
+          format: float
+          description: Total active power in W
+        dcVoltage:
+          type: number
+          format: float
+          description: DC voltage in V
+        groundFaultResistance:
+          type: number
+          format: float
+          description: Ground fault resistance
+        powerLimit:
+          type: number
+          format: float
+          description: Power limit percentage
+        totalEnergy:
+          type: number
+          format: float
+          description: Total lifetime energy in Wh
+        temperature:
+          type: number
+          format: float
+          description: Inverter temperature in Celsius
+        inverterMode:
+          type: string
+          description: Current inverter operating mode
+        operationMode:
+          type: integer
+          description: Numeric operation mode code
+        L1Data:
+          $ref: "#/components/schemas/PhaseData"
+        L2Data:
+          $ref: "#/components/schemas/PhaseData"
+        L3Data:
+          $ref: "#/components/schemas/PhaseData"
+
+    PhaseData:
+      type: object
+      properties:
+        acCurrent:
+          type: number
+          format: float
+          description: AC current in A
+        acVoltage:
+          type: number
+          format: float
+          description: AC voltage in V
+        acFrequency:
+          type: number
+          format: float
+          description: AC frequency in Hz
+        apparentPower:
+          type: number
+          format: float
+          description: Apparent power in VA
+        activePower:
+          type: number
+          format: float
+          description: Active power in W
+        reactivePower:
+          type: number
+          format: float
+          description: Reactive power in VAR
+        cosPhi:
+          type: number
+          format: float
+          description: Power factor (cos phi)
+
+    EquipmentChangeLogResponse:
+      type: object
+      properties:
+        ChangeLog:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    description: Date of equipment change
+                  serialNumber:
+                    type: string
+                    description: Serial number of replacement component
+                  partNumber:
+                    type: string
+                    description: Part number of replacement component
+
+    MetersResponse:
+      type: object
+      properties:
+        meterEnergyDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meterSerialNumber:
+              type: string
+            connectedSolaredgeDeviceSN:
+              type: string
+            model:
+              type: string
+            meterType:
+              type: string
+            values:
+              type: array
+              items:
+                $ref: "#/components/schemas/TimedValue"
+
+    SensorListResponse:
+      type: object
+      properties:
+        SiteSensors:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  connectedSolaredgeDeviceSN:
+                    type: string
+                  count:
+                    type: integer
+                  sensors:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Sensor"
+
+    EnvironmentalBenefitsResponse:
+      type: object
+      properties:
+        envBenefits:
+          type: object
+          properties:
+            unit:
+              type: string
+              description: Weight unit (e.g., kg, lb)
+            gasEmissionSaved:
+              type: object
+              properties:
+                units:
+                  type: string
+                co2:
+                  type: number
+                  format: float
+                  description: CO2 emissions saved
+                so2:
+                  type: number
+                  format: float
+                  description: SO2 emissions saved
+                nox:
+                  type: number
+                  format: float
+                  description: NOx emissions saved
+            treesPlanted:
+              type: number
+              format: float
+              description: Number of trees planted equivalent
+            lightBulbs:
+              type: number
+              format: float
+              description: Number of light bulbs lit for a day equivalent
+
+    AccountListResponse:
+      type: object
+      properties:
+        accounts:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                $ref: "#/components/schemas/Account"
+
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        location:
+          $ref: "#/components/schemas/Location"
+        companyWebSite:
+          type: string
+        contactPerson:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        faxNumber:
+          type: string
+        notes:
+          type: string
+        parentId:
+          type: integer
+
+    ApiVersionResponse:
+      type: object
+      properties:
+        version:
+          type: object
+          properties:
+            release:
+              type: string
+              description: Current API release version (e.g., "1.0.0")
+
+    SupportedVersionsResponse:
+      type: object
+      properties:
+        supported:
+          type: object
+          properties:
+            release:
+              type: array
+              items:
+                type: string
+              description: List of supported API version strings

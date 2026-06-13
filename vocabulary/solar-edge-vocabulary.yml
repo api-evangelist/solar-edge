@@ -1,0 +1,175 @@
+vocabulary:
+  name: SolarEdge Monitoring API Vocabulary
+  description: >-
+    Domain terms and concepts used in the SolarEdge Monitoring API for solar
+    energy production monitoring, inverter telemetry, storage, and environmental metrics.
+  url: https://raw.githubusercontent.com/api-evangelist/solar-edge/main/vocabulary/solar-edge-vocabulary.yml
+  terms:
+    - term: site
+      label: Site
+      description: >-
+        A solar energy installation monitored by SolarEdge. A site encompasses
+        all inverters, optimizers, batteries, meters, and sensors at a single
+        physical location, identified by a unique numeric siteId.
+      related:
+        - siteId
+        - peakPower
+        - installationDate
+
+    - term: siteId
+      label: Site ID
+      description: >-
+        The unique numeric identifier assigned to a SolarEdge monitoring site.
+        Used as a path parameter in most API endpoints. Multiple siteIds may
+        be comma-separated in bulk endpoints (up to 100 sites).
+
+    - term: peakPower
+      label: Peak Power
+      description: >-
+        The maximum rated DC power capacity of a site's solar array in kilowatts (kW).
+        Represents the nameplate capacity under standard test conditions (STC).
+
+    - term: inverter
+      label: Inverter
+      description: >-
+        A SolarEdge inverter that converts DC power from solar panels (via
+        power optimizers) to AC power for grid connection. Identified by a
+        serial number within a site.
+      related:
+        - serialNumber
+        - inverterMode
+        - totalActivePower
+
+    - term: serialNumber
+      label: Serial Number
+      description: >-
+        Unique identifier for a hardware component (inverter, optimizer, battery,
+        gateway). Used in equipment-specific API endpoints.
+
+    - term: optimizer
+      label: Power Optimizer
+      description: >-
+        A SolarEdge DC-DC converter attached to each solar panel that performs
+        maximum power point tracking (MPPT) at the module level and communicates
+        performance data to the inverter.
+
+    - term: api_key
+      label: API Key
+      description: >-
+        Authentication credential required for all SolarEdge Monitoring API requests.
+        Generated through the SolarEdge monitoring portal. Passed as the `api_key`
+        URL query parameter in all requests.
+
+    - term: timeUnit
+      label: Time Unit
+      description: >-
+        Aggregation granularity for energy and power time series data.
+        Valid values: QUARTER_OF_AN_HOUR, HOUR, DAY, WEEK, MONTH, YEAR.
+        Determines the interval between data points in response arrays.
+
+    - term: energy
+      label: Energy
+      description: >-
+        Electrical energy produced or consumed, measured in watt-hours (Wh).
+        Energy is the integral of power over time. SolarEdge reports energy
+        in Wh at various aggregation levels.
+
+    - term: power
+      label: Power
+      description: >-
+        Instantaneous electrical power measured in watts (W) or kilowatts (kW).
+        Power measurements are provided at 15-minute resolution.
+
+    - term: currentPowerFlow
+      label: Current Power Flow
+      description: >-
+        Real-time representation of power movement between site components:
+        PV (solar production), Load (consumption), Grid (utility connection),
+        and Storage (battery). Shows direction and magnitude of power flow.
+
+    - term: storageData
+      label: Storage Data
+      description: >-
+        Time-series measurements from battery storage units including state of
+        energy (SoE), charge/discharge power, and lifetime energy statistics.
+
+    - term: stateOfEnergy
+      label: State of Energy
+      description: >-
+        The current charge level of a battery storage unit expressed as a
+        percentage (0-100%) of its full capacity.
+
+    - term: envBenefits
+      label: Environmental Benefits
+      description: >-
+        Calculated environmental impact metrics derived from solar energy
+        production, including CO2, SO2, and NOx emissions avoided, equivalent
+        trees planted, and equivalent light bulbs powered.
+
+    - term: inventory
+      label: Inventory
+      description: >-
+        Complete listing of all SolarEdge hardware components installed at a
+        site: inverters, batteries, meters, gateways, and sensors with their
+        identifiers, models, and connection topology.
+
+    - term: meter
+      label: Meter
+      description: >-
+        An energy meter installed at a SolarEdge site that measures production,
+        consumption, feed-in (export), purchased (import), or self-consumption.
+        Meters provide more accurate measurements than inverter-only monitoring.
+
+    - term: meterType
+      label: Meter Type
+      description: >-
+        Classification of a SolarEdge meter's function. Valid types:
+        Production (solar generation), Consumption (total site load),
+        SelfConsumption (solar used on-site), FeedIn (exported to grid),
+        Purchased (imported from grid).
+
+    - term: gateway
+      label: Gateway
+      description: >-
+        A SolarEdge communication device that aggregates data from inverters
+        and sensors and transmits it to the SolarEdge monitoring server via
+        an internet connection.
+
+    - term: sensor
+      label: Sensor
+      description: >-
+        An environmental or electrical monitoring device connected to a
+        SolarEdge gateway that measures parameters such as irradiance,
+        wind speed, or module temperature.
+
+    - term: changeLog
+      label: Change Log
+      description: >-
+        A chronological record of equipment component replacements at a site,
+        including dates, serial numbers, and part numbers of replaced components.
+
+    - term: dataPeriod
+      label: Data Period
+      description: >-
+        The date range for which energy production data is available for a site,
+        defined by a startDate and endDate.
+
+    - term: ptoDate
+      label: PTO Date
+      description: >-
+        Permission to Operate date — the date on which a solar installation
+        received official approval to connect to and export power to the utility grid.
+
+    - term: bulk
+      label: Bulk Request
+      description: >-
+        A single API call that retrieves data for multiple sites simultaneously
+        by passing comma-separated siteIds. Bulk calls support up to 100 site
+        IDs and count as one request per site in the daily quota.
+
+    - term: rateLimiting
+      label: Rate Limiting
+      description: >-
+        The SolarEdge API enforces limits of 300 requests per day per account
+        token and per site ID, and a maximum of 3 concurrent requests per source
+        IP address. Exceeding these limits returns HTTP 429.

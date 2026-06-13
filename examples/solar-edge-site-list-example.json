@@ -1,0 +1,59 @@
+{
+  "sites": {
+    "count": 2,
+    "list": [
+      {
+        "id": 12345,
+        "name": "My Home Solar",
+        "accountId": 98765,
+        "status": "Active",
+        "peakPower": 8.5,
+        "lastUpdateTime": "2024-01-15 10:30:00",
+        "installationDate": "2022-05-20",
+        "ptoDate": "2022-06-01",
+        "notes": null,
+        "type": "Optimizers & Inverters",
+        "location": {
+          "country": "United States",
+          "state": "California",
+          "city": "San Francisco",
+          "address": "123 Solar Street",
+          "address2": null,
+          "zip": "94102",
+          "timeZone": "America/Los_Angeles",
+          "countryCode": "US",
+          "stateCode": "CA"
+        },
+        "primaryModule": {
+          "manufacturerName": "SunPower",
+          "modelName": "SPR-400-WHT-D",
+          "maximumPower": 400,
+          "temperatureCoef": -0.29
+        }
+      },
+      {
+        "id": 67890,
+        "name": "Commercial Rooftop",
+        "accountId": 98765,
+        "status": "Active",
+        "peakPower": 250.0,
+        "lastUpdateTime": "2024-01-15 10:28:00",
+        "installationDate": "2021-03-15",
+        "ptoDate": "2021-04-10",
+        "notes": "Main commercial installation",
+        "type": "Optimizers & Inverters",
+        "location": {
+          "country": "United States",
+          "state": "California",
+          "city": "Oakland",
+          "address": "456 Business Ave",
+          "address2": "Suite 100",
+          "zip": "94601",
+          "timeZone": "America/Los_Angeles",
+          "countryCode": "US",
+          "stateCode": "CA"
+        }
+      }
+    ]
+  }
+}

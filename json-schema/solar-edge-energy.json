@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/solar-edge/main/json-schema/solar-edge-energy.json",
+  "title": "SolarEdge Energy Measurement",
+  "description": "Aggregated energy measurement data from a SolarEdge site",
+  "type": "object",
+  "properties": {
+    "energy": {
+      "type": "object",
+      "properties": {
+        "timeUnit": {
+          "type": "string",
+          "enum": ["QUARTER_OF_AN_HOUR", "HOUR", "DAY", "WEEK", "MONTH", "YEAR"],
+          "description": "Aggregation time unit"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Energy unit (e.g., Wh, kWh)"
+        },
+        "measuredBy": {
+          "type": "string",
+          "description": "Measurement source (e.g., INVERTER, METER)"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TimedValue"
+          }
+        }
+      },
+      "required": ["timeUnit", "unit", "values"]
+    }
+  },
+  "$defs": {
+    "TimedValue": {
+      "type": "object",
+      "description": "A single time-stamped measurement value",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "Measurement date/time string"
+        },
+        "value": {
+          "type": ["number", "null"],
+          "description": "Measured energy value (null if no data for this period)"
+        }
+      },
+      "required": ["date"]
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/solar-edge/main/json-schema/solar-edge-inverter.json",
+  "title": "SolarEdge Inverter Telemetry",
+  "description": "Technical telemetry data from a SolarEdge inverter",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "description": "Measurement timestamp"
+    },
+    "totalActivePower": {
+      "type": "number",
+      "description": "Total active power output in W"
+    },
+    "dcVoltage": {
+      "type": "number",
+      "description": "DC input voltage in V"
+    },
+    "groundFaultResistance": {
+      "type": "number",
+      "description": "Ground fault resistance in kOhm"
+    },
+    "powerLimit": {
+      "type": "number",
+      "description": "Active power limit as a percentage of rated capacity"
+    },
+    "totalEnergy": {
+      "type": "number",
+      "description": "Lifetime total energy production in Wh"
+    },
+    "temperature": {
+      "type": "number",
+      "description": "Inverter heatsink temperature in Celsius"
+    },
+    "inverterMode": {
+      "type": "string",
+      "description": "Inverter operating mode string"
+    },
+    "operationMode": {
+      "type": "integer",
+      "description": "Numeric operation mode code"
+    },
+    "L1Data": { "$ref": "#/$defs/PhaseData" },
+    "L2Data": { "$ref": "#/$defs/PhaseData" },
+    "L3Data": { "$ref": "#/$defs/PhaseData" }
+  },
+  "$defs": {
+    "PhaseData": {
+      "type": "object",
+      "description": "Per-phase AC electrical measurements",
+      "properties": {
+        "acCurrent": {
+          "type": "number",
+          "description": "AC current in A"
+        },
+        "acVoltage": {
+          "type": "number",
+          "description": "AC voltage in V"
+        },
+        "acFrequency": {
+          "type": "number",
+          "description": "AC grid frequency in Hz"
+        },
+        "apparentPower": {
+          "type": "number",
+          "description": "Apparent power in VA"
+        },
+        "activePower": {
+          "type": "number",
+          "description": "Active (real) power in W"
+        },
+        "reactivePower": {
+          "type": "number",
+          "description": "Reactive power in VAR"
+        },
+        "cosPhi": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Power factor (cosine phi)"
+        }
+      }
+    }
+  }
+}
