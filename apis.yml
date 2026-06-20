@@ -15,7 +15,7 @@ description: >-
   installations globally, making their API central to energy management
   integrations, home automation platforms, and fleet monitoring solutions.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/solar-edge/refs/heads/main/apis.yml
 created: "2026-06-13"
 modified: "2026-06-13"
@@ -38,7 +38,7 @@ apis:
       battery storage status, equipment inventory, environmental benefits, and
       equipment change logs. All endpoints are accessed via HTTPS using an
       API key passed as a URL query parameter.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developers.solaredge.com
     baseURL: https://monitoringapi.solaredge.com
     tags:
