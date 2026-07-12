@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/solar-edge-monitoring-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+schemes:
+- name: ApiKeyQuery
+  type: apiKey
+  in: query
+  parameter: api_key
+  description: API key generated through the SolarEdge monitoring portal
+  sources:
+  - openapi/solar-edge-monitoring-api-openapi.yml

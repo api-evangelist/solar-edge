@@ -54,6 +54,10 @@ apis:
       - type: OpenAPI
         url: https://raw.githubusercontent.com/api-evangelist/solar-edge/refs/heads/main/openapi.yml
 common:
+  - type: DomainSecurity
+    url: security/solar-edge-domain-security.yml
+  - type: Authentication
+    url: authentication/solar-edge-authentication.yml
   - type: Website
     url: https://www.solaredge.com
   - type: Documentation

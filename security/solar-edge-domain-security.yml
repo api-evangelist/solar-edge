@@ -1,0 +1,32 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.solaredge.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb 23 23:59:59 2027 GMT
+  hsts: null
+- host: developers.solaredge.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb 23 23:59:59 2027 GMT
+  hsts: null
+- host: monitoringapi.solaredge.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb 23 23:59:59 2027 GMT
+  hsts: null
+domains:
+- domain: solaredge.com
+  dnssec: false
+  caa:
+  - 0 issue "amazonaws.com"
+  - 0 issue "amazontrust.com"
+  - 0 issue "awstrust.com"
+  - 0 issue "globalsign.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
