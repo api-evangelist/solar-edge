@@ -1,0 +1,244 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/solar-edge-monitoring-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 23
+  by_action_class:
+    connected: 23
+  by_consequence:
+    read: 23
+  human_in_the_loop_required: 0
+operations:
+- path: /sites/list
+  method: get
+  operationId: getSiteList
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/details
+  method: get
+  operationId: getSiteDetails
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/dataPeriod
+  method: get
+  operationId: getSiteDataPeriod
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/overview
+  method: get
+  operationId: getSiteOverview
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/energy
+  method: get
+  operationId: getSiteEnergy
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/timeFrameEnergy
+  method: get
+  operationId: getSiteTimeFrameEnergy
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/energyDetails
+  method: get
+  operationId: getSiteEnergyDetails
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/power
+  method: get
+  operationId: getSitePower
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/powerDetails
+  method: get
+  operationId: getSitePowerDetails
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/currentPowerFlow
+  method: get
+  operationId: getSiteCurrentPowerFlow
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/storageData
+  method: get
+  operationId: getSiteStorageData
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/inventory
+  method: get
+  operationId: getSiteInventory
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /equipment/{siteId}/list
+  method: get
+  operationId: getComponentsList
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/inverter/{serialNumber}/data
+  method: get
+  operationId: getInverterTechnicalData
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/{serialNumber}/changeLog
+  method: get
+  operationId: getEquipmentChangeLog
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/meters
+  method: get
+  operationId: getSiteMeters
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /equipment/{siteId}/sensors
+  method: get
+  operationId: getSensorList
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/envBenefits
+  method: get
+  operationId: getSiteEnvironmentalBenefits
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/image
+  method: get
+  operationId: getSiteImage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /site/{siteId}/installerImage
+  method: get
+  operationId: getSiteInstallerImage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /accounts/list
+  method: get
+  operationId: getAccountList
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /version/current
+  method: get
+  operationId: getCurrentApiVersion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /version/supported
+  method: get
+  operationId: getSupportedApiVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
