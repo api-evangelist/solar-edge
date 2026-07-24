@@ -1,0 +1,249 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring Accounts Energy API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  version: 1.0.0
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production server
+security:
+- ApiKeyQuery: []
+tags:
+- name: Energy
+  description: Energy production measurements and time-frame energy
+paths:
+  /site/{siteId}/energy:
+    get:
+      operationId: getSiteEnergy
+      summary: Get Site Energy
+      description: Returns aggregated energy measurements for a site over a specified date range. Results match the Site Dashboard energy calculation. Supports comma-separated siteId for bulk requests (up to 100 sites).
+      tags:
+      - Energy
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: startDate
+        in: query
+        required: true
+        description: Start date in YYYY-MM-DD format
+        schema:
+          type: string
+          format: date
+          example: '2024-01-01'
+      - name: endDate
+        in: query
+        required: true
+        description: End date in YYYY-MM-DD format
+        schema:
+          type: string
+          format: date
+          example: '2024-01-31'
+      - $ref: '#/components/parameters/timeUnit'
+      responses:
+        '200':
+          description: Aggregated energy data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnergyResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/timeFrameEnergy:
+    get:
+      operationId: getSiteTimeFrameEnergy
+      summary: Get Site Time Frame Energy
+      description: Returns on-grid energy for the requested period. In sites with storage or backup, results may differ from the Site Dashboard. Use the Site Energy endpoint for dashboard-matching results. Supports bulk siteId (up to 100).
+      tags:
+      - Energy
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: startDate
+        in: query
+        required: true
+        description: Start date in YYYY-MM-DD format
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        required: true
+        description: End date in YYYY-MM-DD format
+        schema:
+          type: string
+          format: date
+      - $ref: '#/components/parameters/timeUnit'
+      responses:
+        '200':
+          description: Time-frame energy data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnergyResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/energyDetails:
+    get:
+      operationId: getSiteEnergyDetails
+      summary: Get Site Energy Details
+      description: Returns detailed energy breakdown by meter type and time unit for the specified period. Maximum date range varies by time unit.
+      tags:
+      - Energy
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: startTime
+        in: query
+        required: true
+        description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+          example: '2024-01-01 00:00:00'
+      - name: endTime
+        in: query
+        required: true
+        description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+          example: '2024-01-31 23:59:59'
+      - $ref: '#/components/parameters/timeUnit'
+      - $ref: '#/components/parameters/meters'
+      responses:
+        '200':
+          description: Detailed energy breakdown
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnergyDetailsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    MeterValues:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Production
+          - Consumption
+          - SelfConsumption
+          - FeedIn
+          - Purchased
+          description: Meter type
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimedValue'
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type: number
+          format: float
+          nullable: true
+          description: Measured value (null if no data)
+    EnergyDetailsResponse:
+      type: object
+      properties:
+        energyDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meters:
+              type: array
+              items:
+                $ref: '#/components/schemas/MeterValues'
+    EnergyResponse:
+      type: object
+      properties:
+        energy:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+              description: Time unit of aggregation
+            unit:
+              type: string
+              description: Energy unit (e.g., Wh)
+            measuredBy:
+              type: string
+              description: Measurement source
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimedValue'
+  parameters:
+    timeUnit:
+      name: timeUnit
+      in: query
+      description: Time aggregation unit for energy data
+      schema:
+        type: string
+        enum:
+        - QUARTER_OF_AN_HOUR
+        - HOUR
+        - DAY
+        - WEEK
+        - MONTH
+        - YEAR
+        default: DAY
+    meters:
+      name: meters
+      in: query
+      description: Comma-separated list of meter types to include in the response
+      schema:
+        type: string
+        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+  responses:
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal

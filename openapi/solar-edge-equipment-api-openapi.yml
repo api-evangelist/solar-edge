@@ -1,0 +1,548 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring Accounts Equipment API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  version: 1.0.0
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production server
+security:
+- ApiKeyQuery: []
+tags:
+- name: Equipment
+  description: Inverters, batteries, meters, sensors, and inventory
+paths:
+  /site/{siteId}/inventory:
+    get:
+      operationId: getSiteInventory
+      summary: Get Site Inventory
+      description: Returns the inventory of SolarEdge equipment at the site, including inverters/SMIs, batteries, meters, gateways, and sensors with their serial numbers and status.
+      tags:
+      - Equipment
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      responses:
+        '200':
+          description: Site equipment inventory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /equipment/{siteId}/list:
+    get:
+      operationId: getComponentsList
+      summary: Get Components List
+      description: Returns a list of inverters and SMIs in the specified site.
+      tags:
+      - Equipment
+      parameters:
+      - name: siteId
+        in: path
+        required: true
+        description: Unique identifier for the site
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of site components
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentsListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/inverter/{serialNumber}/data:
+    get:
+      operationId: getInverterTechnicalData
+      summary: Get Inverter Technical Data
+      description: Returns technical performance data for a specific inverter over a given time period. Maximum date range is 1 week (7 days).
+      tags:
+      - Equipment
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: serialNumber
+        in: path
+        required: true
+        description: Inverter serial number
+        schema:
+          type: string
+      - name: startTime
+        in: query
+        required: true
+        description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      - name: endTime
+        in: query
+        required: true
+        description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Inverter technical performance data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InverterTechnicalDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/{serialNumber}/changeLog:
+    get:
+      operationId: getEquipmentChangeLog
+      summary: Get Equipment Change Log
+      description: Returns a list of equipment component replacements ordered by date. Applicable to inverters, optimizers, batteries, and gateways.
+      tags:
+      - Equipment
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: serialNumber
+        in: path
+        required: true
+        description: Serial number of the equipment component
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Equipment change log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentChangeLogResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/meters:
+    get:
+      operationId: getSiteMeters
+      summary: Get Site Meters
+      description: Returns meter data for the site including lifetime energy reading, metadata, and the device to which each meter is connected.
+      tags:
+      - Equipment
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: startTime
+        in: query
+        required: true
+        description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      - name: endTime
+        in: query
+        required: true
+        description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      - $ref: '#/components/parameters/timeUnit'
+      - name: meters
+        in: query
+        description: Comma-separated list of meter types to include
+        schema:
+          type: string
+          example: Production,Consumption,FeedIn,Purchased
+      responses:
+        '200':
+          description: Meter data for the site
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /equipment/{siteId}/sensors:
+    get:
+      operationId: getSensorList
+      summary: Get Sensor List
+      description: Returns a list of all sensors at the site and the device to which they are connected.
+      tags:
+      - Equipment
+      parameters:
+      - name: siteId
+        in: path
+        required: true
+        description: Unique identifier for the site
+        schema:
+          type: integer
+      - name: startTime
+        in: query
+        description: Start date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data
+        schema:
+          type: string
+      - name: endTime
+        in: query
+        description: End date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Sensor list or sensor data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SensorListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    PhaseData:
+      type: object
+      properties:
+        acCurrent:
+          type: number
+          format: float
+          description: AC current in A
+        acVoltage:
+          type: number
+          format: float
+          description: AC voltage in V
+        acFrequency:
+          type: number
+          format: float
+          description: AC frequency in Hz
+        apparentPower:
+          type: number
+          format: float
+          description: Apparent power in VA
+        activePower:
+          type: number
+          format: float
+          description: Active power in W
+        reactivePower:
+          type: number
+          format: float
+          description: Reactive power in VAR
+        cosPhi:
+          type: number
+          format: float
+          description: Power factor (cos phi)
+    ComponentsListResponse:
+      type: object
+      properties:
+        list:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  manufacturer:
+                    type: string
+                  model:
+                    type: string
+                  serialNumber:
+                    type: string
+                  kWpDC:
+                    type: number
+                    format: float
+    InverterTechnicalDataResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+            telemetries:
+              type: array
+              items:
+                $ref: '#/components/schemas/InverterTelemetry'
+    InventoryResponse:
+      type: object
+      properties:
+        Inventory:
+          type: object
+          properties:
+            inverters:
+              type: array
+              items:
+                $ref: '#/components/schemas/Inverter'
+            batteries:
+              type: array
+              items:
+                $ref: '#/components/schemas/InventoryBattery'
+            meters:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meter'
+            gateways:
+              type: array
+              items:
+                $ref: '#/components/schemas/Gateway'
+            sensors:
+              type: array
+              items:
+                $ref: '#/components/schemas/Sensor'
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    SensorListResponse:
+      type: object
+      properties:
+        SiteSensors:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  connectedSolaredgeDeviceSN:
+                    type: string
+                  count:
+                    type: integer
+                  sensors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sensor'
+    InventoryBattery:
+      type: object
+      properties:
+        name:
+          type: string
+        serialNumber:
+          type: string
+        model:
+          type: string
+        manufacturer:
+          type: string
+        firmwareVersion:
+          type: string
+        connectedInverterSn:
+          type: string
+        nameplateCapacity:
+          type: number
+          format: float
+    EquipmentChangeLogResponse:
+      type: object
+      properties:
+        ChangeLog:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    description: Date of equipment change
+                  serialNumber:
+                    type: string
+                    description: Serial number of replacement component
+                  partNumber:
+                    type: string
+                    description: Part number of replacement component
+    Inverter:
+      type: object
+      properties:
+        name:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        kWpDC:
+          type: number
+          format: float
+        communicationMethod:
+          type: string
+        cpuVersion:
+          type: string
+        SN:
+          type: string
+        connectedOptimizers:
+          type: integer
+    Meter:
+      type: object
+      properties:
+        name:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        firmwareVersion:
+          type: string
+        connectedSolaredgeDeviceSN:
+          type: string
+        type:
+          type: string
+        form:
+          type: string
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type: number
+          format: float
+          nullable: true
+          description: Measured value (null if no data)
+    Gateway:
+      type: object
+      properties:
+        name:
+          type: string
+        serialNumber:
+          type: string
+        firmwareVersion:
+          type: string
+    InverterTelemetry:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement timestamp
+        totalActivePower:
+          type: number
+          format: float
+          description: Total active power in W
+        dcVoltage:
+          type: number
+          format: float
+          description: DC voltage in V
+        groundFaultResistance:
+          type: number
+          format: float
+          description: Ground fault resistance
+        powerLimit:
+          type: number
+          format: float
+          description: Power limit percentage
+        totalEnergy:
+          type: number
+          format: float
+          description: Total lifetime energy in Wh
+        temperature:
+          type: number
+          format: float
+          description: Inverter temperature in Celsius
+        inverterMode:
+          type: string
+          description: Current inverter operating mode
+        operationMode:
+          type: integer
+          description: Numeric operation mode code
+        L1Data:
+          $ref: '#/components/schemas/PhaseData'
+        L2Data:
+          $ref: '#/components/schemas/PhaseData'
+        L3Data:
+          $ref: '#/components/schemas/PhaseData'
+    Sensor:
+      type: object
+      properties:
+        connectedSolaredgeDeviceSN:
+          type: string
+        id:
+          type: string
+        connectedTo:
+          type: string
+        category:
+          type: string
+        type:
+          type: string
+    MetersResponse:
+      type: object
+      properties:
+        meterEnergyDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meterSerialNumber:
+              type: string
+            connectedSolaredgeDeviceSN:
+              type: string
+            model:
+              type: string
+            meterType:
+              type: string
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimedValue'
+  responses:
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+    timeUnit:
+      name: timeUnit
+      in: query
+      description: Time aggregation unit for energy data
+      schema:
+        type: string
+        enum:
+        - QUARTER_OF_AN_HOUR
+        - HOUR
+        - DAY
+        - WEEK
+        - MONTH
+        - YEAR
+        default: DAY
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal

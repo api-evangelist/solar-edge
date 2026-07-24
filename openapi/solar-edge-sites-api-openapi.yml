@@ -1,0 +1,413 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring Accounts Sites API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  version: 1.0.0
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production server
+security:
+- ApiKeyQuery: []
+tags:
+- name: Sites
+  description: Site list and site-level data
+paths:
+  /sites/list:
+    get:
+      operationId: getSiteList
+      summary: Get Site List
+      description: Returns a paginated list of sites associated with the account token. Sites can be filtered by status and sorted by various properties.
+      tags:
+      - Sites
+      parameters:
+      - name: size
+        in: query
+        description: Number of sites to return per page (max 100)
+        schema:
+          type: integer
+          default: 100
+          maximum: 100
+      - name: startIndex
+        in: query
+        description: Starting index for pagination
+        schema:
+          type: integer
+          default: 0
+      - name: searchText
+        in: query
+        description: Free-text search across Name, Notes, Email, Country, State, City, Zip, Full address
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        description: Property to sort results by
+        schema:
+          type: string
+          enum:
+          - Name
+          - Country
+          - State
+          - City
+          - Address
+          - Zip
+          - Status
+          - PeakPower
+          - InstallationDate
+          - Amount
+          - MaxSeverity
+          - CreationTime
+      - name: sortOrder
+        in: query
+        description: Sort order
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+          default: ASC
+      - name: status
+        in: query
+        description: Comma-separated list of site statuses to filter by, or "All"
+        schema:
+          type: string
+          example: Active,Pending
+      responses:
+        '200':
+          description: Successful response with site list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /site/{siteId}/details:
+    get:
+      operationId: getSiteDetails
+      summary: Get Site Details
+      description: Returns detailed information for a single site including location, configuration, and contact info.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      responses:
+        '200':
+          description: Site details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteDetailsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/dataPeriod:
+    get:
+      operationId: getSiteDataPeriod
+      summary: Get Site Data Period
+      description: Returns the site energy production start and end dates (the period for which data is available).
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      responses:
+        '200':
+          description: Data period for the site
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataPeriodResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/overview:
+    get:
+      operationId: getSiteOverview
+      summary: Get Site Overview
+      description: Returns current site power and summary energy metrics including today, month, and lifetime energy totals as well as revenue where available. Supports comma-separated siteId for bulk requests (up to 100 sites).
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      responses:
+        '200':
+          description: Site overview with current power and energy summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteOverviewResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/image:
+    get:
+      operationId: getSiteImage
+      summary: Get Site Image
+      description: Returns the site image uploaded by the user.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: maxWidth
+        in: query
+        description: Maximum image width in pixels
+        schema:
+          type: integer
+      - name: maxHeight
+        in: query
+        description: Maximum image height in pixels
+        schema:
+          type: integer
+      - name: hash
+        in: query
+        description: Image hash for cache validation
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Site image binary
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/installerImage:
+    get:
+      operationId: getSiteInstallerImage
+      summary: Get Site Installer Image
+      description: Returns the installer logo image for the site.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      responses:
+        '200':
+          description: Installer logo image binary
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    DataPeriodResponse:
+      type: object
+      properties:
+        dataPeriod:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+              description: First date with energy data (YYYY-MM-DD)
+            endDate:
+              type: string
+              format: date
+              description: Last date with energy data (YYYY-MM-DD)
+    Location:
+      type: object
+      properties:
+        country:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        zip:
+          type: string
+        timeZone:
+          type: string
+        countryCode:
+          type: string
+        stateCode:
+          type: string
+    EnergyWithRevenue:
+      type: object
+      properties:
+        energy:
+          type: number
+          format: float
+          description: Energy in Wh
+        revenue:
+          type: number
+          format: float
+          description: Revenue generated (where applicable)
+    Module:
+      type: object
+      properties:
+        manufacturerName:
+          type: string
+        modelName:
+          type: string
+        maximumPower:
+          type: number
+        temperatureCoef:
+          type: number
+    SiteOverviewResponse:
+      type: object
+      properties:
+        overview:
+          type: object
+          properties:
+            lastUpdateTime:
+              type: string
+              description: Timestamp of last data update
+            lifeTimeData:
+              $ref: '#/components/schemas/EnergyWithRevenue'
+            lastYearData:
+              $ref: '#/components/schemas/EnergyWithRevenue'
+            lastMonthData:
+              $ref: '#/components/schemas/EnergyWithRevenue'
+            lastDayData:
+              $ref: '#/components/schemas/EnergyWithRevenue'
+            currentPower:
+              type: object
+              properties:
+                power:
+                  type: number
+                  format: float
+                  description: Current power production in W
+    SiteDetailsResponse:
+      type: object
+      properties:
+        details:
+          $ref: '#/components/schemas/Site'
+    Site:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique site identifier
+        name:
+          type: string
+          description: Site name
+        accountId:
+          type: integer
+          description: Account identifier
+        status:
+          type: string
+          enum:
+          - Active
+          - Pending
+          - Disabled
+          description: Current site status
+        peakPower:
+          type: number
+          format: float
+          description: Site peak power capacity in kW
+        lastUpdateTime:
+          type: string
+          description: Last update timestamp
+        installationDate:
+          type: string
+          format: date
+          description: Installation date in YYYY-MM-DD format
+        ptoDate:
+          type: string
+          format: date
+          description: Permission to operate date
+        notes:
+          type: string
+          description: Site notes
+        type:
+          type: string
+          description: Site type (e.g., Optimizers & Inverters)
+        location:
+          $ref: '#/components/schemas/Location'
+        primaryModule:
+          $ref: '#/components/schemas/Module'
+        uris:
+          type: object
+          additionalProperties:
+            type: string
+        publicSettings:
+          type: object
+          properties:
+            isPublic:
+              type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    SiteListResponse:
+      type: object
+      properties:
+        sites:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of sites matching the query
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/Site'
+  responses:
+    TooManyRequests:
+      description: Rate limit exceeded. The API allows up to 3 concurrent requests per source IP, and 300 requests per day per account token and per site.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal

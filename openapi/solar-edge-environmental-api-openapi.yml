@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring Accounts Environmental API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  version: 1.0.0
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production server
+security:
+- ApiKeyQuery: []
+tags:
+- name: Environmental
+  description: Environmental benefit metrics
+paths:
+  /site/{siteId}/envBenefits:
+    get:
+      operationId: getSiteEnvironmentalBenefits
+      summary: Get Environmental Benefits
+      description: Returns environmental benefit metrics for the site including CO2 savings, trees planted equivalent, and light bulbs equivalent based on energy production.
+      tags:
+      - Environmental
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: systemUnits
+        in: query
+        description: Unit system for environmental metrics
+        schema:
+          type: string
+          enum:
+          - Metrics
+          - Imperial
+      responses:
+        '200':
+          description: Environmental benefit metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentalBenefitsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    EnvironmentalBenefitsResponse:
+      type: object
+      properties:
+        envBenefits:
+          type: object
+          properties:
+            unit:
+              type: string
+              description: Weight unit (e.g., kg, lb)
+            gasEmissionSaved:
+              type: object
+              properties:
+                units:
+                  type: string
+                co2:
+                  type: number
+                  format: float
+                  description: CO2 emissions saved
+                so2:
+                  type: number
+                  format: float
+                  description: SO2 emissions saved
+                nox:
+                  type: number
+                  format: float
+                  description: NOx emissions saved
+            treesPlanted:
+              type: number
+              format: float
+              description: Number of trees planted equivalent
+            lightBulbs:
+              type: number
+              format: float
+              description: Number of light bulbs lit for a day equivalent
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+  responses:
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal

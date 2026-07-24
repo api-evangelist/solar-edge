@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring Accounts Version API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  version: 1.0.0
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production server
+security:
+- ApiKeyQuery: []
+tags:
+- name: Version
+  description: API version information
+paths:
+  /version/current:
+    get:
+      operationId: getCurrentApiVersion
+      summary: Get Current API Version
+      description: Returns the current version number of the SolarEdge Monitoring API.
+      tags:
+      - Version
+      responses:
+        '200':
+          description: Current API version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiVersionResponse'
+  /version/supported:
+    get:
+      operationId: getSupportedApiVersions
+      summary: Get Supported API Versions
+      description: Returns the list of all supported API version numbers.
+      tags:
+      - Version
+      responses:
+        '200':
+          description: Supported API versions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportedVersionsResponse'
+components:
+  schemas:
+    SupportedVersionsResponse:
+      type: object
+      properties:
+        supported:
+          type: object
+          properties:
+            release:
+              type: array
+              items:
+                type: string
+              description: List of supported API version strings
+    ApiVersionResponse:
+      type: object
+      properties:
+        version:
+          type: object
+          properties:
+            release:
+              type: string
+              description: Current API release version (e.g., "1.0.0")
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal

@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring Accounts Storage API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  version: 1.0.0
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production server
+security:
+- ApiKeyQuery: []
+tags:
+- name: Storage
+  description: Battery storage data
+paths:
+  /site/{siteId}/storageData:
+    get:
+      operationId: getSiteStorageData
+      summary: Get Storage Data
+      description: Returns battery state of energy (SoE), power, and lifetime energy for storage devices at a site. Maximum date range is 1 week (7 days).
+      tags:
+      - Storage
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: startTime
+        in: query
+        required: true
+        description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      - name: endTime
+        in: query
+        required: true
+        description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      - name: serials
+        in: query
+        description: Comma-separated list of battery serial numbers to filter results
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Battery storage measurements
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorageDataResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    StorageDataResponse:
+      type: object
+      properties:
+        storageData:
+          type: object
+          properties:
+            batteryCount:
+              type: integer
+            batteries:
+              type: array
+              items:
+                $ref: '#/components/schemas/Battery'
+    Battery:
+      type: object
+      properties:
+        nameplate:
+          type: number
+          description: Battery nameplate capacity in Wh
+        serialNumber:
+          type: string
+        modelNumber:
+          type: string
+        telemetries:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatteryTelemetry'
+    BatteryTelemetry:
+      type: object
+      properties:
+        timeStamp:
+          type: string
+          description: Measurement timestamp
+        power:
+          type: number
+          format: float
+          description: Charge/discharge power in W (positive = charging)
+        batteryState:
+          type: integer
+          description: Battery operational state code
+        lifeTimeEnergyCharged:
+          type: number
+          format: float
+          description: Lifetime energy charged in Wh
+        lifeTimeEnergyDischarged:
+          type: number
+          format: float
+          description: Lifetime energy discharged in Wh
+        fullPackEnergyAvailable:
+          type: number
+          format: float
+          description: Full pack energy available in Wh
+        internalTemp:
+          type: number
+          format: float
+          description: Internal battery temperature in Celsius
+        ACGridCharging:
+          type: number
+          format: float
+          description: AC grid charging power in W
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+  responses:
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal

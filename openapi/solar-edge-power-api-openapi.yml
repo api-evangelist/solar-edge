@@ -1,0 +1,265 @@
+openapi: 3.0.3
+info:
+  title: SolarEdge Monitoring Accounts Power API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  version: 1.0.0
+  contact:
+    name: SolarEdge Developer Support
+    url: https://developers.solaredge.com
+  license:
+    name: Proprietary
+    url: https://www.solaredge.com/us/commercial/developer
+  x-api-id: solar-edge:solar-edge-monitoring-api
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production server
+security:
+- ApiKeyQuery: []
+tags:
+- name: Power
+  description: Power measurements and power flow
+paths:
+  /site/{siteId}/power:
+    get:
+      operationId: getSitePower
+      summary: Get Site Power
+      description: Returns power measurements at 15-minute resolution for the specified time frame. Maximum date range is 1 month (31 days).
+      tags:
+      - Power
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: startTime
+        in: query
+        required: true
+        description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+          example: '2024-01-01 00:00:00'
+      - name: endTime
+        in: query
+        required: true
+        description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+          example: '2024-01-31 23:59:59'
+      responses:
+        '200':
+          description: Power measurements at 15-minute intervals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PowerResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/powerDetails:
+    get:
+      operationId: getSitePowerDetails
+      summary: Get Site Power Details
+      description: Returns detailed power measurements including individual meter types (production, consumption, self-consumption, feed-in, purchased). Maximum date range is 1 month (31 days).
+      tags:
+      - Power
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - name: startTime
+        in: query
+        required: true
+        description: Start date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      - name: endTime
+        in: query
+        required: true
+        description: End date-time in "YYYY-MM-DD HH:MM:SS" format
+        schema:
+          type: string
+      - $ref: '#/components/parameters/meters'
+      responses:
+        '200':
+          description: Detailed power measurements
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PowerDetailsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /site/{siteId}/currentPowerFlow:
+    get:
+      operationId: getSiteCurrentPowerFlow
+      summary: Get Current Power Flow
+      description: Returns the current power flow for a site, showing who is producing, consuming, and exporting power (PV, Load, Grid, Storage).
+      tags:
+      - Power
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      responses:
+        '200':
+          description: Current power flow data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentPowerFlowResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    PowerDetailsResponse:
+      type: object
+      properties:
+        powerDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meters:
+              type: array
+              items:
+                $ref: '#/components/schemas/MeterValues'
+    MeterValues:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Production
+          - Consumption
+          - SelfConsumption
+          - FeedIn
+          - Purchased
+          description: Meter type
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimedValue'
+    CurrentPowerFlowResponse:
+      type: object
+      properties:
+        siteCurrentPowerFlow:
+          type: object
+          properties:
+            updateRefreshRate:
+              type: integer
+              description: Suggested client refresh rate in seconds
+            unit:
+              type: string
+              description: Power unit (e.g., kW)
+            connections:
+              type: array
+              description: List of active power flow connections
+              items:
+                type: object
+                properties:
+                  from:
+                    type: string
+                    description: Source node (PV, LOAD, GRID, STORAGE)
+                  to:
+                    type: string
+                    description: Destination node (PV, LOAD, GRID, STORAGE)
+            GRID:
+              $ref: '#/components/schemas/PowerFlowNode'
+            LOAD:
+              $ref: '#/components/schemas/PowerFlowNode'
+            PV:
+              $ref: '#/components/schemas/PowerFlowNode'
+            STORAGE:
+              $ref: '#/components/schemas/StorageFlowNode'
+    StorageFlowNode:
+      allOf:
+      - $ref: '#/components/schemas/PowerFlowNode'
+      - type: object
+        properties:
+          chargeLevel:
+            type: number
+            format: float
+            description: Battery charge level percentage
+          critical:
+            type: boolean
+            description: Whether the battery is in a critical state
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type: number
+          format: float
+          nullable: true
+          description: Measured value (null if no data)
+    PowerFlowNode:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Node status (Active, Idle, Disabled)
+        currentPower:
+          type: number
+          format: float
+          description: Current power in the specified unit
+    PowerResponse:
+      type: object
+      properties:
+        power:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            measuredBy:
+              type: string
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimedValue'
+  parameters:
+    meters:
+      name: meters
+      in: query
+      description: Comma-separated list of meter types to include in the response
+      schema:
+        type: string
+        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+  responses:
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated through the SolarEdge monitoring portal
