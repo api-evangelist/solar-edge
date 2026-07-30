@@ -15,7 +15,20 @@ description: >-
   installations globally, making their API central to energy management
   integrations, home automation platforms, and fleet monitoring solutions.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/solar-edge.png
 url: https://raw.githubusercontent.com/api-evangelist/solar-edge/refs/heads/main/apis.yml
 created: "2026-06-13"
 modified: "2026-06-13"
@@ -29,30 +42,102 @@ tags:
   - Renewable Energy
   - IoT
 apis:
-  - aid: solar-edge:solar-edge-monitoring-api
-    name: SolarEdge Monitoring API
-    description: >-
-      The SolarEdge Monitoring API provides programmatic access to data from
-      SolarEdge solar energy systems, including site overview metrics, energy
-      production measurements, real-time power flow, inverter technical data,
-      battery storage status, equipment inventory, environmental benefits, and
-      equipment change logs. All endpoints are accessed via HTTPS using an
-      API key passed as a URL query parameter.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developers.solaredge.com
-    baseURL: https://monitoringapi.solaredge.com
-    tags:
-      - Solar
-      - Energy
-      - Monitoring
-      - Inverter
-      - Power
-      - Battery
-    properties:
-      - type: Documentation
-        url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/solar-edge/refs/heads/main/openapi.yml
+- aid: solar-edge:solar-edge-accounts-api
+  name: SolarEdge Accounts API
+  description: Account and sub-account management
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-energy-api
+  name: SolarEdge Energy API
+  description: Energy production measurements and time-frame energy
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Energy
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-energy-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-environmental-api
+  name: SolarEdge Environmental API
+  description: Environmental benefit metrics
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Environmental
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-environmental-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-equipment-api
+  name: SolarEdge Equipment API
+  description: Inverters, batteries, meters, sensors, and inventory
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Equipment
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-equipment-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-power-api
+  name: SolarEdge Power API
+  description: Power measurements and power flow
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Power
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-power-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-sites-api
+  name: SolarEdge Sites API
+  description: Site list and site-level data
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Sites
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-sites-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-storage-api
+  name: SolarEdge Storage API
+  description: Battery storage data
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-storage-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-version-api
+  name: SolarEdge Version API
+  description: API version information
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Version
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-version-api-openapi.yml
+  - type: Documentation
+    url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
 common:
   - type: AgenticAccess
     url: agentic-access/solar-edge-agentic-access.yml
