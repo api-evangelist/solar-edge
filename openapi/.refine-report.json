@@ -1,0 +1,33 @@
+{
+  "provider": "solar-edge",
+  "sources": [
+    "solar-edge-accounts-api-openapi.yml",
+    "solar-edge-energy-api-openapi.yml",
+    "solar-edge-environmental-api-openapi.yml",
+    "solar-edge-equipment-api-openapi.yml",
+    "solar-edge-power-api-openapi.yml",
+    "solar-edge-sites-api-openapi.yml",
+    "solar-edge-storage-api-openapi.yml",
+    "solar-edge-version-api-openapi.yml",
+    "openapi.yml"
+  ],
+  "outputs": [
+    "solar-edge-accounts-api-openapi.yml",
+    "solar-edge-energy-api-openapi.yml",
+    "solar-edge-environmental-api-openapi.yml",
+    "solar-edge-equipment-api-openapi.yml",
+    "solar-edge-power-api-openapi.yml",
+    "solar-edge-sites-api-openapi.yml",
+    "solar-edge-storage-api-openapi.yml",
+    "solar-edge-version-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "discovered stray spec: openapi.yml"
+  ],
+  "skipped": []
+}
