@@ -1,0 +1,37 @@
+generated: '2026-07-21'
+method: derived
+status: candidate
+source: openapi/solaredge-monitoring-openapi.yml
+description: >-
+  No official SolarEdge-hosted or first-party MCP server was found during this pass.
+  This is a CANDIDATE tool surface derived one-to-one from the read-only operations in
+  openapi/solaredge-monitoring-openapi.yml, to seed an MCP wrapper. All tools are safe
+  reads (GET); the api_key is supplied as server configuration, never as a tool argument.
+server:
+  name: solaredge-monitoring
+  transport: stdio
+  url: null
+  auth: api_key query parameter (server-side configuration)
+tools:
+  - {name: get_sites_list, description: List sites accessible to the account., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSitesList'}
+  - {name: get_site_details, description: Get details for a site., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteDetails'}
+  - {name: get_site_data_period, description: Get a site's production start/end dates., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteDataPeriod'}
+  - {name: get_site_energy, description: Get site energy over a date range., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteEnergy'}
+  - {name: get_site_time_frame_energy, description: Get total energy for a period., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteTimeFrameEnergy'}
+  - {name: get_site_power, description: Get site power in 15-minute resolution., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSitePower'}
+  - {name: get_site_overview, description: Get site overview (current power and lifetime energy)., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteOverview'}
+  - {name: get_site_power_details, description: Get detailed site power with meters., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSitePowerDetails'}
+  - {name: get_site_energy_details, description: Get detailed site energy with meters., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteEnergyDetails'}
+  - {name: get_site_current_power_flow, description: Get current power flow across PV/load/grid/storage., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteCurrentPowerFlow'}
+  - {name: get_site_storage_data, description: Get battery/storage telemetry., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteStorageData'}
+  - {name: get_site_env_benefits, description: Get environmental benefits for a site., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteEnvBenefits'}
+  - {name: get_site_inventory, description: Get equipment inventory for a site., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteInventory'}
+  - {name: get_equipment_list, description: List inverters/SMIs in a site., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getEquipmentList'}
+  - {name: get_equipment_data, description: Get inverter technical data over a timeframe., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getEquipmentData'}
+  - {name: get_equipment_change_log, description: Get component replacement history., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getEquipmentChangeLog'}
+  - {name: get_site_meters, description: Get per-meter lifetime energy readings., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteMeters'}
+  - {name: get_site_sensor_list, description: List site sensors., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteSensorList'}
+  - {name: get_site_sensor_data, description: Get sensor data for a site., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSiteSensorData'}
+  - {name: get_accounts_list, description: List account and sub-accounts., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getAccountsList'}
+  - {name: get_current_version, description: Get the current API version., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getCurrentVersion'}
+  - {name: get_supported_versions, description: List supported API versions., source_operation: 'openapi/solaredge-monitoring-openapi.yml#getSupportedVersions'}

@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for SolarEdge Monitoring API
+  version: 1.0.0
+extends: openapi/solaredge-monitoring-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-21'
+      x-api-style: read-only REST, api_key query auth, RFC 9457 errors
+      x-rate-limit: per-api_key/site daily query quota (see rate-limits/solaredge-rate-limits.yml)
+  - target: $.components.securitySchemes.api_key
+    update:
+      x-provenance: >-
+        Confirmed live: monitoringapi.solaredge.com returns RFC 9457 401
+        (detail "Invalid API key") when api_key is missing/invalid.

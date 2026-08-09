@@ -1,0 +1,77 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://api-docs.solaredge.com/ plus a live probe of
+  https://monitoringapi.solaredge.com (2026-07-21)
+description: >-
+  Cross-cutting request/response conventions that apply across every SolarEdge
+  Monitoring API operation: API-key query authentication, JSON-by-default with
+  optional CSV/XML on some endpoints, index/size pagination on the list endpoints,
+  a strict per-day query quota, an RFC 9457 error envelope carrying a support
+  traceId, and version-discovery endpoints. These are read-only data endpoints, so
+  there is no write/idempotency contract.
+base_url: https://monitoringapi.solaredge.com
+api_style: REST over HTTPS, GET-only (read-only), JSON responses by default.
+
+authentication:
+  scheme: API key in the api_key query parameter (see authentication/solaredge-authentication.yml)
+  parameter: api_key
+  in: query
+
+serialization:
+  default: application/json
+  alternatives:
+    - CSV (selected time-series endpoints, e.g. energy/power, via the format parameter)
+    - XML (legacy format negotiation)
+  note: JSON is returned unless a supported alternate format is requested.
+
+pagination:
+  style: index-based
+  params:
+    - {name: startIndex, description: Zero-based index of the first item to return.}
+    - {name: size, description: Page size; maximum 100 items per page on list endpoints.}
+  applies_to: [/sites/list, /accounts/list]
+  note: Non-list time-series endpoints are bounded by date/time range parameters, not pages.
+
+time_ranges:
+  date_endpoints:
+    params: [startDate, endDate]
+    format: yyyy-MM-dd
+  datetime_endpoints:
+    params: [startTime, endTime]
+    format: 'yyyy-MM-dd HH:mm:ss'
+  time_unit:
+    param: timeUnit
+    values: [QUARTER_OF_AN_HOUR, HOUR, DAY, WEEK, MONTH, YEAR]
+  limits: >-
+    SolarEdge caps the span of a single time-series request (e.g. one month for
+    quarter-hour/hour resolution, one year for day resolution); exceeding the span
+    returns a 400. See the endpoint reference for the exact per-resolution caps.
+
+request_tracing:
+  field: properties.traceId
+  location: RFC 9457 problem+json body (errors)
+  note: Every error response carries a traceId to quote to SolarEdge support.
+
+error_envelope:
+  format: rfc9457
+  media_type: application/problem+json
+  ref: errors/solaredge-problem-types.yml
+
+rate_limiting:
+  ref: rate-limits/solaredge-rate-limits.yml
+  note: >-
+    Enforced as a per-api_key + per-site daily query quota plus a concurrent-request
+    limit; exhaustion returns HTTP 429.
+
+versioning:
+  ref: lifecycle/solaredge-lifecycle.yml
+  discovery_endpoints:
+    - {path: /version/current, description: Most up-to-date API version.}
+    - {path: /version/supported, description: List of supported API versions.}
+
+idempotency:
+  supported: false
+  note: >-
+    The Monitoring API is read-only (GET). There is no idempotency-key contract
+    because there are no state-changing operations. No Idempotency pointer is emitted.

@@ -1,0 +1,458 @@
+openapi: 3.1.0
+# generated: '2026-07-21'
+# method: generated
+# source: https://api-docs.solaredge.com/ (SolarEdge Monitoring API reference, Stoplight-hosted)
+# note: >-
+#   Faithful reconstruction of the SolarEdge Monitoring API's stable, publicly
+#   documented v1 endpoint surface. SolarEdge does not publish a downloadable
+#   OpenAPI (the reference is a Stoplight project whose bundle is gated behind
+#   global node IDs). Paths, the api_key query-parameter security scheme, and the
+#   core query parameters below are drawn from the long-standing public
+#   documentation; the live host was probed (401 problem+json confirms the
+#   api_key gate). Response schemas are intentionally left as generic objects
+#   rather than fabricated field-by-field. GAP: verify against the provider's
+#   Stoplight export before treating as authoritative.
+info:
+  title: SolarEdge Monitoring API
+  version: '1.0'
+  description: >-
+    Read-only REST API over the SolarEdge monitoring platform. Exposes photovoltaic
+    site inventory, energy and power production, storage/battery data, environmental
+    benefits, equipment telemetry, meters and sensors for sites the calling account
+    can access. Authentication is by an api_key issued in the SolarEdge monitoring
+    platform (Admin > Site Access > API Access). Responses default to JSON; several
+    endpoints also support CSV and XML via the format/Accept negotiation documented
+    by SolarEdge.
+  contact:
+    name: SolarEdge Support
+    url: https://www.solaredge.com/us/service/support
+  termsOfService: https://www.solaredge.com/us/legal/eula
+servers:
+  - url: https://monitoringapi.solaredge.com
+    description: SolarEdge Monitoring API production host
+security:
+  - api_key: []
+tags:
+  - name: Sites
+    description: Site-level list, details, energy, power and environmental data.
+  - name: Storage
+    description: Battery / storage telemetry.
+  - name: Equipment
+    description: Inverters, optimizers, gateways, meters and sensors.
+  - name: Account
+    description: Account hierarchy.
+  - name: Version
+    description: API version discovery.
+paths:
+  /sites/list:
+    get:
+      operationId: getSitesList
+      summary: Site List
+      description: Returns a list of sites related to the given token, with basic data per site.
+      tags: [Sites]
+      parameters:
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/startIndex'
+        - name: searchText
+          in: query
+          schema: { type: string }
+        - name: sortProperty
+          in: query
+          schema: { type: string }
+        - name: sortOrder
+          in: query
+          schema: { type: string, enum: [ASC, DESC] }
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/details:
+    get:
+      operationId: getSiteDetails
+      summary: Site Details
+      description: Displays the site details, such as name, location, status, etc.
+      tags: [Sites]
+      parameters: [ { $ref: '#/components/parameters/siteId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/dataPeriod:
+    get:
+      operationId: getSiteDataPeriod
+      summary: Site Data - Start and End Dates
+      description: Returns the energy production start and end dates of the site.
+      tags: [Sites]
+      parameters: [ { $ref: '#/components/parameters/siteId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/energy:
+    get:
+      operationId: getSiteEnergy
+      summary: Site Energy
+      description: Returns the site energy measurements over a time range at a given resolution.
+      tags: [Sites]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startDate'
+        - $ref: '#/components/parameters/endDate'
+        - $ref: '#/components/parameters/timeUnit'
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/timeFrameEnergy:
+    get:
+      operationId: getSiteTimeFrameEnergy
+      summary: Site Energy - Time Period
+      description: Returns the total energy produced for a given period.
+      tags: [Sites]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startDate'
+        - $ref: '#/components/parameters/endDate'
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/power:
+    get:
+      operationId: getSitePower
+      summary: Site Power
+      description: Returns the site power measurements in 15-minute resolution over a time range.
+      tags: [Sites]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/overview:
+    get:
+      operationId: getSiteOverview
+      summary: Site Overview
+      description: Returns the site overview data (current power, day/month/year/lifetime energy and revenue).
+      tags: [Sites]
+      parameters: [ { $ref: '#/components/parameters/siteId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/powerDetails:
+    get:
+      operationId: getSitePowerDetails
+      summary: Site Power - Detailed
+      description: Returns detailed site power measurements including meters such as consumption and self-consumption.
+      tags: [Sites]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+        - name: meters
+          in: query
+          schema: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/energyDetails:
+    get:
+      operationId: getSiteEnergyDetails
+      summary: Site Energy - Detailed
+      description: Returns detailed site energy measurements including meters such as consumption and self-consumption.
+      tags: [Sites]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/timeUnit'
+        - name: meters
+          in: query
+          schema: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/currentPowerFlow:
+    get:
+      operationId: getSiteCurrentPowerFlow
+      summary: Site Power Flow
+      description: Retrieves the current power flow between all elements of the site (PV array, load, grid, storage).
+      tags: [Sites]
+      parameters: [ { $ref: '#/components/parameters/siteId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/storageData:
+    get:
+      operationId: getSiteStorageData
+      summary: Storage Information
+      description: Returns detailed storage/battery information from batteries over a time range.
+      tags: [Storage]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+        - name: serials
+          in: query
+          schema: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/envBenefits:
+    get:
+      operationId: getSiteEnvBenefits
+      summary: Site Environmental Benefits
+      description: Returns all environmental benefits based on site energy production (CO2 saved, trees planted, light bulbs).
+      tags: [Sites]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - name: systemUnits
+          in: query
+          schema: { type: string, enum: [Metrics, Imperial] }
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/inventory:
+    get:
+      operationId: getSiteInventory
+      summary: Site Inventory
+      description: Returns the inventory of SolarEdge equipment in the site, including inverters, batteries, meters, gateways and sensors.
+      tags: [Equipment]
+      parameters: [ { $ref: '#/components/parameters/siteId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /equipment/{siteId}/list:
+    get:
+      operationId: getEquipmentList
+      summary: Components List
+      description: Returns a list of inverters/SMIs in the specific site.
+      tags: [Equipment]
+      parameters: [ { $ref: '#/components/parameters/siteId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /equipment/{siteId}/{serialNumber}/data:
+    get:
+      operationId: getEquipmentData
+      summary: Inverter Technical Data
+      description: Returns specific inverter data for a given timeframe.
+      tags: [Equipment]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/serialNumber'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /equipment/{siteId}/{serialNumber}/changeLog:
+    get:
+      operationId: getEquipmentChangeLog
+      summary: Equipment Change Log
+      description: Returns a list of equipment component replacements ordered by date for a given component serial number.
+      tags: [Equipment]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/serialNumber'
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/meters:
+    get:
+      operationId: getSiteMeters
+      summary: Site Meters
+      description: Returns for each meter on site its lifetime energy reading, metadata and the associated component.
+      tags: [Equipment]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/timeUnit'
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /equipment/{siteId}/sensors:
+    get:
+      operationId: getSiteSensorList
+      summary: Get Sensor List
+      description: Returns a list of all the sensors in the site, and the device to which they are connected.
+      tags: [Equipment]
+      parameters: [ { $ref: '#/components/parameters/siteId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /site/{siteId}/sensors:
+    get:
+      operationId: getSiteSensorData
+      summary: Get Sensor Data
+      description: Returns the data of all the sensors in the site, by the gateway they are connected to.
+      tags: [Equipment]
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/startDate'
+        - $ref: '#/components/parameters/endDate'
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /accounts/list:
+    get:
+      operationId: getAccountsList
+      summary: Accounts List
+      description: Returns the account and list of sub-accounts related to the given token, for accounts with a sub-account hierarchy.
+      tags: [Account]
+      parameters:
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/startIndex'
+        - name: searchText
+          in: query
+          schema: { type: string }
+        - name: sortProperty
+          in: query
+          schema: { type: string }
+        - name: sortOrder
+          in: query
+          schema: { type: string, enum: [ASC, DESC] }
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /version/current:
+    get:
+      operationId: getCurrentVersion
+      summary: Current Version
+      description: Returns the most updated version number in <major.minor.revision> format.
+      tags: [Version]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /version/supported:
+    get:
+      operationId: getSupportedVersions
+      summary: Supported Versions
+      description: Returns a list of supported version numbers in <major.minor.revision> format.
+      tags: [Version]
+      responses:
+        '200': { $ref: '#/components/responses/OK' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: query
+      name: api_key
+      description: >-
+        API key generated in the SolarEdge monitoring platform under
+        Admin > Site Access > API Access. Passed as the api_key query parameter
+        on every request.
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: The site identifier.
+      schema: { type: integer }
+    serialNumber:
+      name: serialNumber
+      in: path
+      required: true
+      description: The inverter/component short serial number.
+      schema: { type: string }
+    startDate:
+      name: startDate
+      in: query
+      required: true
+      description: Start date in yyyy-MM-dd format.
+      schema: { type: string, format: date }
+    endDate:
+      name: endDate
+      in: query
+      required: true
+      description: End date in yyyy-MM-dd format.
+      schema: { type: string, format: date }
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema: { type: string }
+    endTime:
+      name: endTime
+      in: query
+      required: true
+      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema: { type: string }
+    timeUnit:
+      name: timeUnit
+      in: query
+      description: Aggregation granularity.
+      schema: { type: string, enum: [QUARTER_OF_AN_HOUR, HOUR, DAY, WEEK, MONTH, YEAR] }
+    size:
+      name: size
+      in: query
+      description: The maximum number of items returned in a page (max 100).
+      schema: { type: integer, default: 100, maximum: 100 }
+    startIndex:
+      name: startIndex
+      in: query
+      description: The first item index to return (zero-based), for pagination.
+      schema: { type: integer, default: 0 }
+  responses:
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema: { type: object }
+    Unauthorized:
+      description: Authentication failed (missing or invalid api_key).
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+          example:
+            type: https://se-api.stoplight.io/docs/monitoring
+            title: Unauthorized - Authentication Failed
+            status: 401
+            detail: Invalid API key
+            instance: null
+            properties: { traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770 }
+    Forbidden:
+      description: The account is not permitted to access the requested resource.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    TooManyRequests:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+  schemas:
+    Problem:
+      type: object
+      description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: [string, 'null'] }
+        properties:
+          type: object
+          properties:
+            traceId: { type: string }

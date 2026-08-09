@@ -1,0 +1,123 @@
+openapi: 3.1.0
+info:
+  title: SolarEdge Monitoring Account API
+  version: '1.0'
+  description: Read-only REST API over the SolarEdge monitoring platform. Exposes photovoltaic site inventory, energy and power production, storage/battery data, environmental benefits, equipment telemetry, meters and sensors for sites the calling account can access. Authentication is by an api_key issued in the SolarEdge monitoring platform (Admin > Site Access > API Access). Responses default to JSON; several endpoints also support CSV and XML via the format/Accept negotiation documented by SolarEdge.
+  contact:
+    name: SolarEdge Support
+    url: https://www.solaredge.com/us/service/support
+  termsOfService: https://www.solaredge.com/us/legal/eula
+servers:
+- url: https://monitoringapi.solaredge.com
+  description: SolarEdge Monitoring API production host
+security:
+- api_key: []
+tags:
+- name: Account
+  description: Account hierarchy.
+paths:
+  /accounts/list:
+    get:
+      operationId: getAccountsList
+      summary: Accounts List
+      description: Returns the account and list of sub-accounts related to the given token, for accounts with a sub-account hierarchy.
+      tags:
+      - Account
+      parameters:
+      - $ref: '#/components/parameters/size'
+      - $ref: '#/components/parameters/startIndex'
+      - name: searchText
+        in: query
+        schema:
+          type: string
+      - name: sortProperty
+        in: query
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
+    Unauthorized:
+      description: Authentication failed (missing or invalid api_key).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://se-api.stoplight.io/docs/monitoring
+            title: Unauthorized - Authentication Failed
+            status: 401
+            detail: Invalid API key
+            instance: null
+            properties:
+              traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
+    TooManyRequests:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+  parameters:
+    startIndex:
+      name: startIndex
+      in: query
+      description: The first item index to return (zero-based), for pagination.
+      schema:
+        type: integer
+        default: 0
+    size:
+      name: size
+      in: query
+      description: The maximum number of items returned in a page (max 100).
+      schema:
+        type: integer
+        default: 100
+        maximum: 100
+  schemas:
+    Problem:
+      type: object
+      description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type:
+          - string
+          - 'null'
+        properties:
+          type: object
+          properties:
+            traceId:
+              type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated in the SolarEdge monitoring platform under Admin > Site Access > API Access. Passed as the api_key query parameter on every request.

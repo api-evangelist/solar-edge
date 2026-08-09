@@ -1,0 +1,28 @@
+generated: '2026-07-21'
+method: searched
+source: https://api-docs.solaredge.com/
+description: >-
+  Versioning and lifecycle posture for the SolarEdge Monitoring API. The API is
+  versioned as major.minor.revision and exposes two discovery endpoints so clients
+  can detect the current and supported versions at runtime. No public status page,
+  formal deprecation policy, RFC 8594 Sunset header support, or published uptime SLA
+  was located for the Monitoring API during this pass.
+versioning:
+  scheme: major.minor.revision, discoverable at runtime
+  discovery_endpoints:
+    - {path: /version/current, description: Returns the most up-to-date API version.}
+    - {path: /version/supported, description: Returns the list of supported API versions.}
+  docs: https://api-docs.solaredge.com/
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No documented deprecation policy or Sunset/Deprecation response headers were found.
+status_page: null
+status_note: >-
+  No dedicated public API status page was located. Operational issues are handled
+  through SolarEdge support (https://www.solaredge.com/us/service/support).
+sla:
+  url: null
+  note: No public uptime-target SLA is published for the Monitoring API.
+deprecated_operations:
+  note: No operations in openapi/solaredge-monitoring-openapi.yml are flagged deprecated.

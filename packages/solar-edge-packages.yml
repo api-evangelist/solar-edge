@@ -1,0 +1,16 @@
+generated: '2026-07-21'
+method: searched
+source: https://api-docs.solaredge.com/ and public package registries
+description: >-
+  No first-party SolarEdge client library / SDK for the Monitoring API was located
+  during this pass. SolarEdge documents the REST API directly and does not publish an
+  official SDK under its GitHub organization (github.com/SolarEdge). Several community
+  wrappers exist on PyPI/npm but none are maintained by SolarEdge; they are not listed
+  here to avoid asserting first-party status, and no SDKs rating pointer is emitted.
+packages: []
+gap:
+  official_sdk: false
+  note: >-
+    Integrations rely on direct REST calls or third-party community libraries. If
+    SolarEdge publishes an official SDK, add it here with official:true and wire an
+    SDKs pointer.

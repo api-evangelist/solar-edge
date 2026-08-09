@@ -1,0 +1,26 @@
+generated: '2026-07-21'
+method: probed
+source: live probe of /.well-known/* (2026-07-21)
+description: >-
+  Probe of the /.well-known/ discovery surface for SolarEdge. The API host
+  (monitoringapi.solaredge.com) gates every path behind the api_key, so all
+  /.well-known/ paths return 401 rather than a document. The docs host
+  (api-docs.solaredge.com, Stoplight) returns 404 for security.txt. The marketing
+  host (www.solaredge.com) is behind a Cloudflare challenge (403). No machine-readable
+  discovery document (security.txt, OpenID configuration, oauth-authorization-server,
+  api-catalog, ai-plugin.json) was found. Absence is recorded as valid data; no
+  WellKnown or SecurityTxt pointer is emitted.
+hosts:
+  - host: https://monitoringapi.solaredge.com
+    documents:
+      - {path: /.well-known/security.txt, status: 401}
+      - {path: /.well-known/openid-configuration, status: 401}
+      - {path: /.well-known/oauth-authorization-server, status: 401}
+      - {path: /.well-known/api-catalog, status: 401}
+      - {path: /.well-known/ai-plugin.json, status: 401}
+  - host: https://api-docs.solaredge.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+  - host: https://www.solaredge.com
+    documents:
+      - {path: /.well-known/security.txt, status: 403, note: Cloudflare challenge}

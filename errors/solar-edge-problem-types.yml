@@ -1,0 +1,54 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  Live probe of https://monitoringapi.solaredge.com (2026-07-21) plus the
+  SolarEdge Monitoring API reference at https://api-docs.solaredge.com/
+format: rfc9457
+description: >-
+  The SolarEdge Monitoring API returns errors as RFC 9457 (problem+json). This was
+  confirmed by fetching the live host without a valid key: the 401 body carries the
+  members type, title, status, detail, instance and a properties.traceId. The envelope
+  below is captured verbatim from the live 401; the additional status codes are the
+  standard failure modes the reference documents for the read-only endpoints.
+envelope:
+  media_type: application/problem+json
+  members:
+    type: A URI reference identifying the problem type (points at the SolarEdge docs).
+    title: Short, human-readable summary of the problem type.
+    status: The HTTP status code.
+    detail: Human-readable explanation specific to this occurrence.
+    instance: URI/identifier for this specific occurrence (may be null).
+    properties: Extension members; includes traceId for support correlation.
+  example:
+    type: https://se-api.stoplight.io/docs/monitoring
+    title: Unauthorized - Authentication Failed
+    status: 401
+    detail: Invalid API key
+    instance: null
+    properties:
+      traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
+problems:
+  - status: 401
+    title: Unauthorized - Authentication Failed
+    detail: Invalid API key
+    cause: The api_key query parameter is missing, malformed, or not valid for the account.
+    verified: true
+    source: 'GET https://monitoringapi.solaredge.com/sites/list?api_key=INVALID -> 401'
+  - status: 403
+    title: Forbidden
+    cause: The authenticated account is not permitted to access the requested site or resource.
+    verified: false
+  - status: 400
+    title: Bad Request
+    cause: A required query parameter is missing or a date/time range is invalid or too large.
+    verified: false
+  - status: 404
+    title: Not Found
+    cause: The requested site, equipment serial number, or route does not exist.
+    verified: false
+  - status: 429
+    title: Too Many Requests
+    cause: >-
+      The daily query quota for the api_key/site (or the concurrent-request limit)
+      has been exceeded. See rate-limits/solaredge-rate-limits.yml.
+    verified: false
