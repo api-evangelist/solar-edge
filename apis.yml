@@ -135,6 +135,8 @@ apis:
   - type: Documentation
     url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
 common:
+- type: Overlay
+  url: overlays/solar-edge-monitoring-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/solar-edge-agentic-access.yml
 - type: DomainSecurity
