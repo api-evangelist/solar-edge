@@ -1,0 +1,188 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SolarEdge Monitoring Accounts Sites API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Site List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/sites/list",
+            "params": [
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of sites to return per page (max 100)"
+              },
+              {
+                "name": "startIndex",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "searchText",
+                "value": "",
+                "type": "query",
+                "description": "Free-text search across Name, Notes, Email, Country, State, City, Zip, Full address"
+              },
+              {
+                "name": "sortProperty",
+                "value": "",
+                "type": "query",
+                "description": "Property to sort results by"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of site statuses to filter by, or \"All\""
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of sites associated with the account token. Sites can be filtered by status and sorted by various properties."
+        },
+        {
+          "info": {
+            "name": "Get Site Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/details",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a single site including location, configuration, and contact info."
+        },
+        {
+          "info": {
+            "name": "Get Site Data Period",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/dataPeriod",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              }
+            ]
+          },
+          "docs": "Returns the site energy production start and end dates (the period for which data is available)."
+        },
+        {
+          "info": {
+            "name": "Get Site Overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/overview",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              }
+            ]
+          },
+          "docs": "Returns current site power and summary energy metrics including today, month, and lifetime energy totals as well as revenue where available. Supports comma-separated siteId for bulk requests (up to 100 sites)."
+        },
+        {
+          "info": {
+            "name": "Get Site Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/image",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "maxWidth",
+                "value": "",
+                "type": "query",
+                "description": "Maximum image width in pixels"
+              },
+              {
+                "name": "maxHeight",
+                "value": "",
+                "type": "query",
+                "description": "Maximum image height in pixels"
+              },
+              {
+                "name": "hash",
+                "value": "",
+                "type": "query",
+                "description": "Image hash for cache validation"
+              }
+            ]
+          },
+          "docs": "Returns the site image uploaded by the user."
+        },
+        {
+          "info": {
+            "name": "Get Site Installer Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/installerImage",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              }
+            ]
+          },
+          "docs": "Returns the installer logo image for the site."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SolarEdge Monitoring Accounts Power API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Power",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Site Power",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/power",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              }
+            ]
+          },
+          "docs": "Returns power measurements at 15-minute resolution for the specified time frame. Maximum date range is 1 month (31 days)."
+        },
+        {
+          "info": {
+            "name": "Get Site Power Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/powerDetails",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "meters",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of meter types to include in the response"
+              }
+            ]
+          },
+          "docs": "Returns detailed power measurements including individual meter types (production, consumption, self-consumption, feed-in, purchased). Maximum date range is 1 month (31 days)."
+        },
+        {
+          "info": {
+            "name": "Get Current Power Flow",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/currentPowerFlow",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              }
+            ]
+          },
+          "docs": "Returns the current power flow for a site, showing who is producing, consuming, and exporting power (PV, Load, Grid, Storage)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

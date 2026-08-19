@@ -1,0 +1,817 @@
+{
+  "item": [
+    {
+      "id": "17a64894-5638-4844-8f94-ce78b6a12491",
+      "name": "Energy",
+      "description": {
+        "content": "Energy production measurements and time-frame energy",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "809d5a47-5200-4a2f-8624-6ef1989b6aa7",
+          "name": "Get Site Energy",
+          "request": {
+            "name": "Get Site Energy",
+            "description": {
+              "content": "Returns aggregated energy measurements for a site over a specified date range. Results match the Site Dashboard energy calculation. Supports comma-separated siteId for bulk requests (up to 100 sites).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "energy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<date>",
+                  "description": "(Required) Start date in YYYY-MM-DD format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<date>",
+                  "description": "(Required) End date in YYYY-MM-DD format"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeUnit",
+                  "value": "DAY",
+                  "description": "Time aggregation unit for energy data"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6ec32ac0-954e-4699-81ea-beb7bde699f8",
+              "name": "Aggregated energy data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "energy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2024-01-31"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"energy\": {\n    \"timeUnit\": \"string\",\n    \"unit\": \"string\",\n    \"measuredBy\": \"string\",\n    \"values\": [\n      {\n        \"date\": \"string\",\n        \"value\": 183.34360058730792\n      },\n      {\n        \"date\": \"string\",\n        \"value\": 7749.094640485669\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73d92a98-9174-45aa-9233-7810f0cc99e2",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "energy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2024-01-31"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 839,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89c0dc70-9101-4b69-8db2-b06058f0a9b0",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "energy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2024-01-31"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 839,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3a046d8d-2cc2-47c2-b46d-823912a0b2bc",
+          "name": "Get Site Time Frame Energy",
+          "request": {
+            "name": "Get Site Time Frame Energy",
+            "description": {
+              "content": "Returns on-grid energy for the requested period. In sites with storage or backup, results may differ from the Site Dashboard. Use the Site Energy endpoint for dashboard-matching results. Supports bulk siteId (up to 100).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "timeFrameEnergy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<date>",
+                  "description": "(Required) Start date in YYYY-MM-DD format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<date>",
+                  "description": "(Required) End date in YYYY-MM-DD format"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeUnit",
+                  "value": "DAY",
+                  "description": "Time aggregation unit for energy data"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ae7440a0-ee33-4068-bf5b-93fd52e5c86a",
+              "name": "Time-frame energy data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "timeFrameEnergy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"energy\": {\n    \"timeUnit\": \"string\",\n    \"unit\": \"string\",\n    \"measuredBy\": \"string\",\n    \"values\": [\n      {\n        \"date\": \"string\",\n        \"value\": 9394.810437492877\n      },\n      {\n        \"date\": \"string\",\n        \"value\": 866.3338220855699\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6edf8161-a423-4181-9cc1-b330a5fbfbae",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "timeFrameEnergy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 839,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8ea8cb4-3f6e-46b2-8d6b-70827220ed7f",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "timeFrameEnergy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 839,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "670abfb8-6023-4214-8b95-bbb5943a52da",
+          "name": "Get Site Energy Details",
+          "request": {
+            "name": "Get Site Energy Details",
+            "description": {
+              "content": "Returns detailed energy breakdown by meter type and time unit for the specified period. Maximum date range varies by time unit.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "energyDetails"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<string>",
+                  "description": "(Required) Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<string>",
+                  "description": "(Required) End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeUnit",
+                  "value": "DAY",
+                  "description": "Time aggregation unit for energy data"
+                },
+                {
+                  "disabled": false,
+                  "key": "meters",
+                  "value": "<string>",
+                  "description": "Comma-separated list of meter types to include in the response"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "92382c83-aa4c-430c-bc07-f310807d3b48",
+              "name": "Detailed energy breakdown",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "energyDetails"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "2024-01-01 00:00:00"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "2024-01-31 23:59:59"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,SelfConsumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"energyDetails\": {\n    \"timeUnit\": \"string\",\n    \"unit\": \"string\",\n    \"meters\": [\n      {\n        \"type\": \"FeedIn\",\n        \"values\": [\n          {\n            \"date\": \"string\",\n            \"value\": 1241.3254710575584\n          },\n          {\n            \"date\": \"string\",\n            \"value\": 4672.766446119162\n          }\n        ]\n      },\n      {\n        \"type\": \"SelfConsumption\",\n        \"values\": [\n          {\n            \"date\": \"string\",\n            \"value\": 5106.738073828806\n          },\n          {\n            \"date\": \"string\",\n            \"value\": 4370.437533564765\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdf72aca-681f-47f0-9ed9-bd1c00023230",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "energyDetails"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "2024-01-01 00:00:00"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "2024-01-31 23:59:59"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,SelfConsumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 839,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83e687a6-0e69-492b-90f7-d0a777339ffb",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "energyDetails"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "2024-01-01 00:00:00"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "2024-01-31 23:59:59"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,SelfConsumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 839,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5c99c779-02ed-4126-a0fa-bb2f22cad01c",
+    "name": "SolarEdge Monitoring Accounts Energy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.\n\nContact Support:\n Name: SolarEdge Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

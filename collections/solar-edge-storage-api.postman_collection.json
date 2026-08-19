@@ -1,0 +1,299 @@
+{
+  "item": [
+    {
+      "id": "5d94f222-058b-41af-b04f-27ec29c6c170",
+      "name": "Storage",
+      "description": {
+        "content": "Battery storage data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1209f23c-867b-43fb-82db-0ab85193ccb3",
+          "name": "Get Storage Data",
+          "request": {
+            "name": "Get Storage Data",
+            "description": {
+              "content": "Returns battery state of energy (SoE), power, and lifetime energy for storage devices at a site. Maximum date range is 1 week (7 days).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "storageData"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<string>",
+                  "description": "(Required) Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<string>",
+                  "description": "(Required) End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "serials",
+                  "value": "<string>",
+                  "description": "Comma-separated list of battery serial numbers to filter results"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7b94953c-f526-4898-a5af-79cfdc2f95ee",
+              "name": "Battery storage measurements",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "storageData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serials",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"storageData\": {\n    \"batteryCount\": 9099,\n    \"batteries\": [\n      {\n        \"nameplate\": 740.9328843453544,\n        \"serialNumber\": \"string\",\n        \"modelNumber\": \"string\",\n        \"telemetries\": [\n          {\n            \"timeStamp\": \"string\",\n            \"power\": 9039.133442847993,\n            \"batteryState\": 5061,\n            \"lifeTimeEnergyCharged\": 8697.599827404216,\n            \"lifeTimeEnergyDischarged\": 1788.420609264897,\n            \"fullPackEnergyAvailable\": 9442.978557684168,\n            \"internalTemp\": 6560.869439757865,\n            \"ACGridCharging\": 2462.365251418034\n          },\n          {\n            \"timeStamp\": \"string\",\n            \"power\": 8113.164241065474,\n            \"batteryState\": 5197,\n            \"lifeTimeEnergyCharged\": 5753.385348779277,\n            \"lifeTimeEnergyDischarged\": 5974.592266043489,\n            \"fullPackEnergyAvailable\": 262.7307736337947,\n            \"internalTemp\": 5829.2376471882035,\n            \"ACGridCharging\": 2302.653016893793\n          }\n        ]\n      },\n      {\n        \"nameplate\": 9797.972529188892,\n        \"serialNumber\": \"string\",\n        \"modelNumber\": \"string\",\n        \"telemetries\": [\n          {\n            \"timeStamp\": \"string\",\n            \"power\": 4108.483518386304,\n            \"batteryState\": 9127,\n            \"lifeTimeEnergyCharged\": 7891.9063472284415,\n            \"lifeTimeEnergyDischarged\": 6830.278651208332,\n            \"fullPackEnergyAvailable\": 5411.521595426362,\n            \"internalTemp\": 641.031834487753,\n            \"ACGridCharging\": 3618.4010510565336\n          },\n          {\n            \"timeStamp\": \"string\",\n            \"power\": 998.227057594453,\n            \"batteryState\": 4505,\n            \"lifeTimeEnergyCharged\": 5852.080617307016,\n            \"lifeTimeEnergyDischarged\": 8845.831189474658,\n            \"fullPackEnergyAvailable\": 5776.186030541504,\n            \"internalTemp\": 8595.7300382972,\n            \"ACGridCharging\": 8974.290654944363\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c238fe24-1250-4e67-840d-3fef1deb89fd",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "storageData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serials",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5004,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4829d368-0c21-4710-96d4-a0656061cd24",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "storageData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serials",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5004,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0b7265dc-58f9-4298-a757-51268547dc9f",
+    "name": "SolarEdge Monitoring Accounts Storage API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.\n\nContact Support:\n Name: SolarEdge Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

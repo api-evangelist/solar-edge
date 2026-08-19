@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SolarEdge Monitoring Accounts Storage API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Storage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Storage Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/storageData",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "serials",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of battery serial numbers to filter results"
+              }
+            ]
+          },
+          "docs": "Returns battery state of energy (SoE), power, and lifetime energy for storage devices at a site. Maximum date range is 1 week (7 days)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

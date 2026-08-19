@@ -1,0 +1,1347 @@
+{
+  "item": [
+    {
+      "id": "88601d8d-b5f8-466d-997f-6b3c0a11a2c1",
+      "name": "Sites",
+      "description": {
+        "content": "Site list and site-level data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1f591b2a-9657-41e6-bd95-284eb0908f64",
+          "name": "Get Site List",
+          "request": {
+            "name": "Get Site List",
+            "description": {
+              "content": "Returns a paginated list of sites associated with the account token. Sites can be filtered by status and sorted by various properties.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sites",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "100",
+                  "description": "Number of sites to return per page (max 100)"
+                },
+                {
+                  "disabled": false,
+                  "key": "startIndex",
+                  "value": "0",
+                  "description": "Starting index for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "searchText",
+                  "value": "<string>",
+                  "description": "Free-text search across Name, Notes, Email, Country, State, City, Zip, Full address"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property to sort results by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "ASC",
+                  "description": "Sort order"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Comma-separated list of site statuses to filter by, or \"All\""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ca4ca289-f05d-4ec7-94f3-8aa972b9cfd2",
+              "name": "Successful response with site list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sites",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active,Pending"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sites\": {\n    \"count\": 1799,\n    \"list\": [\n      {\n        \"id\": 3348,\n        \"name\": \"string\",\n        \"accountId\": 7419,\n        \"status\": \"Disabled\",\n        \"peakPower\": 5401.293510384309,\n        \"lastUpdateTime\": \"string\",\n        \"installationDate\": \"1971-11-19\",\n        \"ptoDate\": \"1973-07-05\",\n        \"notes\": \"string\",\n        \"type\": \"string\",\n        \"location\": {\n          \"country\": \"string\",\n          \"state\": \"string\",\n          \"city\": \"string\",\n          \"address\": \"string\",\n          \"address2\": \"string\",\n          \"zip\": \"string\",\n          \"timeZone\": \"string\",\n          \"countryCode\": \"string\",\n          \"stateCode\": \"string\"\n        },\n        \"primaryModule\": {\n          \"manufacturerName\": \"string\",\n          \"modelName\": \"string\",\n          \"maximumPower\": 5020.6862492029,\n          \"temperatureCoef\": 5765.427931379323\n        },\n        \"uris\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"publicSettings\": {\n          \"isPublic\": false\n        }\n      },\n      {\n        \"id\": 8304,\n        \"name\": \"string\",\n        \"accountId\": 7273,\n        \"status\": \"Active\",\n        \"peakPower\": 8652.42255789297,\n        \"lastUpdateTime\": \"string\",\n        \"installationDate\": \"1968-01-06\",\n        \"ptoDate\": \"1968-11-08\",\n        \"notes\": \"string\",\n        \"type\": \"string\",\n        \"location\": {\n          \"country\": \"string\",\n          \"state\": \"string\",\n          \"city\": \"string\",\n          \"address\": \"string\",\n          \"address2\": \"string\",\n          \"zip\": \"string\",\n          \"timeZone\": \"string\",\n          \"countryCode\": \"string\",\n          \"stateCode\": \"string\"\n        },\n        \"primaryModule\": {\n          \"manufacturerName\": \"string\",\n          \"modelName\": \"string\",\n          \"maximumPower\": 6011.54826403997,\n          \"temperatureCoef\": 3825.008828946931\n        },\n        \"uris\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"publicSettings\": {\n          \"isPublic\": true\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dfca02f8-e4f1-45a8-9f90-0afd2d19d934",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sites",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active,Pending"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ea72083-ffec-44e4-96c6-53da412b0f54",
+              "name": "Rate limit exceeded. The API allows up to 3 concurrent requests per source IP, and 300 requests per day per account token and per site.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sites",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active,Pending"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "59f7f8a4-3ff8-42ad-8a81-3b14ba4802c8",
+          "name": "Get Site Details",
+          "request": {
+            "name": "Get Site Details",
+            "description": {
+              "content": "Returns detailed information for a single site including location, configuration, and contact info.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "details"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "389ff999-3d8c-4c02-99c2-9a9423da0de0",
+              "name": "Site details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"details\": {\n    \"id\": 7115,\n    \"name\": \"string\",\n    \"accountId\": 913,\n    \"status\": \"Disabled\",\n    \"peakPower\": 6274.905713098921,\n    \"lastUpdateTime\": \"string\",\n    \"installationDate\": \"1984-12-12\",\n    \"ptoDate\": \"2009-07-14\",\n    \"notes\": \"string\",\n    \"type\": \"string\",\n    \"location\": {\n      \"country\": \"string\",\n      \"state\": \"string\",\n      \"city\": \"string\",\n      \"address\": \"string\",\n      \"address2\": \"string\",\n      \"zip\": \"string\",\n      \"timeZone\": \"string\",\n      \"countryCode\": \"string\",\n      \"stateCode\": \"string\"\n    },\n    \"primaryModule\": {\n      \"manufacturerName\": \"string\",\n      \"modelName\": \"string\",\n      \"maximumPower\": 3027.686630636721,\n      \"temperatureCoef\": 9674.979864964434\n    },\n    \"uris\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"publicSettings\": {\n      \"isPublic\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f378211-0f49-409c-83e7-e144bc1f285e",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e228029e-0e90-4666-bdc0-0677356da167",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a8c54d69-a35a-4b25-8c63-c9b97aa0b8f9",
+          "name": "Get Site Data Period",
+          "request": {
+            "name": "Get Site Data Period",
+            "description": {
+              "content": "Returns the site energy production start and end dates (the period for which data is available).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "dataPeriod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a798bf80-334b-4f8e-a512-9514b99beca5",
+              "name": "Data period for the site",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "dataPeriod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataPeriod\": {\n    \"startDate\": \"1978-03-11\",\n    \"endDate\": \"2003-01-30\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7fe6805-a0b8-4216-b3a2-9a72b3c93ae0",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "dataPeriod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "915b9fb8-1fa0-4fa4-b504-763246efbd54",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "dataPeriod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "12bd34d2-a4df-4243-8f1b-2b797dbd1dbb",
+          "name": "Get Site Overview",
+          "request": {
+            "name": "Get Site Overview",
+            "description": {
+              "content": "Returns current site power and summary energy metrics including today, month, and lifetime energy totals as well as revenue where available. Supports comma-separated siteId for bulk requests (up to 100 sites).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "overview"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da1cc462-eeee-4277-8b71-92d5677ab3eb",
+              "name": "Site overview with current power and energy summary",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"overview\": {\n    \"lastUpdateTime\": \"string\",\n    \"lifeTimeData\": {\n      \"energy\": 4896.09127877624,\n      \"revenue\": 1292.9629798539665\n    },\n    \"lastYearData\": {\n      \"energy\": 2843.3998925235646,\n      \"revenue\": 5025.049747452157\n    },\n    \"lastMonthData\": {\n      \"energy\": 7655.493281990961,\n      \"revenue\": 1300.2097009490067\n    },\n    \"lastDayData\": {\n      \"energy\": 5448.135715933931,\n      \"revenue\": 4578.423450330156\n    },\n    \"currentPower\": {\n      \"power\": 5890.328132373716\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0974650-5965-47d0-ba81-88b273237aff",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e0891ef2-a252-4184-83d5-5adbea4d0d76",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "078648e8-c228-4510-afd9-4c7cac5c78fb",
+          "name": "Get Site Image",
+          "request": {
+            "name": "Get Site Image",
+            "description": {
+              "content": "Returns the site image uploaded by the user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "image"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "maxWidth",
+                  "value": "<integer>",
+                  "description": "Maximum image width in pixels"
+                },
+                {
+                  "disabled": false,
+                  "key": "maxHeight",
+                  "value": "<integer>",
+                  "description": "Maximum image height in pixels"
+                },
+                {
+                  "disabled": false,
+                  "key": "hash",
+                  "value": "<integer>",
+                  "description": "Image hash for cache validation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "image/jpeg"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c5f4f98d-efed-4a30-b443-ddfe9cf45ff3",
+              "name": "Site image binary",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "image"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maxWidth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "maxHeight",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "hash",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "image/jpeg"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "image/jpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6ebd7f1e-7b95-4d8e-a5ec-52aabff54124",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "image"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maxWidth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "maxHeight",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "hash",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c82ad40-f616-4f9c-9b8b-6342e355ade5",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "image"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maxWidth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "maxHeight",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "hash",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "68ca2263-1d1a-482e-ace3-369c4ed7eccc",
+          "name": "Get Site Installer Image",
+          "request": {
+            "name": "Get Site Installer Image",
+            "description": {
+              "content": "Returns the installer logo image for the site.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "installerImage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "image/jpeg"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7bdc23cb-ac01-49e3-99e9-cbe9e741afe0",
+              "name": "Installer logo image binary",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "installerImage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "image/jpeg"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "image/jpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dc2a52e9-d252-47fc-8bbd-346a9e9e75b1",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "installerImage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6cb045d-6939-43b4-a5ab-e05a57d1b2fd",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "installerImage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2008,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "082dc659-ff01-408a-b7b6-1d4d08676307",
+    "name": "SolarEdge Monitoring Accounts Sites API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.\n\nContact Support:\n Name: SolarEdge Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

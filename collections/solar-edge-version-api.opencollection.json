@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SolarEdge Monitoring Accounts Version API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Version",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Current API Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/version/current"
+          },
+          "docs": "Returns the current version number of the SolarEdge Monitoring API."
+        },
+        {
+          "info": {
+            "name": "Get Supported API Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/version/supported"
+          },
+          "docs": "Returns the list of all supported API version numbers."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

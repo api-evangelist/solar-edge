@@ -1,0 +1,263 @@
+{
+  "item": [
+    {
+      "id": "b253dbae-4ced-4b7d-8d54-a1f5ba7aa58c",
+      "name": "Environmental",
+      "description": {
+        "content": "Environmental benefit metrics",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f2b61ea9-3ac6-4297-a64c-482a676a1b4f",
+          "name": "Get Environmental Benefits",
+          "request": {
+            "name": "Get Environmental Benefits",
+            "description": {
+              "content": "Returns environmental benefit metrics for the site including CO2 savings, trees planted equivalent, and light bulbs equivalent based on energy production.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "envBenefits"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "systemUnits",
+                  "value": "<string>",
+                  "description": "Unit system for environmental metrics"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "824ec3f4-4be2-4c33-9f7c-63e93b196e0a",
+              "name": "Environmental benefit metrics",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "envBenefits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "systemUnits",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"envBenefits\": {\n    \"unit\": \"string\",\n    \"gasEmissionSaved\": {\n      \"units\": \"string\",\n      \"co2\": 4471.600827915951,\n      \"so2\": 7025.324228004284,\n      \"nox\": 1940.4115838976777\n    },\n    \"treesPlanted\": 3460.625560178836,\n    \"lightBulbs\": 7001.1302620400775\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfa72e3c-3dc6-4dc1-be5f-8f67590a9753",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "envBenefits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "systemUnits",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2595,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b12eedaf-3def-4650-971d-055f0ae6e405",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "envBenefits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "systemUnits",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2595,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0c015afc-1c33-4f5b-92a1-4e592d6a4112",
+    "name": "SolarEdge Monitoring Accounts Environmental API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.\n\nContact Support:\n Name: SolarEdge Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,726 @@
+{
+  "item": [
+    {
+      "id": "612c8abd-1fb9-4c63-bb2d-ba3bed973408",
+      "name": "Power",
+      "description": {
+        "content": "Power measurements and power flow",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "501ec99f-f2dc-4cd2-bd9b-12805af57916",
+          "name": "Get Site Power",
+          "request": {
+            "name": "Get Site Power",
+            "description": {
+              "content": "Returns power measurements at 15-minute resolution for the specified time frame. Maximum date range is 1 month (31 days).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "power"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<string>",
+                  "description": "(Required) Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<string>",
+                  "description": "(Required) End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "12b7f09b-ac52-48e2-b805-132cf1c6b62a",
+              "name": "Power measurements at 15-minute intervals",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "2024-01-01 00:00:00"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "2024-01-31 23:59:59"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"power\": {\n    \"timeUnit\": \"string\",\n    \"unit\": \"string\",\n    \"measuredBy\": \"string\",\n    \"values\": [\n      {\n        \"date\": \"string\",\n        \"value\": 1308.3028323965873\n      },\n      {\n        \"date\": \"string\",\n        \"value\": 8245.736380475071\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8110961-bd39-4219-9d4d-b85e6ee808dd",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "2024-01-01 00:00:00"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "2024-01-31 23:59:59"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 268,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33ff5cb6-8ada-43a4-a634-e5bbcd6dced0",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "2024-01-01 00:00:00"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "2024-01-31 23:59:59"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 268,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f44ce0a-57b4-43c8-898c-04de137baf2b",
+          "name": "Get Site Power Details",
+          "request": {
+            "name": "Get Site Power Details",
+            "description": {
+              "content": "Returns detailed power measurements including individual meter types (production, consumption, self-consumption, feed-in, purchased). Maximum date range is 1 month (31 days).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "powerDetails"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<string>",
+                  "description": "(Required) Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<string>",
+                  "description": "(Required) End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "meters",
+                  "value": "<string>",
+                  "description": "Comma-separated list of meter types to include in the response"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54b042e4-6ad5-461d-9ca1-59d73e50c50d",
+              "name": "Detailed power measurements",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "powerDetails"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,SelfConsumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"powerDetails\": {\n    \"timeUnit\": \"string\",\n    \"unit\": \"string\",\n    \"meters\": [\n      {\n        \"type\": \"SelfConsumption\",\n        \"values\": [\n          {\n            \"date\": \"string\",\n            \"value\": 8116.584909361728\n          },\n          {\n            \"date\": \"string\",\n            \"value\": 6743.369466317778\n          }\n        ]\n      },\n      {\n        \"type\": \"SelfConsumption\",\n        \"values\": [\n          {\n            \"date\": \"string\",\n            \"value\": 8601.463350904976\n          },\n          {\n            \"date\": \"string\",\n            \"value\": 4405.670493973565\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "feaeef02-4b1e-4e4e-8cb8-ea7573bb06da",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "powerDetails"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,SelfConsumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 268,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70addae4-fcfe-45c0-8b0f-ccb253207f98",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "powerDetails"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,SelfConsumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 268,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da6e8cc0-93f3-4953-bd68-af7eceaeb649",
+          "name": "Get Current Power Flow",
+          "request": {
+            "name": "Get Current Power Flow",
+            "description": {
+              "content": "Returns the current power flow for a site, showing who is producing, consuming, and exporting power (PV, Load, Grid, Storage).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "currentPowerFlow"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1d2472cd-094d-4e32-99f3-4af3101efc54",
+              "name": "Current power flow data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "currentPowerFlow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"siteCurrentPowerFlow\": {\n    \"updateRefreshRate\": 6091,\n    \"unit\": \"string\",\n    \"connections\": [\n      {\n        \"from\": \"string\",\n        \"to\": \"string\"\n      },\n      {\n        \"from\": \"string\",\n        \"to\": \"string\"\n      }\n    ],\n    \"GRID\": {\n      \"status\": \"string\",\n      \"currentPower\": 6808.396089343634\n    },\n    \"LOAD\": {\n      \"status\": \"string\",\n      \"currentPower\": 2279.7647668542654\n    },\n    \"PV\": {\n      \"status\": \"string\",\n      \"currentPower\": 4226.934994015977\n    },\n    \"STORAGE\": {\n      \"status\": \"string\",\n      \"currentPower\": 2350.065476221539,\n      \"chargeLevel\": 5717.130532472117,\n      \"critical\": false\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "232a0229-016a-4642-a3e1-c23a434b5f1a",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "currentPowerFlow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 268,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c4a2b937-b9a4-4b12-a66f-309b5e660575",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "currentPowerFlow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 268,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8449d5ca-fb77-4ed8-aa9c-ba005da969eb",
+    "name": "SolarEdge Monitoring Accounts Power API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.\n\nContact Support:\n Name: SolarEdge Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

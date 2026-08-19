@@ -1,0 +1,296 @@
+{
+  "item": [
+    {
+      "id": "600382d8-7f75-443b-a1a4-33739aeb1acb",
+      "name": "Account",
+      "description": {
+        "content": "Account hierarchy.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cc2fc49d-bee5-4cda-991f-95bea8d12c70",
+          "name": "Accounts List",
+          "request": {
+            "name": "Accounts List",
+            "description": {
+              "content": "Returns the account and list of sub-accounts related to the given token, for accounts with a sub-account hierarchy.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "100",
+                  "description": "The maximum number of items returned in a page (max 100)."
+                },
+                {
+                  "disabled": false,
+                  "key": "startIndex",
+                  "value": "0",
+                  "description": "The first item index to return (zero-based), for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "searchText",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77b7d9ca-c113-45aa-981d-ce354a22151e",
+              "name": "Successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "183d7364-7a17-44ed-94eb-0f5c942664b0",
+              "name": "Authentication failed (missing or invalid api_key).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://se-api.stoplight.io/docs/monitoring\",\n  \"title\": \"Unauthorized - Authentication Failed\",\n  \"status\": 401,\n  \"detail\": \"Invalid API key\",\n  \"instance\": null,\n  \"properties\": {\n    \"traceId\": \"6a5f1ad81a5cfa8cd685fc4401bd7770\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cce04fe2-4f67-4741-8594-13ebf8949b88",
+              "name": "The api_key/site daily query quota has been exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://OKcAgNIsIWrwgRdsXMFjfRcixuhrNg.ylmtT1H7C+S2CjRxupMlcesTQgkNQfoAYOAEkVk+Xh\",\n  \"title\": \"string\",\n  \"status\": 4678,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"properties\": {\n    \"traceId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6aa53e86-165d-4ce0-a8e1-8f277bacb806",
+    "name": "SolarEdge Monitoring Account API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Read-only REST API over the SolarEdge monitoring platform. Exposes photovoltaic site inventory, energy and power production, storage/battery data, environmental benefits, equipment telemetry, meters and sensors for sites the calling account can access. Authentication is by an api_key issued in the SolarEdge monitoring platform (Admin > Site Access > API Access). Responses default to JSON; several endpoints also support CSV and XML via the format/Accept negotiation documented by SolarEdge.\n\nContact Support:\n Name: SolarEdge Support",
+      "type": "text/plain"
+    }
+  }
+}

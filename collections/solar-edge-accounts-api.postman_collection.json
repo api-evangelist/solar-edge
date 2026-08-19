@@ -1,0 +1,238 @@
+{
+  "item": [
+    {
+      "id": "88012921-4b95-4a33-aca1-e27abf0cf62d",
+      "name": "Accounts",
+      "description": {
+        "content": "Account and sub-account management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b6b05a75-04f0-46da-9d78-d7296352de74",
+          "name": "Get Account List",
+          "request": {
+            "name": "Get Account List",
+            "description": {
+              "content": "Returns the account details and list of sub-accounts for the provided API key.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "100",
+                  "description": "Number of accounts per page (max 100)"
+                },
+                {
+                  "disabled": false,
+                  "key": "startIndex",
+                  "value": "0",
+                  "description": "Starting index for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "searchText",
+                  "value": "<string>",
+                  "description": "Text to search across account fields"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortProperty",
+                  "value": "<string>",
+                  "description": "Property to sort results by"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "ASC",
+                  "description": "Sort order"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f894b6b8-238c-4319-9503-7889d12f01d5",
+              "name": "Account list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accounts\": {\n    \"count\": 2217,\n    \"list\": [\n      {\n        \"id\": 5730,\n        \"name\": \"string\",\n        \"location\": {\n          \"country\": \"string\",\n          \"state\": \"string\",\n          \"city\": \"string\",\n          \"address\": \"string\",\n          \"address2\": \"string\",\n          \"zip\": \"string\",\n          \"timeZone\": \"string\",\n          \"countryCode\": \"string\",\n          \"stateCode\": \"string\"\n        },\n        \"companyWebSite\": \"string\",\n        \"contactPerson\": \"string\",\n        \"email\": \"string\",\n        \"phoneNumber\": \"string\",\n        \"faxNumber\": \"string\",\n        \"notes\": \"string\",\n        \"parentId\": 285\n      },\n      {\n        \"id\": 5856,\n        \"name\": \"string\",\n        \"location\": {\n          \"country\": \"string\",\n          \"state\": \"string\",\n          \"city\": \"string\",\n          \"address\": \"string\",\n          \"address2\": \"string\",\n          \"zip\": \"string\",\n          \"timeZone\": \"string\",\n          \"countryCode\": \"string\",\n          \"stateCode\": \"string\"\n        },\n        \"companyWebSite\": \"string\",\n        \"contactPerson\": \"string\",\n        \"email\": \"string\",\n        \"phoneNumber\": \"string\",\n        \"faxNumber\": \"string\",\n        \"notes\": \"string\",\n        \"parentId\": 6172\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "44c13e5b-d511-4522-9c74-6fbb48a40a89",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "startIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortProperty",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3305,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "57311aaa-dc8c-4af1-a5a4-9f1e5b718ff6",
+    "name": "SolarEdge Monitoring Accounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.\n\nContact Support:\n Name: SolarEdge Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SolarEdge Monitoring Accounts Equipment API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Equipment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Site Inventory",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/inventory",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              }
+            ]
+          },
+          "docs": "Returns the inventory of SolarEdge equipment at the site, including inverters/SMIs, batteries, meters, gateways, and sensors with their serial numbers and status."
+        },
+        {
+          "info": {
+            "name": "Get Components List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/equipment/:siteId/list",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the site"
+              }
+            ]
+          },
+          "docs": "Returns a list of inverters and SMIs in the specified site."
+        },
+        {
+          "info": {
+            "name": "Get Inverter Technical Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/inverter/:serialNumber/data",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "serialNumber",
+                "value": "",
+                "type": "path",
+                "description": "Inverter serial number"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              }
+            ]
+          },
+          "docs": "Returns technical performance data for a specific inverter over a given time period. Maximum date range is 1 week (7 days)."
+        },
+        {
+          "info": {
+            "name": "Get Equipment Change Log",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/:serialNumber/changeLog",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "serialNumber",
+                "value": "",
+                "type": "path",
+                "description": "Serial number of the equipment component"
+              }
+            ]
+          },
+          "docs": "Returns a list of equipment component replacements ordered by date. Applicable to inverters, optimizers, batteries, and gateways."
+        },
+        {
+          "info": {
+            "name": "Get Site Meters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/meters",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "timeUnit",
+                "value": "",
+                "type": "query",
+                "description": "Time aggregation unit for energy data"
+              },
+              {
+                "name": "meters",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of meter types to include"
+              }
+            ]
+          },
+          "docs": "Returns meter data for the site including lifetime energy reading, metadata, and the device to which each meter is connected."
+        },
+        {
+          "info": {
+            "name": "Get Sensor List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/equipment/:siteId/sensors",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the site"
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data"
+              }
+            ]
+          },
+          "docs": "Returns a list of all sensors at the site and the device to which they are connected."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

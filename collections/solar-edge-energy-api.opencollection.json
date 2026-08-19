@@ -1,0 +1,143 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SolarEdge Monitoring Accounts Energy API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Energy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Site Energy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/energy",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date in YYYY-MM-DD format"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date in YYYY-MM-DD format"
+              },
+              {
+                "name": "timeUnit",
+                "value": "",
+                "type": "query",
+                "description": "Time aggregation unit for energy data"
+              }
+            ]
+          },
+          "docs": "Returns aggregated energy measurements for a site over a specified date range. Results match the Site Dashboard energy calculation. Supports comma-separated siteId for bulk requests (up to 100 sites)."
+        },
+        {
+          "info": {
+            "name": "Get Site Time Frame Energy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/timeFrameEnergy",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date in YYYY-MM-DD format"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date in YYYY-MM-DD format"
+              },
+              {
+                "name": "timeUnit",
+                "value": "",
+                "type": "query",
+                "description": "Time aggregation unit for energy data"
+              }
+            ]
+          },
+          "docs": "Returns on-grid energy for the requested period. In sites with storage or backup, results may differ from the Site Dashboard. Use the Site Energy endpoint for dashboard-matching results. Supports bulk siteId (up to 100)."
+        },
+        {
+          "info": {
+            "name": "Get Site Energy Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://monitoringapi.solaredge.com/site/:siteId/energyDetails",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+              },
+              {
+                "name": "timeUnit",
+                "value": "",
+                "type": "query",
+                "description": "Time aggregation unit for energy data"
+              },
+              {
+                "name": "meters",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of meter types to include in the response"
+              }
+            ]
+          },
+          "docs": "Returns detailed energy breakdown by meter type and time unit for the specified period. Maximum date range varies by time unit."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

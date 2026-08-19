@@ -1,0 +1,1434 @@
+{
+  "item": [
+    {
+      "id": "e1dbbc63-6a20-4c80-832f-714a86376ada",
+      "name": "Equipment",
+      "description": {
+        "content": "Inverters, batteries, meters, sensors, and inventory",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2190da9b-b6b2-47c5-bf8a-71de9a1d0276",
+          "name": "Get Site Inventory",
+          "request": {
+            "name": "Get Site Inventory",
+            "description": {
+              "content": "Returns the inventory of SolarEdge equipment at the site, including inverters/SMIs, batteries, meters, gateways, and sensors with their serial numbers and status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "inventory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4bb917e-412b-48bf-a82d-608fd684e206",
+              "name": "Site equipment inventory",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "inventory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Inventory\": {\n    \"inverters\": [\n      {\n        \"name\": \"string\",\n        \"manufacturer\": \"string\",\n        \"model\": \"string\",\n        \"serialNumber\": \"string\",\n        \"kWpDC\": 4827.158554597008,\n        \"communicationMethod\": \"string\",\n        \"cpuVersion\": \"string\",\n        \"SN\": \"string\",\n        \"connectedOptimizers\": 5534\n      },\n      {\n        \"name\": \"string\",\n        \"manufacturer\": \"string\",\n        \"model\": \"string\",\n        \"serialNumber\": \"string\",\n        \"kWpDC\": 498.5701764603023,\n        \"communicationMethod\": \"string\",\n        \"cpuVersion\": \"string\",\n        \"SN\": \"string\",\n        \"connectedOptimizers\": 4190\n      }\n    ],\n    \"batteries\": [\n      {\n        \"name\": \"string\",\n        \"serialNumber\": \"string\",\n        \"model\": \"string\",\n        \"manufacturer\": \"string\",\n        \"firmwareVersion\": \"string\",\n        \"connectedInverterSn\": \"string\",\n        \"nameplateCapacity\": 6936.871671275062\n      },\n      {\n        \"name\": \"string\",\n        \"serialNumber\": \"string\",\n        \"model\": \"string\",\n        \"manufacturer\": \"string\",\n        \"firmwareVersion\": \"string\",\n        \"connectedInverterSn\": \"string\",\n        \"nameplateCapacity\": 8216.783534549262\n      }\n    ],\n    \"meters\": [\n      {\n        \"name\": \"string\",\n        \"manufacturer\": \"string\",\n        \"model\": \"string\",\n        \"firmwareVersion\": \"string\",\n        \"connectedSolaredgeDeviceSN\": \"string\",\n        \"type\": \"string\",\n        \"form\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"manufacturer\": \"string\",\n        \"model\": \"string\",\n        \"firmwareVersion\": \"string\",\n        \"connectedSolaredgeDeviceSN\": \"string\",\n        \"type\": \"string\",\n        \"form\": \"string\"\n      }\n    ],\n    \"gateways\": [\n      {\n        \"name\": \"string\",\n        \"serialNumber\": \"string\",\n        \"firmwareVersion\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"serialNumber\": \"string\",\n        \"firmwareVersion\": \"string\"\n      }\n    ],\n    \"sensors\": [\n      {\n        \"connectedSolaredgeDeviceSN\": \"string\",\n        \"id\": \"string\",\n        \"connectedTo\": \"string\",\n        \"category\": \"string\",\n        \"type\": \"string\"\n      },\n      {\n        \"connectedSolaredgeDeviceSN\": \"string\",\n        \"id\": \"string\",\n        \"connectedTo\": \"string\",\n        \"category\": \"string\",\n        \"type\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2bac9d76-f155-4f64-8aa8-ee9e1318e379",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "inventory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2afc6f1-49ff-457e-a975-9aad411432a7",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "inventory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bed84ee2-d2e7-403d-92b3-ded3ebc836dd",
+          "name": "Get Components List",
+          "request": {
+            "name": "Get Components List",
+            "description": {
+              "content": "Returns a list of inverters and SMIs in the specified site.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "equipment",
+                ":siteId",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "siteId",
+                  "description": "(Required) Unique identifier for the site"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cf353ed1-83df-4ef5-b538-996f659d267b",
+              "name": "List of site components",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":siteId",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteId",
+                      "description": "(Required) Unique identifier for the site"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"list\": {\n    \"count\": 8559,\n    \"list\": [\n      {\n        \"name\": \"string\",\n        \"manufacturer\": \"string\",\n        \"model\": \"string\",\n        \"serialNumber\": \"string\",\n        \"kWpDC\": 2714.7908054591794\n      },\n      {\n        \"name\": \"string\",\n        \"manufacturer\": \"string\",\n        \"model\": \"string\",\n        \"serialNumber\": \"string\",\n        \"kWpDC\": 7558.436676559375\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed9665e7-eae6-464b-8bf9-70a4e750e822",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":siteId",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteId",
+                      "description": "(Required) Unique identifier for the site"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b0809e7-dbeb-4330-8bd4-9ff60df9cc98",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":siteId",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteId",
+                      "description": "(Required) Unique identifier for the site"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "555dd0c2-288a-4ec4-acbb-354a9f1a6544",
+          "name": "Get Inverter Technical Data",
+          "request": {
+            "name": "Get Inverter Technical Data",
+            "description": {
+              "content": "Returns technical performance data for a specific inverter over a given time period. Maximum date range is 1 week (7 days).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "inverter",
+                ":serialNumber",
+                "data"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<string>",
+                  "description": "(Required) Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<string>",
+                  "description": "(Required) End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "serialNumber",
+                  "description": "(Required) Inverter serial number"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e42a2118-4797-4ce3-ba5b-e84bbcffbe5f",
+              "name": "Inverter technical performance data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "inverter",
+                    ":serialNumber",
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "serialNumber",
+                      "description": "(Required) Inverter serial number"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"count\": 2803,\n    \"telemetries\": [\n      {\n        \"date\": \"string\",\n        \"totalActivePower\": 4466.638834724243,\n        \"dcVoltage\": 9740.01636282521,\n        \"groundFaultResistance\": 9164.431691111218,\n        \"powerLimit\": 9469.193985207268,\n        \"totalEnergy\": 4658.847408411343,\n        \"temperature\": 4209.887106057988,\n        \"inverterMode\": \"string\",\n        \"operationMode\": 1232,\n        \"L1Data\": {\n          \"acCurrent\": 3304.386446623142,\n          \"acVoltage\": 9751.081825392352,\n          \"acFrequency\": 5317.541063399635,\n          \"apparentPower\": 2562.592087102806,\n          \"activePower\": 4278.234295311169,\n          \"reactivePower\": 5063.821320677818,\n          \"cosPhi\": 5771.057723958077\n        },\n        \"L2Data\": {\n          \"acCurrent\": 9484.875424981054,\n          \"acVoltage\": 5484.43670222385,\n          \"acFrequency\": 3870.123829553939,\n          \"apparentPower\": 9039.276153719406,\n          \"activePower\": 6359.026135907529,\n          \"reactivePower\": 7271.9492906517335,\n          \"cosPhi\": 5547.260407868528\n        },\n        \"L3Data\": {\n          \"acCurrent\": 7230.5986863146845,\n          \"acVoltage\": 7620.513979486235,\n          \"acFrequency\": 1571.092136281641,\n          \"apparentPower\": 2380.6714188081023,\n          \"activePower\": 9004.805881742719,\n          \"reactivePower\": 4578.894809873435,\n          \"cosPhi\": 1629.119168251737\n        }\n      },\n      {\n        \"date\": \"string\",\n        \"totalActivePower\": 4485.929679936857,\n        \"dcVoltage\": 6322.944922433433,\n        \"groundFaultResistance\": 8682.385708400034,\n        \"powerLimit\": 2068.176185620989,\n        \"totalEnergy\": 6592.54554535189,\n        \"temperature\": 730.8207546747747,\n        \"inverterMode\": \"string\",\n        \"operationMode\": 3812,\n        \"L1Data\": {\n          \"acCurrent\": 4702.409023743753,\n          \"acVoltage\": 9581.741567014458,\n          \"acFrequency\": 4589.553694398116,\n          \"apparentPower\": 2233.461508048019,\n          \"activePower\": 3502.20463720746,\n          \"reactivePower\": 5978.895959186595,\n          \"cosPhi\": 3172.657302621528\n        },\n        \"L2Data\": {\n          \"acCurrent\": 6682.483957977663,\n          \"acVoltage\": 7418.185264485555,\n          \"acFrequency\": 1721.825045105735,\n          \"apparentPower\": 44.18508221552209,\n          \"activePower\": 6306.63264132396,\n          \"reactivePower\": 9121.275469298358,\n          \"cosPhi\": 1318.813803094928\n        },\n        \"L3Data\": {\n          \"acCurrent\": 6298.472837206544,\n          \"acVoltage\": 902.742295772907,\n          \"acFrequency\": 410.517242460976,\n          \"apparentPower\": 4150.333390546568,\n          \"activePower\": 2911.2237856269717,\n          \"reactivePower\": 5153.846868289038,\n          \"cosPhi\": 7379.7335042197965\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "630aa4f5-805e-4f1a-8fa1-c101218e3cee",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "inverter",
+                    ":serialNumber",
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "serialNumber",
+                      "description": "(Required) Inverter serial number"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2581255-c5ac-438e-99d0-02b1ff12e03e",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "inverter",
+                    ":serialNumber",
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "serialNumber",
+                      "description": "(Required) Inverter serial number"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5306c3e6-655d-44c6-b1c7-0dd304cc31cf",
+          "name": "Get Equipment Change Log",
+          "request": {
+            "name": "Get Equipment Change Log",
+            "description": {
+              "content": "Returns a list of equipment component replacements ordered by date. Applicable to inverters, optimizers, batteries, and gateways.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                ":serialNumber",
+                "changeLog"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "serialNumber",
+                  "description": "(Required) Serial number of the equipment component"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "46aee911-79ca-4ad7-95be-6a077639c3d1",
+              "name": "Equipment change log",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    ":serialNumber",
+                    "changeLog"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "serialNumber",
+                      "description": "(Required) Serial number of the equipment component"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ChangeLog\": {\n    \"count\": 4481,\n    \"list\": [\n      {\n        \"date\": \"1995-01-18\",\n        \"serialNumber\": \"string\",\n        \"partNumber\": \"string\"\n      },\n      {\n        \"date\": \"1964-09-09\",\n        \"serialNumber\": \"string\",\n        \"partNumber\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38591865-5e31-4d77-885f-d4161b7d28b3",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    ":serialNumber",
+                    "changeLog"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "serialNumber",
+                      "description": "(Required) Serial number of the equipment component"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a15d4696-5705-4e4a-8ed2-eaf8d85367f6",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    ":serialNumber",
+                    "changeLog"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "serialNumber",
+                      "description": "(Required) Serial number of the equipment component"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3eff093-0b8b-4598-9df4-6c1eda6bbf84",
+          "name": "Get Site Meters",
+          "request": {
+            "name": "Get Site Meters",
+            "description": {
+              "content": "Returns meter data for the site including lifetime energy reading, metadata, and the device to which each meter is connected.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "site",
+                ":siteId",
+                "meters"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<string>",
+                  "description": "(Required) Start date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<string>",
+                  "description": "(Required) End date-time in \"YYYY-MM-DD HH:MM:SS\" format"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeUnit",
+                  "value": "DAY",
+                  "description": "Time aggregation unit for energy data"
+                },
+                {
+                  "disabled": false,
+                  "key": "meters",
+                  "value": "<string>",
+                  "description": "Comma-separated list of meter types to include"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "siteId",
+                  "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fc5a7ec2-54d8-447a-8e0e-5ab98e4a1990",
+              "name": "Meter data for the site",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "meters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meterEnergyDetails\": {\n    \"timeUnit\": \"string\",\n    \"unit\": \"string\",\n    \"meterSerialNumber\": \"string\",\n    \"connectedSolaredgeDeviceSN\": \"string\",\n    \"model\": \"string\",\n    \"meterType\": \"string\",\n    \"values\": [\n      {\n        \"date\": \"string\",\n        \"value\": 2518.36104464371\n      },\n      {\n        \"date\": \"string\",\n        \"value\": 1736.8299130180253\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f4df2c5-7974-4f14-83ca-285fb26e132d",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "meters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec7c1ee8-673d-433c-9c2f-7a59b4e0cb66",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "site",
+                    ":siteId",
+                    "meters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timeUnit",
+                      "value": "DAY"
+                    },
+                    {
+                      "key": "meters",
+                      "value": "Production,Consumption,FeedIn,Purchased"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "siteId",
+                      "description": "(Required) Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "28bdecba-0158-4a5c-8a06-f81b728a4a5e",
+          "name": "Get Sensor List",
+          "request": {
+            "name": "Get Sensor List",
+            "description": {
+              "content": "Returns a list of all sensors at the site and the device to which they are connected.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "equipment",
+                ":siteId",
+                "sensors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<string>",
+                  "description": "Start date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data"
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<string>",
+                  "description": "End date-time for sensor data (ISO 8601 format YYYY-MM-DDTHH:MM:SS); if provided returns sensor data"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "siteId",
+                  "description": "(Required) Unique identifier for the site"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50558aad-5089-4587-bca4-08880cd06b4f",
+              "name": "Sensor list or sensor data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":siteId",
+                    "sensors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteId",
+                      "description": "(Required) Unique identifier for the site"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"SiteSensors\": {\n    \"count\": 6725,\n    \"list\": [\n      {\n        \"connectedSolaredgeDeviceSN\": \"string\",\n        \"count\": 8483,\n        \"sensors\": [\n          {\n            \"connectedSolaredgeDeviceSN\": \"string\",\n            \"id\": \"string\",\n            \"connectedTo\": \"string\",\n            \"category\": \"string\",\n            \"type\": \"string\"\n          },\n          {\n            \"connectedSolaredgeDeviceSN\": \"string\",\n            \"id\": \"string\",\n            \"connectedTo\": \"string\",\n            \"category\": \"string\",\n            \"type\": \"string\"\n          }\n        ]\n      },\n      {\n        \"connectedSolaredgeDeviceSN\": \"string\",\n        \"count\": 5693,\n        \"sensors\": [\n          {\n            \"connectedSolaredgeDeviceSN\": \"string\",\n            \"id\": \"string\",\n            \"connectedTo\": \"string\",\n            \"category\": \"string\",\n            \"type\": \"string\"\n          },\n          {\n            \"connectedSolaredgeDeviceSN\": \"string\",\n            \"id\": \"string\",\n            \"connectedTo\": \"string\",\n            \"category\": \"string\",\n            \"type\": \"string\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6a140e8-a645-472c-a453-8f56e94dbf71",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":siteId",
+                    "sensors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteId",
+                      "description": "(Required) Unique identifier for the site"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f3d8090d-2317-43ac-9fee-b4f7d65508b2",
+              "name": "Site or resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "equipment",
+                    ":siteId",
+                    "sensors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteId",
+                      "description": "(Required) Unique identifier for the site"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9300,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://monitoringapi.solaredge.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "671af001-9f98-444c-ba57-b779648508b7",
+    "name": "SolarEdge Monitoring Accounts Equipment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.\n\nContact Support:\n Name: SolarEdge Developer Support",
+      "type": "text/plain"
+    }
+  }
+}
