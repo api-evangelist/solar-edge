@@ -44,6 +44,8 @@ apis:
   humanURL: https://developers.solaredge.com
   baseURL: https://monitoringapi.solaredge.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
