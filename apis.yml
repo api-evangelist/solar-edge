@@ -136,6 +136,16 @@ apis:
     url: openapi/solar-edge-version-api-openapi.yml
   - type: Documentation
     url: https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf
+- aid: solar-edge:solar-edge-account-api
+  name: SolarEdge Account API
+  description: Account hierarchy.
+  humanURL: https://developers.solaredge.com
+  baseURL: https://monitoringapi.solaredge.com
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/solar-edge-account-api-openapi.yml
 common:
 - type: Overlay
   url: overlays/solar-edge-monitoring-overlay.yaml
