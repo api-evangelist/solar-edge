@@ -1,20 +1,13 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: SolarEdge Monitoring Accounts Version API
-  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
-  version: 1.0.0
-  contact:
-    name: SolarEdge Developer Support
-    url: https://developers.solaredge.com
-  license:
-    name: Proprietary
-    url: https://www.solaredge.com/us/commercial/developer
-  x-api-id: solar-edge:solar-edge-monitoring-api
+  title: Solar Edge Version API
+  x-refined-note:
+  - x-api-id differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Version across 3 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://monitoringapi.solaredge.com
   description: SolarEdge Monitoring API production server
-security:
-- ApiKeyQuery: []
 tags:
 - name: Version
   description: API version information
@@ -33,6 +26,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiVersionResponse'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /version/supported:
     get:
       operationId: getSupportedApiVersions
@@ -47,6 +45,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SupportedVersionsResponse'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
 components:
   schemas:
     SupportedVersionsResponse:
@@ -69,9 +72,61 @@ components:
             release:
               type: string
               description: Current API release version (e.g., "1.0.0")
+    Problem:
+      type: object
+      description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type:
+          - string
+          - 'null'
+        properties:
+          type: object
+          properties:
+            traceId:
+              type: string
+  responses:
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
+    Unauthorized:
+      description: Authentication failed (missing or invalid api_key).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://se-api.stoplight.io/docs/monitoring
+            title: Unauthorized - Authentication Failed
+            status: 401
+            detail: Invalid API key
+            instance: null
+            properties:
+              traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
       in: query
       name: api_key
       description: API key generated through the SolarEdge monitoring portal
+    api_key:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated in the SolarEdge monitoring platform under Admin > Site Access > API Access. Passed as the api_key query parameter on every request.
+x-refined-from:
+- openapi.yml
+- solar-edge-monitoring-api-openapi.yml
+- solar-edge-monitoring-openapi.yml

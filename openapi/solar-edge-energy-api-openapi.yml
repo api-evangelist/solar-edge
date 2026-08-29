@@ -1,7 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: SolarEdge Monitoring Accounts Energy API
-  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
+  title: Solar Edge Energy API
   version: 1.0.0
   contact:
     name: SolarEdge Developer Support
@@ -10,6 +9,7 @@ info:
     name: Proprietary
     url: https://www.solaredge.com/us/commercial/developer
   x-api-id: solar-edge:solar-edge-monitoring-api
+  description: 'Operations tagged Energy across 2 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://monitoringapi.solaredge.com
   description: SolarEdge Monitoring API production server
@@ -56,6 +56,9 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /site/{siteId}/timeFrameEnergy:
     get:
       operationId: getSiteTimeFrameEnergy
@@ -91,6 +94,9 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /site/{siteId}/energyDetails:
     get:
       operationId: getSiteEnergyDetails
@@ -127,6 +133,9 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
 components:
   schemas:
     MeterValues:
@@ -145,15 +154,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TimedValue'
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
     TimedValue:
       type: object
       properties:
@@ -161,9 +161,10 @@ components:
           type: string
           description: Measurement date/time
         value:
-          type: number
+          type:
+          - number
+          - 'null'
           format: float
-          nullable: true
           description: Measured value (null if no data)
     EnergyDetailsResponse:
       type: object
@@ -179,6 +180,15 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/MeterValues'
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     EnergyResponse:
       type: object
       properties:
@@ -199,6 +209,21 @@ components:
               items:
                 $ref: '#/components/schemas/TimedValue'
   parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+    meters:
+      name: meters
+      in: query
+      description: Comma-separated list of meter types to include in the response
+      schema:
+        type: string
+        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
     timeUnit:
       name: timeUnit
       in: query
@@ -213,30 +238,15 @@ components:
         - MONTH
         - YEAR
         default: DAY
-    meters:
-      name: meters
-      in: query
-      description: Comma-separated list of meter types to include in the response
-      schema:
-        type: string
-        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
-    siteId:
-      name: siteId
-      in: path
-      required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
-      schema:
-        type: string
-        example: '12345'
   responses:
-    NotFound:
-      description: Site or resource not found
+    Unauthorized:
+      description: Missing or invalid API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key
+    NotFound:
+      description: Site or resource not found
       content:
         application/json:
           schema:
@@ -247,3 +257,6 @@ components:
       in: query
       name: api_key
       description: API key generated through the SolarEdge monitoring portal
+x-refined-from:
+- openapi.yml
+- solar-edge-monitoring-api-openapi.yml

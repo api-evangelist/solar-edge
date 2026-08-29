@@ -1,20 +1,13 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: SolarEdge Monitoring Accounts Sites API
-  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
-  version: 1.0.0
-  contact:
-    name: SolarEdge Developer Support
-    url: https://developers.solaredge.com
-  license:
-    name: Proprietary
-    url: https://www.solaredge.com/us/commercial/developer
-  x-api-id: solar-edge:solar-edge-monitoring-api
+  title: Solar Edge Sites API
+  x-refined-note:
+  - x-api-id differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Sites across 3 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://monitoringapi.solaredge.com
   description: SolarEdge Monitoring API production server
-security:
-- ApiKeyQuery: []
 tags:
 - name: Sites
   description: Site list and site-level data
@@ -89,6 +82,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '429':
           $ref: '#/components/responses/TooManyRequests'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /site/{siteId}/details:
     get:
       operationId: getSiteDetails
@@ -109,6 +107,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /site/{siteId}/dataPeriod:
     get:
       operationId: getSiteDataPeriod
@@ -129,6 +132,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /site/{siteId}/overview:
     get:
       operationId: getSiteOverview
@@ -149,6 +157,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /site/{siteId}/image:
     get:
       operationId: getSiteImage
@@ -189,6 +202,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
   /site/{siteId}/installerImage:
     get:
       operationId: getSiteInstallerImage
@@ -214,22 +232,187 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - ApiKeyQuery: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production server
+  /site/{siteId}/energy:
+    get:
+      operationId: getSiteEnergy
+      summary: Site Energy
+      description: Returns the site energy measurements over a time range at a given resolution.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId_2'
+      - $ref: '#/components/parameters/startDate'
+      - $ref: '#/components/parameters/endDate'
+      - $ref: '#/components/parameters/timeUnit'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequests_2'
+      security:
+      - api_key: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production host
+  /site/{siteId}/timeFrameEnergy:
+    get:
+      operationId: getSiteTimeFrameEnergy
+      summary: Site Energy - Time Period
+      description: Returns the total energy produced for a given period.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId_2'
+      - $ref: '#/components/parameters/startDate'
+      - $ref: '#/components/parameters/endDate'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequests_2'
+      security:
+      - api_key: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production host
+  /site/{siteId}/power:
+    get:
+      operationId: getSitePower
+      summary: Site Power
+      description: Returns the site power measurements in 15-minute resolution over a time range.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId_2'
+      - $ref: '#/components/parameters/startTime'
+      - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequests_2'
+      security:
+      - api_key: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production host
+  /site/{siteId}/powerDetails:
+    get:
+      operationId: getSitePowerDetails
+      summary: Site Power - Detailed
+      description: Returns detailed site power measurements including meters such as consumption and self-consumption.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId_2'
+      - $ref: '#/components/parameters/startTime'
+      - $ref: '#/components/parameters/endTime'
+      - name: meters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequests_2'
+      security:
+      - api_key: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production host
+  /site/{siteId}/energyDetails:
+    get:
+      operationId: getSiteEnergyDetails
+      summary: Site Energy - Detailed
+      description: Returns detailed site energy measurements including meters such as consumption and self-consumption.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId_2'
+      - $ref: '#/components/parameters/startTime'
+      - $ref: '#/components/parameters/endTime'
+      - $ref: '#/components/parameters/timeUnit'
+      - name: meters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequests_2'
+      security:
+      - api_key: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production host
+  /site/{siteId}/currentPowerFlow:
+    get:
+      operationId: getSiteCurrentPowerFlow
+      summary: Site Power Flow
+      description: Retrieves the current power flow between all elements of the site (PV array, load, grid, storage).
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId_2'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequests_2'
+      security:
+      - api_key: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production host
+  /site/{siteId}/envBenefits:
+    get:
+      operationId: getSiteEnvBenefits
+      summary: Site Environmental Benefits
+      description: Returns all environmental benefits based on site energy production (CO2 saved, trees planted, light bulbs).
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId_2'
+      - name: systemUnits
+        in: query
+        schema:
+          type: string
+          enum:
+          - Metrics
+          - Imperial
+      responses:
+        '200':
+          $ref: '#/components/responses/OK'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequests_2'
+      security:
+      - api_key: []
+    servers:
+    - url: https://monitoringapi.solaredge.com
+      description: SolarEdge Monitoring API production host
 components:
   schemas:
-    DataPeriodResponse:
-      type: object
-      properties:
-        dataPeriod:
-          type: object
-          properties:
-            startDate:
-              type: string
-              format: date
-              description: First date with energy data (YYYY-MM-DD)
-            endDate:
-              type: string
-              format: date
-              description: Last date with energy data (YYYY-MM-DD)
     Location:
       type: object
       properties:
@@ -251,28 +434,20 @@ components:
           type: string
         stateCode:
           type: string
-    EnergyWithRevenue:
+    DataPeriodResponse:
       type: object
       properties:
-        energy:
-          type: number
-          format: float
-          description: Energy in Wh
-        revenue:
-          type: number
-          format: float
-          description: Revenue generated (where applicable)
-    Module:
-      type: object
-      properties:
-        manufacturerName:
-          type: string
-        modelName:
-          type: string
-        maximumPower:
-          type: number
-        temperatureCoef:
-          type: number
+        dataPeriod:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+              description: First date with energy data (YYYY-MM-DD)
+            endDate:
+              type: string
+              format: date
+              description: Last date with energy data (YYYY-MM-DD)
     SiteOverviewResponse:
       type: object
       properties:
@@ -297,11 +472,26 @@ components:
                   type: number
                   format: float
                   description: Current power production in W
-    SiteDetailsResponse:
+    Module:
       type: object
       properties:
-        details:
-          $ref: '#/components/schemas/Site'
+        manufacturerName:
+          type: string
+        modelName:
+          type: string
+        maximumPower:
+          type: number
+        temperatureCoef:
+          type: number
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     Site:
       type: object
       properties:
@@ -355,15 +545,11 @@ components:
           properties:
             isPublic:
               type: boolean
-    ErrorResponse:
+    SiteDetailsResponse:
       type: object
       properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
+        details:
+          $ref: '#/components/schemas/Site'
     SiteListResponse:
       type: object
       properties:
@@ -377,15 +563,116 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Site'
+    EnergyWithRevenue:
+      type: object
+      properties:
+        energy:
+          type: number
+          format: float
+          description: Energy in Wh
+        revenue:
+          type: number
+          format: float
+          description: Revenue generated (where applicable)
+    Problem:
+      type: object
+      description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type:
+          - string
+          - 'null'
+        properties:
+          type: object
+          properties:
+            traceId:
+              type: string
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+    startDate:
+      name: startDate
+      in: query
+      required: true
+      description: Start date in yyyy-MM-dd format.
+      schema:
+        type: string
+        format: date
+    startIndex:
+      name: startIndex
+      in: query
+      description: The first item index to return (zero-based), for pagination.
+      schema:
+        type: integer
+        default: 0
+    siteId_2:
+      name: siteId
+      in: path
+      required: true
+      description: The site identifier.
+      schema:
+        type: integer
+    size:
+      name: size
+      in: query
+      description: The maximum number of items returned in a page (max 100).
+      schema:
+        type: integer
+        default: 100
+        maximum: 100
+    endTime:
+      name: endTime
+      in: query
+      required: true
+      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    endDate:
+      name: endDate
+      in: query
+      required: true
+      description: End date in yyyy-MM-dd format.
+      schema:
+        type: string
+        format: date
+    timeUnit:
+      name: timeUnit
+      in: query
+      description: Aggregation granularity.
+      schema:
+        type: string
+        enum:
+        - QUARTER_OF_AN_HOUR
+        - HOUR
+        - DAY
+        - WEEK
+        - MONTH
+        - YEAR
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
   responses:
     TooManyRequests:
       description: Rate limit exceeded. The API allows up to 3 concurrent requests per source IP, and 300 requests per day per account token and per site.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Site or resource not found
       content:
         application/json:
           schema:
@@ -396,18 +683,56 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    siteId:
-      name: siteId
-      in: path
-      required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
-      schema:
-        type: string
-        example: '12345'
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: The account is not permitted to access the requested resource.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    TooManyRequests_2:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Unauthorized_2:
+      description: Authentication failed (missing or invalid api_key).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://se-api.stoplight.io/docs/monitoring
+            title: Unauthorized - Authentication Failed
+            status: 401
+            detail: Invalid API key
+            instance: null
+            properties:
+              traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
       in: query
       name: api_key
       description: API key generated through the SolarEdge monitoring portal
+    api_key:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated in the SolarEdge monitoring platform under Admin > Site Access > API Access. Passed as the api_key query parameter on every request.
+x-refined-from:
+- openapi.yml
+- solar-edge-monitoring-api-openapi.yml
+- solar-edge-monitoring-openapi.yml
