@@ -11,6 +11,18 @@ description: SolarEdge Technologies provides a cloud-based Monitoring API that e
   installations globally, making their API central to energy management integrations, home automation
   platforms, and fleet monitoring solutions.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
