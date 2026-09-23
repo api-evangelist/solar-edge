@@ -1,6 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Solar Edge Environmental API
+  title: SolarEdge Monitoring Environmental API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
   version: 1.0.0
   contact:
     name: SolarEdge Developer Support
@@ -9,7 +10,6 @@ info:
     name: Proprietary
     url: https://www.solaredge.com/us/commercial/developer
   x-api-id: solar-edge:solar-edge-monitoring-api
-  description: 'Operations tagged Environmental across 2 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://monitoringapi.solaredge.com
   description: SolarEdge Monitoring API production server
@@ -47,9 +47,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-    servers:
-    - url: https://monitoringapi.solaredge.com
-      description: SolarEdge Monitoring API production server
 components:
   parameters:
     siteId:
@@ -60,7 +57,29 @@ components:
       schema:
         type: string
         example: '12345'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     EnvironmentalBenefitsResponse:
       type: object
       properties:
@@ -95,34 +114,9 @@ components:
               type: number
               format: float
               description: Number of light bulbs lit for a day equivalent
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Site or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
       in: query
       name: api_key
       description: API key generated through the SolarEdge monitoring portal
-x-refined-from:
-- openapi.yml
-- solar-edge-monitoring-api-openapi.yml

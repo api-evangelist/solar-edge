@@ -1,6 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Solar Edge Power API
+  title: SolarEdge Monitoring Power API
+  description: The SolarEdge Monitoring API provides programmatic access to data from SolarEdge solar energy systems. It delivers site energy measurements, power flow data, inverter technical telemetry, battery storage status, equipment inventory, and environmental benefit metrics for SolarEdge-connected systems. Authentication is via an API key passed as a query parameter. All requests are made over HTTPS with responses returned in JSON format.
   version: 1.0.0
   contact:
     name: SolarEdge Developer Support
@@ -9,7 +10,6 @@ info:
     name: Proprietary
     url: https://www.solaredge.com/us/commercial/developer
   x-api-id: solar-edge:solar-edge-monitoring-api
-  description: 'Operations tagged Power across 2 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://monitoringapi.solaredge.com
   description: SolarEdge Monitoring API production server
@@ -53,9 +53,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-    servers:
-    - url: https://monitoringapi.solaredge.com
-      description: SolarEdge Monitoring API production server
   /site/{siteId}/powerDetails:
     get:
       operationId: getSitePowerDetails
@@ -89,9 +86,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-    servers:
-    - url: https://monitoringapi.solaredge.com
-      description: SolarEdge Monitoring API production server
   /site/{siteId}/currentPowerFlow:
     get:
       operationId: getSiteCurrentPowerFlow
@@ -112,65 +106,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-    servers:
-    - url: https://monitoringapi.solaredge.com
-      description: SolarEdge Monitoring API production server
 components:
   schemas:
-    MeterValues:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Production
-          - Consumption
-          - SelfConsumption
-          - FeedIn
-          - Purchased
-          description: Meter type
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimedValue'
-    TimedValue:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Measurement date/time
-        value:
-          type:
-          - number
-          - 'null'
-          format: float
-          description: Measured value (null if no data)
-    PowerDetailsResponse:
-      type: object
-      properties:
-        powerDetails:
-          type: object
-          properties:
-            timeUnit:
-              type: string
-            unit:
-              type: string
-            meters:
-              type: array
-              items:
-                $ref: '#/components/schemas/MeterValues'
-    StorageFlowNode:
-      allOf:
-      - $ref: '#/components/schemas/PowerFlowNode'
-      - type: object
-        properties:
-          chargeLevel:
-            type: number
-            format: float
-            description: Battery charge level percentage
-          critical:
-            type: boolean
-            description: Whether the battery is in a critical state
     CurrentPowerFlowResponse:
       type: object
       properties:
@@ -203,25 +140,6 @@ components:
               $ref: '#/components/schemas/PowerFlowNode'
             STORAGE:
               $ref: '#/components/schemas/StorageFlowNode'
-    PowerFlowNode:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Node status (Active, Idle, Disabled)
-        currentPower:
-          type: number
-          format: float
-          description: Current power in the specified unit
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
     PowerResponse:
       type: object
       properties:
@@ -238,6 +156,79 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/TimedValue'
+    PowerDetailsResponse:
+      type: object
+      properties:
+        powerDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meters:
+              type: array
+              items:
+                $ref: '#/components/schemas/MeterValues'
+    StorageFlowNode:
+      allOf:
+      - $ref: '#/components/schemas/PowerFlowNode'
+      - type: object
+        properties:
+          chargeLevel:
+            type: number
+            format: float
+            description: Battery charge level percentage
+          critical:
+            type: boolean
+            description: Whether the battery is in a critical state
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    MeterValues:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Production
+          - Consumption
+          - SelfConsumption
+          - FeedIn
+          - Purchased
+          description: Meter type
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimedValue'
+    PowerFlowNode:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Node status (Active, Idle, Disabled)
+        currentPower:
+          type: number
+          format: float
+          description: Current power in the specified unit
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type:
+          - number
+          - 'null'
+          format: float
+          description: Measured value (null if no data)
   parameters:
     siteId:
       name: siteId
@@ -273,6 +264,3 @@ components:
       in: query
       name: api_key
       description: API key generated through the SolarEdge monitoring portal
-x-refined-from:
-- openapi.yml
-- solar-edge-monitoring-api-openapi.yml

@@ -4,7 +4,7 @@ info:
   x-refined-note:
   - x-api-id differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Storage across 3 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Storage across 2 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://monitoringapi.solaredge.com
   description: SolarEdge Monitoring API production server
@@ -55,85 +55,7 @@ paths:
     - url: https://monitoringapi.solaredge.com
       description: SolarEdge Monitoring API production server
 components:
-  parameters:
-    siteId:
-      name: siteId
-      in: path
-      required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
-      schema:
-        type: string
-        example: '12345'
-    siteId_2:
-      name: siteId
-      in: path
-      required: true
-      description: The site identifier.
-      schema:
-        type: integer
-    endTime:
-      name: endTime
-      in: query
-      required: true
-      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
-    startTime:
-      name: startTime
-      in: query
-      required: true
-      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Site or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: The api_key/site daily query quota has been exceeded.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    Unauthorized_2:
-      description: Authentication failed (missing or invalid api_key).
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://se-api.stoplight.io/docs/monitoring
-            title: Unauthorized - Authentication Failed
-            status: 401
-            detail: Invalid API key
-            instance: null
-            properties:
-              traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
-    OK:
-      description: Successful response.
-      content:
-        application/json:
-          schema:
-            type: object
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
     StorageDataResponse:
       type: object
       properties:
@@ -193,6 +115,15 @@ components:
           type: number
           format: float
           description: AC grid charging power in W
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     Problem:
       type: object
       description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
@@ -215,6 +146,75 @@ components:
           properties:
             traceId:
               type: string
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    siteId_2:
+      name: siteId
+      in: path
+      required: true
+      description: The site identifier.
+      schema:
+        type: integer
+    endTime:
+      name: endTime
+      in: query
+      required: true
+      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized_2:
+      description: Authentication failed (missing or invalid api_key).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://se-api.stoplight.io/docs/monitoring
+            title: Unauthorized - Authentication Failed
+            status: 401
+            detail: Invalid API key
+            instance: null
+            properties:
+              traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
+    TooManyRequests:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
@@ -228,5 +228,4 @@ components:
       description: API key generated in the SolarEdge monitoring platform under Admin > Site Access > API Access. Passed as the api_key query parameter on every request.
 x-refined-from:
 - openapi.yml
-- solar-edge-monitoring-api-openapi.yml
 - solar-edge-monitoring-openapi.yml

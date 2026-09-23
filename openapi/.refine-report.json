@@ -2,7 +2,6 @@
   "provider": "solar-edge",
   "sources": [
     "_original/openapi.yml",
-    "_original/solar-edge-monitoring-api-openapi.yml",
     "_original/solar-edge-monitoring-openapi.yml"
   ],
   "outputs": [
@@ -20,20 +19,18 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solar-edge-monitoring-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "solar-edge-monitoring-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "tag 'Accounts' spans 2 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml): per-path servers applied",
-    "tag 'Energy' spans 2 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml): per-path servers applied",
-    "tag 'Environmental' spans 2 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml): per-path servers applied",
-    "tag 'Equipment' spans 3 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied",
-    "tag 'Power' spans 2 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml): per-path servers applied",
-    "tag 'Sites' spans 3 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied",
-    "tag 'Storage' spans 3 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied",
-    "tag 'Version' spans 3 source specs (openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied"
+    "tag 'Equipment' spans 2 source specs (openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied",
+    "tag 'Sites' spans 2 source specs (openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied",
+    "tag 'Storage' spans 2 source specs (openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied",
+    "tag 'Version' spans 2 source specs (openapi.yml, solar-edge-monitoring-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
+    "_original/solar-edge-monitoring-api-openapi.yml: archived document superseded by a larger archived document",
     "solar-edge-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "solar-edge-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "solar-edge-energy-api-openapi.yml: previously refined output, superseded by openapi/_original/",

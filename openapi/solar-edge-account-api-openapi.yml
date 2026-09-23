@@ -49,22 +49,6 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  parameters:
-    startIndex:
-      name: startIndex
-      in: query
-      description: The first item index to return (zero-based), for pagination.
-      schema:
-        type: integer
-        default: 0
-    size:
-      name: size
-      in: query
-      description: The maximum number of items returned in a page (max 100).
-      schema:
-        type: integer
-        default: 100
-        maximum: 100
   schemas:
     Problem:
       type: object
@@ -88,13 +72,23 @@ components:
           properties:
             traceId:
               type: string
+  parameters:
+    size:
+      name: size
+      in: query
+      description: The maximum number of items returned in a page (max 100).
+      schema:
+        type: integer
+        default: 100
+        maximum: 100
+    startIndex:
+      name: startIndex
+      in: query
+      description: The first item index to return (zero-based), for pagination.
+      schema:
+        type: integer
+        default: 0
   responses:
-    TooManyRequests:
-      description: The api_key/site daily query quota has been exceeded.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
     Unauthorized:
       description: Authentication failed (missing or invalid api_key).
       content:
@@ -115,6 +109,12 @@ components:
         application/json:
           schema:
             type: object
+    TooManyRequests:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
   securitySchemes:
     api_key:
       type: apiKey

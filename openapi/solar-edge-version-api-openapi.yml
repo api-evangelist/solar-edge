@@ -4,7 +4,7 @@ info:
   x-refined-note:
   - x-api-id differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Version across 3 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-api-openapi.yml, solar-edge-monitoring-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Version across 2 of this provider''s published API definitions: openapi.yml, solar-edge-monitoring-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://monitoringapi.solaredge.com
   description: SolarEdge Monitoring API production server
@@ -52,6 +52,15 @@ paths:
       description: SolarEdge Monitoring API production server
 components:
   schemas:
+    ApiVersionResponse:
+      type: object
+      properties:
+        version:
+          type: object
+          properties:
+            release:
+              type: string
+              description: Current API release version (e.g., "1.0.0")
     SupportedVersionsResponse:
       type: object
       properties:
@@ -63,15 +72,6 @@ components:
               items:
                 type: string
               description: List of supported API version strings
-    ApiVersionResponse:
-      type: object
-      properties:
-        version:
-          type: object
-          properties:
-            release:
-              type: string
-              description: Current API release version (e.g., "1.0.0")
     Problem:
       type: object
       description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
@@ -95,12 +95,6 @@ components:
             traceId:
               type: string
   responses:
-    OK:
-      description: Successful response.
-      content:
-        application/json:
-          schema:
-            type: object
     Unauthorized:
       description: Authentication failed (missing or invalid api_key).
       content:
@@ -115,6 +109,12 @@ components:
             instance: null
             properties:
               traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
@@ -128,5 +128,4 @@ components:
       description: API key generated in the SolarEdge monitoring platform under Admin > Site Access > API Access. Passed as the api_key query parameter on every request.
 x-refined-from:
 - openapi.yml
-- solar-edge-monitoring-api-openapi.yml
 - solar-edge-monitoring-openapi.yml
