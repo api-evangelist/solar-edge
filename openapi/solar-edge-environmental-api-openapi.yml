@@ -48,15 +48,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    siteId:
-      name: siteId
-      in: path
-      required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
-      schema:
-        type: string
-        example: '12345'
   responses:
     Unauthorized:
       description: Missing or invalid API key
@@ -114,6 +105,15 @@ components:
               type: number
               format: float
               description: Number of light bulbs lit for a day equivalent
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

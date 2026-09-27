@@ -79,6 +79,27 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    AccountListResponse:
+      type: object
+      properties:
+        accounts:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/Account'
     Account:
       type: object
       properties:
@@ -123,27 +144,6 @@ components:
           type: string
         stateCode:
           type: string
-    AccountListResponse:
-      type: object
-      properties:
-        accounts:
-          type: object
-          properties:
-            count:
-              type: integer
-            list:
-              type: array
-              items:
-                $ref: '#/components/schemas/Account'
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
   responses:
     Unauthorized:
       description: Missing or invalid API key

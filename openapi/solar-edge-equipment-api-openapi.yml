@@ -251,7 +251,7 @@ paths:
       description: SolarEdge Monitoring API production host
   /equipment/{siteId}/{serialNumber}/changeLog:
     get:
-      operationId: getEquipmentChangeLog
+      operationId: getEquipmentBySiteIdBySerialNumberChangeLog
       summary: Equipment Change Log
       description: Returns a list of equipment component replacements ordered by date for a given component serial number.
       tags:
@@ -268,6 +268,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - api_key: []
+      x-operation-id-source: normalized
+      x-operation-id-original: getEquipmentChangeLog
     servers:
     - url: https://monitoringapi.solaredge.com
       description: SolarEdge Monitoring API production host
@@ -296,6 +298,27 @@ paths:
       description: SolarEdge Monitoring API production host
 components:
   schemas:
+    SensorListResponse:
+      type: object
+      properties:
+        SiteSensors:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  connectedSolaredgeDeviceSN:
+                    type: string
+                  count:
+                    type: integer
+                  sensors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sensor'
     Meter:
       type: object
       properties:
@@ -313,44 +336,6 @@ components:
           type: string
         form:
           type: string
-    InventoryResponse:
-      type: object
-      properties:
-        Inventory:
-          type: object
-          properties:
-            inverters:
-              type: array
-              items:
-                $ref: '#/components/schemas/Inverter'
-            batteries:
-              type: array
-              items:
-                $ref: '#/components/schemas/InventoryBattery'
-            meters:
-              type: array
-              items:
-                $ref: '#/components/schemas/Meter'
-            gateways:
-              type: array
-              items:
-                $ref: '#/components/schemas/Gateway'
-            sensors:
-              type: array
-              items:
-                $ref: '#/components/schemas/Sensor'
-    TimedValue:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Measurement date/time
-        value:
-          type:
-          - number
-          - 'null'
-          format: float
-          description: Measured value (null if no data)
     Gateway:
       type: object
       properties:
@@ -360,10 +345,10 @@ components:
           type: string
         firmwareVersion:
           type: string
-    EquipmentChangeLogResponse:
+    ComponentsListResponse:
       type: object
       properties:
-        ChangeLog:
+        list:
           type: object
           properties:
             count:
@@ -373,16 +358,17 @@ components:
               items:
                 type: object
                 properties:
-                  date:
+                  name:
                     type: string
-                    format: date
-                    description: Date of equipment change
+                  manufacturer:
+                    type: string
+                  model:
+                    type: string
                   serialNumber:
                     type: string
-                    description: Serial number of replacement component
-                  partNumber:
-                    type: string
-                    description: Part number of replacement component
+                  kWpDC:
+                    type: number
+                    format: float
     Inverter:
       type: object
       properties:
@@ -436,60 +422,18 @@ components:
           type: number
           format: float
           description: Power factor (cos phi)
-    InverterTechnicalDataResponse:
+    TimedValue:
       type: object
       properties:
-        data:
-          type: object
-          properties:
-            count:
-              type: integer
-            telemetries:
-              type: array
-              items:
-                $ref: '#/components/schemas/InverterTelemetry'
-    InventoryBattery:
-      type: object
-      properties:
-        name:
+        date:
           type: string
-        serialNumber:
-          type: string
-        model:
-          type: string
-        manufacturer:
-          type: string
-        firmwareVersion:
-          type: string
-        connectedInverterSn:
-          type: string
-        nameplateCapacity:
-          type: number
+          description: Measurement date/time
+        value:
+          type:
+          - number
+          - 'null'
           format: float
-    ComponentsListResponse:
-      type: object
-      properties:
-        list:
-          type: object
-          properties:
-            count:
-              type: integer
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  manufacturer:
-                    type: string
-                  model:
-                    type: string
-                  serialNumber:
-                    type: string
-                  kWpDC:
-                    type: number
-                    format: float
+          description: Measured value (null if no data)
     MetersResponse:
       type: object
       properties:
@@ -512,6 +456,76 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/TimedValue'
+    InventoryResponse:
+      type: object
+      properties:
+        Inventory:
+          type: object
+          properties:
+            inverters:
+              type: array
+              items:
+                $ref: '#/components/schemas/Inverter'
+            batteries:
+              type: array
+              items:
+                $ref: '#/components/schemas/InventoryBattery'
+            meters:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meter'
+            gateways:
+              type: array
+              items:
+                $ref: '#/components/schemas/Gateway'
+            sensors:
+              type: array
+              items:
+                $ref: '#/components/schemas/Sensor'
+    InverterTechnicalDataResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+            telemetries:
+              type: array
+              items:
+                $ref: '#/components/schemas/InverterTelemetry'
+    EquipmentChangeLogResponse:
+      type: object
+      properties:
+        ChangeLog:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    description: Date of equipment change
+                  serialNumber:
+                    type: string
+                    description: Serial number of replacement component
+                  partNumber:
+                    type: string
+                    description: Part number of replacement component
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     InverterTelemetry:
       type: object
       properties:
@@ -554,6 +568,24 @@ components:
           $ref: '#/components/schemas/PhaseData'
         L3Data:
           $ref: '#/components/schemas/PhaseData'
+    InventoryBattery:
+      type: object
+      properties:
+        name:
+          type: string
+        serialNumber:
+          type: string
+        model:
+          type: string
+        manufacturer:
+          type: string
+        firmwareVersion:
+          type: string
+        connectedInverterSn:
+          type: string
+        nameplateCapacity:
+          type: number
+          format: float
     Sensor:
       type: object
       properties:
@@ -567,36 +599,6 @@ components:
           type: string
         type:
           type: string
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
-    SensorListResponse:
-      type: object
-      properties:
-        SiteSensors:
-          type: object
-          properties:
-            count:
-              type: integer
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  connectedSolaredgeDeviceSN:
-                    type: string
-                  count:
-                    type: integer
-                  sensors:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Sensor'
     Problem:
       type: object
       description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
@@ -620,6 +622,14 @@ components:
             traceId:
               type: string
   parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
     timeUnit:
       name: timeUnit
       in: query
@@ -634,14 +644,42 @@ components:
         - MONTH
         - YEAR
         default: DAY
-    siteId:
+    siteId_2:
       name: siteId
       in: path
       required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      description: The site identifier.
+      schema:
+        type: integer
+    endTime:
+      name: endTime
+      in: query
+      required: true
+      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
       schema:
         type: string
-        example: '12345'
+    serialNumber:
+      name: serialNumber
+      in: path
+      required: true
+      description: The inverter/component short serial number.
+      schema:
+        type: string
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    startDate:
+      name: startDate
+      in: query
+      required: true
+      description: Start date in yyyy-MM-dd format.
+      schema:
+        type: string
+        format: date
     endDate:
       name: endDate
       in: query
@@ -650,13 +688,6 @@ components:
       schema:
         type: string
         format: date
-    startTime:
-      name: startTime
-      in: query
-      required: true
-      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
     timeUnit_2:
       name: timeUnit
       in: query
@@ -670,35 +701,6 @@ components:
         - WEEK
         - MONTH
         - YEAR
-    siteId_2:
-      name: siteId
-      in: path
-      required: true
-      description: The site identifier.
-      schema:
-        type: integer
-    startDate:
-      name: startDate
-      in: query
-      required: true
-      description: Start date in yyyy-MM-dd format.
-      schema:
-        type: string
-        format: date
-    serialNumber:
-      name: serialNumber
-      in: path
-      required: true
-      description: The inverter/component short serial number.
-      schema:
-        type: string
-    endTime:
-      name: endTime
-      in: query
-      required: true
-      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key

@@ -50,6 +50,7 @@ tags:
 - Inverters
 - Renewable Energy
 - IoT
+- Clean Energy
 tags_raw:
 - Solar
 - Energy
@@ -58,6 +59,7 @@ tags_raw:
 - Inverter
 - Renewable Energy
 - IoT
+- Clean Energy
 apis:
 - aid: solar-edge:solar-edge-accounts-api
   name: SolarEdge Accounts API

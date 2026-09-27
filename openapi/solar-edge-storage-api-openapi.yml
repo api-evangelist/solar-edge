@@ -56,32 +56,15 @@ paths:
       description: SolarEdge Monitoring API production server
 components:
   schemas:
-    StorageDataResponse:
+    ErrorResponse:
       type: object
       properties:
-        storageData:
-          type: object
-          properties:
-            batteryCount:
-              type: integer
-            batteries:
-              type: array
-              items:
-                $ref: '#/components/schemas/Battery'
-    Battery:
-      type: object
-      properties:
-        nameplate:
-          type: number
-          description: Battery nameplate capacity in Wh
-        serialNumber:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
           type: string
-        modelNumber:
-          type: string
-        telemetries:
-          type: array
-          items:
-            $ref: '#/components/schemas/BatteryTelemetry'
+          description: Human-readable error message
     BatteryTelemetry:
       type: object
       properties:
@@ -115,15 +98,32 @@ components:
           type: number
           format: float
           description: AC grid charging power in W
-    ErrorResponse:
+    StorageDataResponse:
       type: object
       properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
+        storageData:
+          type: object
+          properties:
+            batteryCount:
+              type: integer
+            batteries:
+              type: array
+              items:
+                $ref: '#/components/schemas/Battery'
+    Battery:
+      type: object
+      properties:
+        nameplate:
+          type: number
+          description: Battery nameplate capacity in Wh
+        serialNumber:
           type: string
-          description: Human-readable error message
+        modelNumber:
+          type: string
+        telemetries:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatteryTelemetry'
     Problem:
       type: object
       description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
@@ -146,36 +146,6 @@ components:
           properties:
             traceId:
               type: string
-  parameters:
-    siteId:
-      name: siteId
-      in: path
-      required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
-      schema:
-        type: string
-        example: '12345'
-    startTime:
-      name: startTime
-      in: query
-      required: true
-      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
-    siteId_2:
-      name: siteId
-      in: path
-      required: true
-      description: The site identifier.
-      schema:
-        type: integer
-    endTime:
-      name: endTime
-      in: query
-      required: true
-      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key
@@ -215,6 +185,36 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+    siteId_2:
+      name: siteId
+      in: path
+      required: true
+      description: The site identifier.
+      schema:
+        type: integer
+    endTime:
+      name: endTime
+      in: query
+      required: true
+      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

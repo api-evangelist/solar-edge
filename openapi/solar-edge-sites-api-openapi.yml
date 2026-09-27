@@ -413,27 +413,26 @@ paths:
       description: SolarEdge Monitoring API production host
 components:
   schemas:
-    Location:
+    Module:
       type: object
       properties:
-        country:
+        manufacturerName:
           type: string
-        state:
+        modelName:
           type: string
-        city:
+        maximumPower:
+          type: number
+        temperatureCoef:
+          type: number
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
           type: string
-        address:
-          type: string
-        address2:
-          type: string
-        zip:
-          type: string
-        timeZone:
-          type: string
-        countryCode:
-          type: string
-        stateCode:
-          type: string
+          description: Human-readable error message
     Site:
       type: object
       properties:
@@ -487,6 +486,11 @@ components:
           properties:
             isPublic:
               type: boolean
+    SiteDetailsResponse:
+      type: object
+      properties:
+        details:
+          $ref: '#/components/schemas/Site'
     EnergyWithRevenue:
       type: object
       properties:
@@ -498,31 +502,6 @@ components:
           type: number
           format: float
           description: Revenue generated (where applicable)
-    DataPeriodResponse:
-      type: object
-      properties:
-        dataPeriod:
-          type: object
-          properties:
-            startDate:
-              type: string
-              format: date
-              description: First date with energy data (YYYY-MM-DD)
-            endDate:
-              type: string
-              format: date
-              description: Last date with energy data (YYYY-MM-DD)
-    Module:
-      type: object
-      properties:
-        manufacturerName:
-          type: string
-        modelName:
-          type: string
-        maximumPower:
-          type: number
-        temperatureCoef:
-          type: number
     SiteListResponse:
       type: object
       properties:
@@ -536,15 +515,27 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Site'
-    ErrorResponse:
+    Location:
       type: object
       properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
+        country:
           type: string
-          description: Human-readable error message
+        state:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        zip:
+          type: string
+        timeZone:
+          type: string
+        countryCode:
+          type: string
+        stateCode:
+          type: string
     SiteOverviewResponse:
       type: object
       properties:
@@ -569,11 +560,20 @@ components:
                   type: number
                   format: float
                   description: Current power production in W
-    SiteDetailsResponse:
+    DataPeriodResponse:
       type: object
       properties:
-        details:
-          $ref: '#/components/schemas/Site'
+        dataPeriod:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+              description: First date with energy data (YYYY-MM-DD)
+            endDate:
+              type: string
+              format: date
+              description: Last date with energy data (YYYY-MM-DD)
     Problem:
       type: object
       description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
@@ -596,80 +596,6 @@ components:
           properties:
             traceId:
               type: string
-  parameters:
-    siteId:
-      name: siteId
-      in: path
-      required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
-      schema:
-        type: string
-        example: '12345'
-    endDate:
-      name: endDate
-      in: query
-      required: true
-      description: End date in yyyy-MM-dd format.
-      schema:
-        type: string
-        format: date
-    startTime:
-      name: startTime
-      in: query
-      required: true
-      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
-    timeUnit:
-      name: timeUnit
-      in: query
-      description: Aggregation granularity.
-      schema:
-        type: string
-        enum:
-        - QUARTER_OF_AN_HOUR
-        - HOUR
-        - DAY
-        - WEEK
-        - MONTH
-        - YEAR
-    siteId_2:
-      name: siteId
-      in: path
-      required: true
-      description: The site identifier.
-      schema:
-        type: integer
-    size:
-      name: size
-      in: query
-      description: The maximum number of items returned in a page (max 100).
-      schema:
-        type: integer
-        default: 100
-        maximum: 100
-    startIndex:
-      name: startIndex
-      in: query
-      description: The first item index to return (zero-based), for pagination.
-      schema:
-        type: integer
-        default: 0
-    startDate:
-      name: startDate
-      in: query
-      required: true
-      description: Start date in yyyy-MM-dd format.
-      schema:
-        type: string
-        format: date
-    endTime:
-      name: endTime
-      in: query
-      required: true
-      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key
@@ -677,14 +603,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Site or resource not found
+    TooManyRequests:
+      description: Rate limit exceeded. The API allows up to 3 concurrent requests per source IP, and 300 requests per day per account token and per site.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: Rate limit exceeded. The API allows up to 3 concurrent requests per source IP, and 300 requests per day per account token and per site.
+    NotFound:
+      description: Site or resource not found
       content:
         application/json:
           schema:
@@ -709,18 +635,92 @@ components:
         application/json:
           schema:
             type: object
-    Forbidden:
-      description: The account is not permitted to access the requested resource.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
     TooManyRequests_2:
       description: The api_key/site daily query quota has been exceeded.
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+    Forbidden:
+      description: The account is not permitted to access the requested resource.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
+    size:
+      name: size
+      in: query
+      description: The maximum number of items returned in a page (max 100).
+      schema:
+        type: integer
+        default: 100
+        maximum: 100
+    siteId_2:
+      name: siteId
+      in: path
+      required: true
+      description: The site identifier.
+      schema:
+        type: integer
+    endTime:
+      name: endTime
+      in: query
+      required: true
+      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    startIndex:
+      name: startIndex
+      in: query
+      description: The first item index to return (zero-based), for pagination.
+      schema:
+        type: integer
+        default: 0
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    startDate:
+      name: startDate
+      in: query
+      required: true
+      description: Start date in yyyy-MM-dd format.
+      schema:
+        type: string
+        format: date
+    endDate:
+      name: endDate
+      in: query
+      required: true
+      description: End date in yyyy-MM-dd format.
+      schema:
+        type: string
+        format: date
+    timeUnit:
+      name: timeUnit
+      in: query
+      description: Aggregation granularity.
+      schema:
+        type: string
+        enum:
+        - QUARTER_OF_AN_HOUR
+        - HOUR
+        - DAY
+        - WEEK
+        - MONTH
+        - YEAR
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

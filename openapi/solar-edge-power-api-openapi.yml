@@ -108,6 +108,31 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    PowerResponse:
+      type: object
+      properties:
+        power:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            measuredBy:
+              type: string
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimedValue'
     CurrentPowerFlowResponse:
       type: object
       properties:
@@ -140,57 +165,6 @@ components:
               $ref: '#/components/schemas/PowerFlowNode'
             STORAGE:
               $ref: '#/components/schemas/StorageFlowNode'
-    PowerResponse:
-      type: object
-      properties:
-        power:
-          type: object
-          properties:
-            timeUnit:
-              type: string
-            unit:
-              type: string
-            measuredBy:
-              type: string
-            values:
-              type: array
-              items:
-                $ref: '#/components/schemas/TimedValue'
-    PowerDetailsResponse:
-      type: object
-      properties:
-        powerDetails:
-          type: object
-          properties:
-            timeUnit:
-              type: string
-            unit:
-              type: string
-            meters:
-              type: array
-              items:
-                $ref: '#/components/schemas/MeterValues'
-    StorageFlowNode:
-      allOf:
-      - $ref: '#/components/schemas/PowerFlowNode'
-      - type: object
-        properties:
-          chargeLevel:
-            type: number
-            format: float
-            description: Battery charge level percentage
-          critical:
-            type: boolean
-            description: Whether the battery is in a critical state
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
     MeterValues:
       type: object
       properties:
@@ -207,16 +181,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TimedValue'
-    PowerFlowNode:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Node status (Active, Idle, Disabled)
-        currentPower:
-          type: number
-          format: float
-          description: Current power in the specified unit
     TimedValue:
       type: object
       properties:
@@ -229,7 +193,50 @@ components:
           - 'null'
           format: float
           description: Measured value (null if no data)
+    PowerFlowNode:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Node status (Active, Idle, Disabled)
+        currentPower:
+          type: number
+          format: float
+          description: Current power in the specified unit
+    StorageFlowNode:
+      allOf:
+      - $ref: '#/components/schemas/PowerFlowNode'
+      - type: object
+        properties:
+          chargeLevel:
+            type: number
+            format: float
+            description: Battery charge level percentage
+          critical:
+            type: boolean
+            description: Whether the battery is in a critical state
+    PowerDetailsResponse:
+      type: object
+      properties:
+        powerDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meters:
+              type: array
+              items:
+                $ref: '#/components/schemas/MeterValues'
   parameters:
+    meters:
+      name: meters
+      in: query
+      description: Comma-separated list of meter types to include in the response
+      schema:
+        type: string
+        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
     siteId:
       name: siteId
       in: path
@@ -238,13 +245,6 @@ components:
       schema:
         type: string
         example: '12345'
-    meters:
-      name: meters
-      in: query
-      description: Comma-separated list of meter types to include in the response
-      schema:
-        type: string
-        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
   responses:
     Unauthorized:
       description: Missing or invalid API key
