@@ -298,99 +298,18 @@ paths:
       description: SolarEdge Monitoring API production host
 components:
   schemas:
-    SensorListResponse:
+    InverterTechnicalDataResponse:
       type: object
       properties:
-        SiteSensors:
+        data:
           type: object
           properties:
             count:
               type: integer
-            list:
+            telemetries:
               type: array
               items:
-                type: object
-                properties:
-                  connectedSolaredgeDeviceSN:
-                    type: string
-                  count:
-                    type: integer
-                  sensors:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Sensor'
-    Meter:
-      type: object
-      properties:
-        name:
-          type: string
-        manufacturer:
-          type: string
-        model:
-          type: string
-        firmwareVersion:
-          type: string
-        connectedSolaredgeDeviceSN:
-          type: string
-        type:
-          type: string
-        form:
-          type: string
-    Gateway:
-      type: object
-      properties:
-        name:
-          type: string
-        serialNumber:
-          type: string
-        firmwareVersion:
-          type: string
-    ComponentsListResponse:
-      type: object
-      properties:
-        list:
-          type: object
-          properties:
-            count:
-              type: integer
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  manufacturer:
-                    type: string
-                  model:
-                    type: string
-                  serialNumber:
-                    type: string
-                  kWpDC:
-                    type: number
-                    format: float
-    Inverter:
-      type: object
-      properties:
-        name:
-          type: string
-        manufacturer:
-          type: string
-        model:
-          type: string
-        serialNumber:
-          type: string
-        kWpDC:
-          type: number
-          format: float
-        communicationMethod:
-          type: string
-        cpuVersion:
-          type: string
-        SN:
-          type: string
-        connectedOptimizers:
-          type: integer
+                $ref: '#/components/schemas/InverterTelemetry'
     PhaseData:
       type: object
       properties:
@@ -422,40 +341,54 @@ components:
           type: number
           format: float
           description: Power factor (cos phi)
-    TimedValue:
+    InventoryBattery:
       type: object
       properties:
-        date:
+        name:
           type: string
-          description: Measurement date/time
-        value:
-          type:
-          - number
-          - 'null'
+        serialNumber:
+          type: string
+        model:
+          type: string
+        manufacturer:
+          type: string
+        firmwareVersion:
+          type: string
+        connectedInverterSn:
+          type: string
+        nameplateCapacity:
+          type: number
           format: float
-          description: Measured value (null if no data)
-    MetersResponse:
+    Gateway:
       type: object
       properties:
-        meterEnergyDetails:
+        name:
+          type: string
+        serialNumber:
+          type: string
+        firmwareVersion:
+          type: string
+    SensorListResponse:
+      type: object
+      properties:
+        SiteSensors:
           type: object
           properties:
-            timeUnit:
-              type: string
-            unit:
-              type: string
-            meterSerialNumber:
-              type: string
-            connectedSolaredgeDeviceSN:
-              type: string
-            model:
-              type: string
-            meterType:
-              type: string
-            values:
+            count:
+              type: integer
+            list:
               type: array
               items:
-                $ref: '#/components/schemas/TimedValue'
+                type: object
+                properties:
+                  connectedSolaredgeDeviceSN:
+                    type: string
+                  count:
+                    type: integer
+                  sensors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sensor'
     InventoryResponse:
       type: object
       properties:
@@ -482,41 +415,41 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Sensor'
-    InverterTechnicalDataResponse:
+    Sensor:
       type: object
       properties:
-        data:
-          type: object
-          properties:
-            count:
-              type: integer
-            telemetries:
-              type: array
-              items:
-                $ref: '#/components/schemas/InverterTelemetry'
-    EquipmentChangeLogResponse:
+        connectedSolaredgeDeviceSN:
+          type: string
+        id:
+          type: string
+        connectedTo:
+          type: string
+        category:
+          type: string
+        type:
+          type: string
+    Inverter:
       type: object
       properties:
-        ChangeLog:
-          type: object
-          properties:
-            count:
-              type: integer
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  date:
-                    type: string
-                    format: date
-                    description: Date of equipment change
-                  serialNumber:
-                    type: string
-                    description: Serial number of replacement component
-                  partNumber:
-                    type: string
-                    description: Part number of replacement component
+        name:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        kWpDC:
+          type: number
+          format: float
+        communicationMethod:
+          type: string
+        cpuVersion:
+          type: string
+        SN:
+          type: string
+        connectedOptimizers:
+          type: integer
     ErrorResponse:
       type: object
       properties:
@@ -526,6 +459,18 @@ components:
         message:
           type: string
           description: Human-readable error message
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type:
+          - number
+          - 'null'
+          format: float
+          description: Measured value (null if no data)
     InverterTelemetry:
       type: object
       properties:
@@ -568,36 +513,91 @@ components:
           $ref: '#/components/schemas/PhaseData'
         L3Data:
           $ref: '#/components/schemas/PhaseData'
-    InventoryBattery:
+    ComponentsListResponse:
+      type: object
+      properties:
+        list:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  manufacturer:
+                    type: string
+                  model:
+                    type: string
+                  serialNumber:
+                    type: string
+                  kWpDC:
+                    type: number
+                    format: float
+    MetersResponse:
+      type: object
+      properties:
+        meterEnergyDetails:
+          type: object
+          properties:
+            timeUnit:
+              type: string
+            unit:
+              type: string
+            meterSerialNumber:
+              type: string
+            connectedSolaredgeDeviceSN:
+              type: string
+            model:
+              type: string
+            meterType:
+              type: string
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimedValue'
+    EquipmentChangeLogResponse:
+      type: object
+      properties:
+        ChangeLog:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    description: Date of equipment change
+                  serialNumber:
+                    type: string
+                    description: Serial number of replacement component
+                  partNumber:
+                    type: string
+                    description: Part number of replacement component
+    Meter:
       type: object
       properties:
         name:
           type: string
-        serialNumber:
+        manufacturer:
           type: string
         model:
           type: string
-        manufacturer:
-          type: string
         firmwareVersion:
           type: string
-        connectedInverterSn:
-          type: string
-        nameplateCapacity:
-          type: number
-          format: float
-    Sensor:
-      type: object
-      properties:
         connectedSolaredgeDeviceSN:
           type: string
-        id:
-          type: string
-        connectedTo:
-          type: string
-        category:
-          type: string
         type:
+          type: string
+        form:
           type: string
     Problem:
       type: object
@@ -644,50 +644,6 @@ components:
         - MONTH
         - YEAR
         default: DAY
-    siteId_2:
-      name: siteId
-      in: path
-      required: true
-      description: The site identifier.
-      schema:
-        type: integer
-    endTime:
-      name: endTime
-      in: query
-      required: true
-      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
-    serialNumber:
-      name: serialNumber
-      in: path
-      required: true
-      description: The inverter/component short serial number.
-      schema:
-        type: string
-    startTime:
-      name: startTime
-      in: query
-      required: true
-      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
-    startDate:
-      name: startDate
-      in: query
-      required: true
-      description: Start date in yyyy-MM-dd format.
-      schema:
-        type: string
-        format: date
-    endDate:
-      name: endDate
-      in: query
-      required: true
-      description: End date in yyyy-MM-dd format.
-      schema:
-        type: string
-        format: date
     timeUnit_2:
       name: timeUnit
       in: query
@@ -701,19 +657,75 @@ components:
         - WEEK
         - MONTH
         - YEAR
+    startDate:
+      name: startDate
+      in: query
+      required: true
+      description: Start date in yyyy-MM-dd format.
+      schema:
+        type: string
+        format: date
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    endDate:
+      name: endDate
+      in: query
+      required: true
+      description: End date in yyyy-MM-dd format.
+      schema:
+        type: string
+        format: date
+    serialNumber:
+      name: serialNumber
+      in: path
+      required: true
+      description: The inverter/component short serial number.
+      schema:
+        type: string
+    endTime:
+      name: endTime
+      in: query
+      required: true
+      description: End timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    siteId_2:
+      name: siteId
+      in: path
+      required: true
+      description: The site identifier.
+      schema:
+        type: integer
   responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     NotFound:
       description: Site or resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
     Unauthorized_2:
       description: Authentication failed (missing or invalid api_key).
       content:
@@ -728,18 +740,6 @@ components:
             instance: null
             properties:
               traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
-    OK:
-      description: Successful response.
-      content:
-        application/json:
-          schema:
-            type: object
-    TooManyRequests:
-      description: The api_key/site daily query quota has been exceeded.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

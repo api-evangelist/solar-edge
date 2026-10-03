@@ -128,16 +128,37 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    timeUnit:
+      name: timeUnit
+      in: query
+      description: Time aggregation unit for energy data
+      schema:
+        type: string
+        enum:
+        - QUARTER_OF_AN_HOUR
+        - HOUR
+        - DAY
+        - WEEK
+        - MONTH
+        - YEAR
+        default: DAY
+    meters:
+      name: meters
+      in: query
+      description: Comma-separated list of meter types to include in the response
+      schema:
+        type: string
+        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
+      schema:
+        type: string
+        example: '12345'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
     EnergyResponse:
       type: object
       properties:
@@ -157,6 +178,18 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/TimedValue'
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type:
+          - number
+          - 'null'
+          format: float
+          description: Measured value (null if no data)
     EnergyDetailsResponse:
       type: object
       properties:
@@ -171,6 +204,15 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/MeterValues'
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     MeterValues:
       type: object
       properties:
@@ -187,57 +229,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TimedValue'
-    TimedValue:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Measurement date/time
-        value:
-          type:
-          - number
-          - 'null'
-          format: float
-          description: Measured value (null if no data)
-  parameters:
-    meters:
-      name: meters
-      in: query
-      description: Comma-separated list of meter types to include in the response
-      schema:
-        type: string
-        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
-    siteId:
-      name: siteId
-      in: path
-      required: true
-      description: Unique numeric identifier for the site. Supports comma-separated values for bulk requests (up to 100 site IDs).
-      schema:
-        type: string
-        example: '12345'
-    timeUnit:
-      name: timeUnit
-      in: query
-      description: Time aggregation unit for energy data
-      schema:
-        type: string
-        enum:
-        - QUARTER_OF_AN_HOUR
-        - HOUR
-        - DAY
-        - WEEK
-        - MONTH
-        - YEAR
-        default: DAY
   responses:
-    Unauthorized:
-      description: Missing or invalid API key
+    NotFound:
+      description: Site or resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Site or resource not found
+    Unauthorized:
+      description: Missing or invalid API key
       content:
         application/json:
           schema:
