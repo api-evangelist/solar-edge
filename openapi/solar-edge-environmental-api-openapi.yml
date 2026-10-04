@@ -49,6 +49,15 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     EnvironmentalBenefitsResponse:
       type: object
       properties:
@@ -83,24 +92,15 @@ components:
               type: number
               format: float
               description: Number of light bulbs lit for a day equivalent
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
   responses:
-    NotFound:
-      description: Site or resource not found
+    Unauthorized:
+      description: Missing or invalid API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key
+    NotFound:
+      description: Site or resource not found
       content:
         application/json:
           schema:

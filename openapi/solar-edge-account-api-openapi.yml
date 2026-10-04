@@ -50,18 +50,18 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    TooManyRequests:
-      description: The api_key/site daily query quota has been exceeded.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
     OK:
       description: Successful response.
       content:
         application/json:
           schema:
             type: object
+    TooManyRequests:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     Unauthorized:
       description: Authentication failed (missing or invalid api_key).
       content:
@@ -77,13 +77,6 @@ components:
             properties:
               traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
   parameters:
-    startIndex:
-      name: startIndex
-      in: query
-      description: The first item index to return (zero-based), for pagination.
-      schema:
-        type: integer
-        default: 0
     size:
       name: size
       in: query
@@ -92,6 +85,13 @@ components:
         type: integer
         default: 100
         maximum: 100
+    startIndex:
+      name: startIndex
+      in: query
+      description: The first item index to return (zero-based), for pagination.
+      schema:
+        type: integer
+        default: 0
   schemas:
     Problem:
       type: object

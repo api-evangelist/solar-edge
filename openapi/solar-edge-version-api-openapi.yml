@@ -95,12 +95,6 @@ components:
             traceId:
               type: string
   responses:
-    OK:
-      description: Successful response.
-      content:
-        application/json:
-          schema:
-            type: object
     Unauthorized:
       description: Authentication failed (missing or invalid api_key).
       content:
@@ -115,6 +109,12 @@ components:
             instance: null
             properties:
               traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

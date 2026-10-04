@@ -89,6 +89,18 @@ components:
           type: number
           format: float
           description: AC grid charging power in W
+    StorageDataResponse:
+      type: object
+      properties:
+        storageData:
+          type: object
+          properties:
+            batteryCount:
+              type: integer
+            batteries:
+              type: array
+              items:
+                $ref: '#/components/schemas/Battery'
     ErrorResponse:
       type: object
       properties:
@@ -112,18 +124,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BatteryTelemetry'
-    StorageDataResponse:
-      type: object
-      properties:
-        storageData:
-          type: object
-          properties:
-            batteryCount:
-              type: integer
-            batteries:
-              type: array
-              items:
-                $ref: '#/components/schemas/Battery'
     Problem:
       type: object
       description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
@@ -147,30 +147,30 @@ components:
             traceId:
               type: string
   responses:
-    NotFound:
-      description: Site or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Missing or invalid API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: The api_key/site daily query quota has been exceeded.
+    NotFound:
+      description: Site or resource not found
       content:
-        application/problem+json:
+        application/json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            $ref: '#/components/schemas/ErrorResponse'
     OK:
       description: Successful response.
       content:
         application/json:
           schema:
             type: object
+    TooManyRequests:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     Unauthorized_2:
       description: Authentication failed (missing or invalid api_key).
       content:
@@ -194,18 +194,18 @@ components:
       schema:
         type: string
         example: '12345'
-    startTime:
-      name: startTime
-      in: query
-      required: true
-      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
-      schema:
-        type: string
     endTime:
       name: endTime
       in: query
       required: true
       description: End timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
       schema:
         type: string
     siteId_2:

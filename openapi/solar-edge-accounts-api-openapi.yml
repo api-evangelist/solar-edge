@@ -91,6 +91,36 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Account'
+    Location:
+      type: object
+      properties:
+        country:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        zip:
+          type: string
+        timeZone:
+          type: string
+        countryCode:
+          type: string
+        stateCode:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
     Account:
       type: object
       properties:
@@ -114,36 +144,6 @@ components:
           type: string
         parentId:
           type: integer
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
-    Location:
-      type: object
-      properties:
-        country:
-          type: string
-        state:
-          type: string
-        city:
-          type: string
-        address:
-          type: string
-        address2:
-          type: string
-        zip:
-          type: string
-        timeZone:
-          type: string
-        countryCode:
-          type: string
-        stateCode:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key
