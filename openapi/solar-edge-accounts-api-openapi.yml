@@ -78,19 +78,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    AccountListResponse:
-      type: object
-      properties:
-        accounts:
-          type: object
-          properties:
-            count:
-              type: integer
-            list:
-              type: array
-              items:
-                $ref: '#/components/schemas/Account'
     Location:
       type: object
       properties:
@@ -144,13 +139,18 @@ components:
           type: string
         parentId:
           type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    AccountListResponse:
+      type: object
+      properties:
+        accounts:
+          type: object
+          properties:
+            count:
+              type: integer
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/Account'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

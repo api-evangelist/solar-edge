@@ -412,7 +412,104 @@ paths:
     - url: https://monitoringapi.solaredge.com
       description: SolarEdge Monitoring API production host
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Rate limit exceeded. The API allows up to 3 concurrent requests per source IP, and 300 requests per day per account token and per site.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized_2:
+      description: Authentication failed (missing or invalid api_key).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://se-api.stoplight.io/docs/monitoring
+            title: Unauthorized - Authentication Failed
+            status: 401
+            detail: Invalid API key
+            instance: null
+            properties:
+              traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
+    OK:
+      description: Successful response.
+      content:
+        application/json:
+          schema:
+            type: object
+    Forbidden:
+      description: The account is not permitted to access the requested resource.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    TooManyRequests_2:
+      description: The api_key/site daily query quota has been exceeded.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
   schemas:
+    EnergyWithRevenue:
+      type: object
+      properties:
+        energy:
+          type: number
+          format: float
+          description: Energy in Wh
+        revenue:
+          type: number
+          format: float
+          description: Revenue generated (where applicable)
+    DataPeriodResponse:
+      type: object
+      properties:
+        dataPeriod:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+              description: First date with energy data (YYYY-MM-DD)
+            endDate:
+              type: string
+              format: date
+              description: Last date with energy data (YYYY-MM-DD)
+    Location:
+      type: object
+      properties:
+        country:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        zip:
+          type: string
+        timeZone:
+          type: string
+        countryCode:
+          type: string
+        stateCode:
+          type: string
     SiteListResponse:
       type: object
       properties:
@@ -426,6 +523,17 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Site'
+    Module:
+      type: object
+      properties:
+        manufacturerName:
+          type: string
+        modelName:
+          type: string
+        maximumPower:
+          type: number
+        temperatureCoef:
+          type: number
     SiteOverviewResponse:
       type: object
       properties:
@@ -450,36 +558,11 @@ components:
                   type: number
                   format: float
                   description: Current power production in W
-    Location:
+    SiteDetailsResponse:
       type: object
       properties:
-        country:
-          type: string
-        state:
-          type: string
-        city:
-          type: string
-        address:
-          type: string
-        address2:
-          type: string
-        zip:
-          type: string
-        timeZone:
-          type: string
-        countryCode:
-          type: string
-        stateCode:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
+        details:
+          $ref: '#/components/schemas/Site'
     Site:
       type: object
       properties:
@@ -533,47 +616,15 @@ components:
           properties:
             isPublic:
               type: boolean
-    SiteDetailsResponse:
+    ErrorResponse:
       type: object
       properties:
-        details:
-          $ref: '#/components/schemas/Site'
-    Module:
-      type: object
-      properties:
-        manufacturerName:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
           type: string
-        modelName:
-          type: string
-        maximumPower:
-          type: number
-        temperatureCoef:
-          type: number
-    EnergyWithRevenue:
-      type: object
-      properties:
-        energy:
-          type: number
-          format: float
-          description: Energy in Wh
-        revenue:
-          type: number
-          format: float
-          description: Revenue generated (where applicable)
-    DataPeriodResponse:
-      type: object
-      properties:
-        dataPeriod:
-          type: object
-          properties:
-            startDate:
-              type: string
-              format: date
-              description: First date with energy data (YYYY-MM-DD)
-            endDate:
-              type: string
-              format: date
-              description: Last date with energy data (YYYY-MM-DD)
+          description: Human-readable error message
     Problem:
       type: object
       description: RFC 9457 problem details envelope returned by the SolarEdge Monitoring API on errors.
@@ -596,57 +647,6 @@ components:
           properties:
             traceId:
               type: string
-  responses:
-    TooManyRequests:
-      description: Rate limit exceeded. The API allows up to 3 concurrent requests per source IP, and 300 requests per day per account token and per site.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Site or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: The account is not permitted to access the requested resource.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    OK:
-      description: Successful response.
-      content:
-        application/json:
-          schema:
-            type: object
-    TooManyRequests_2:
-      description: The api_key/site daily query quota has been exceeded.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    Unauthorized_2:
-      description: Authentication failed (missing or invalid api_key).
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://se-api.stoplight.io/docs/monitoring
-            title: Unauthorized - Authentication Failed
-            status: 401
-            detail: Invalid API key
-            instance: null
-            properties:
-              traceId: 6a5f1ad81a5cfa8cd685fc4401bd7770
   parameters:
     siteId:
       name: siteId
@@ -663,6 +663,20 @@ components:
       description: End timestamp in yyyy-MM-dd HH:mm:ss format.
       schema:
         type: string
+    startIndex:
+      name: startIndex
+      in: query
+      description: The first item index to return (zero-based), for pagination.
+      schema:
+        type: integer
+        default: 0
+    startTime:
+      name: startTime
+      in: query
+      required: true
+      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      schema:
+        type: string
     size:
       name: size
       in: query
@@ -671,13 +685,13 @@ components:
         type: integer
         default: 100
         maximum: 100
-    startTime:
-      name: startTime
-      in: query
+    siteId_2:
+      name: siteId
+      in: path
       required: true
-      description: Start timestamp in yyyy-MM-dd HH:mm:ss format.
+      description: The site identifier.
       schema:
-        type: string
+        type: integer
     timeUnit:
       name: timeUnit
       in: query
@@ -691,20 +705,6 @@ components:
         - WEEK
         - MONTH
         - YEAR
-    startIndex:
-      name: startIndex
-      in: query
-      description: The first item index to return (zero-based), for pagination.
-      schema:
-        type: integer
-        default: 0
-    siteId_2:
-      name: siteId
-      in: path
-      required: true
-      description: The site identifier.
-      schema:
-        type: integer
     endDate:
       name: endDate
       in: query

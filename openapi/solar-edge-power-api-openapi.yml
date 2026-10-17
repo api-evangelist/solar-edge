@@ -107,7 +107,36 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Site or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    MeterValues:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Production
+          - Consumption
+          - SelfConsumption
+          - FeedIn
+          - Purchased
+          description: Meter type
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimedValue'
     StorageFlowNode:
       allOf:
       - $ref: '#/components/schemas/PowerFlowNode'
@@ -120,53 +149,20 @@ components:
           critical:
             type: boolean
             description: Whether the battery is in a critical state
-    PowerResponse:
+    PowerDetailsResponse:
       type: object
       properties:
-        power:
+        powerDetails:
           type: object
           properties:
             timeUnit:
               type: string
             unit:
               type: string
-            measuredBy:
-              type: string
-            values:
+            meters:
               type: array
               items:
-                $ref: '#/components/schemas/TimedValue'
-    TimedValue:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Measurement date/time
-        value:
-          type:
-          - number
-          - 'null'
-          format: float
-          description: Measured value (null if no data)
-    PowerFlowNode:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Node status (Active, Idle, Disabled)
-        currentPower:
-          type: number
-          format: float
-          description: Current power in the specified unit
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-        message:
-          type: string
-          description: Human-readable error message
+                $ref: '#/components/schemas/MeterValues'
     CurrentPowerFlowResponse:
       type: object
       properties:
@@ -199,44 +195,54 @@ components:
               $ref: '#/components/schemas/PowerFlowNode'
             STORAGE:
               $ref: '#/components/schemas/StorageFlowNode'
-    MeterValues:
+    PowerFlowNode:
       type: object
       properties:
-        type:
+        status:
           type: string
-          enum:
-          - Production
-          - Consumption
-          - SelfConsumption
-          - FeedIn
-          - Purchased
-          description: Meter type
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimedValue'
-    PowerDetailsResponse:
+          description: Node status (Active, Idle, Disabled)
+        currentPower:
+          type: number
+          format: float
+          description: Current power in the specified unit
+    ErrorResponse:
       type: object
       properties:
-        powerDetails:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+    PowerResponse:
+      type: object
+      properties:
+        power:
           type: object
           properties:
             timeUnit:
               type: string
             unit:
               type: string
-            meters:
+            measuredBy:
+              type: string
+            values:
               type: array
               items:
-                $ref: '#/components/schemas/MeterValues'
+                $ref: '#/components/schemas/TimedValue'
+    TimedValue:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Measurement date/time
+        value:
+          type:
+          - number
+          - 'null'
+          format: float
+          description: Measured value (null if no data)
   parameters:
-    meters:
-      name: meters
-      in: query
-      description: Comma-separated list of meter types to include in the response
-      schema:
-        type: string
-        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
     siteId:
       name: siteId
       in: path
@@ -245,19 +251,13 @@ components:
       schema:
         type: string
         example: '12345'
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Site or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    meters:
+      name: meters
+      in: query
+      description: Comma-separated list of meter types to include in the response
+      schema:
+        type: string
+        example: Production,Consumption,SelfConsumption,FeedIn,Purchased
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
